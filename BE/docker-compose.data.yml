@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: landmanagement-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: landmanagement
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: landmanagement-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:latest
+    container_name: landmanagement-seaweedfs
+    restart: unless-stopped
+    ports:
+      - "8333:8333"
+      - "8888:8888"
+      - "9333:9333"
+    command: server -s3 -s3.port=8333 -dir=/data
+    volumes:
+      - seaweedfs_data:/data
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: landmanagement-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+volumes:
+  postgres_data:
+  redis_data:
+  seaweedfs_data:
+  rabbitmq_data:

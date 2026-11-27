@@ -1,0 +1,24 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+*.sln.docstates
+.vs/
+.idea/
+
+# Node / FE
+**/node_modules/
+**/dist/
+**/.vite/
+*.tsbuildinfo
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+**/appsettings.Development.json
+
+# OS
+.DS_Store
+Thumbs.db
