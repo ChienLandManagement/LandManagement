@@ -16,7 +16,6 @@ Hệ thống quản lý đất đai — Backend API (.NET 10)
 ## Yêu cầu
 
 - [.NET SDK 10.0.302](https://dotnet.microsoft.com/download/dotnet/10.0)
-- Docker (cho PostgreSQL, Redis, SeaweedFS, RabbitMQ)
 - NuGet source `ResultLib` local: `D:\Project\ResultLib\nupkg`
 
 ## Cấu trúc
@@ -32,13 +31,7 @@ Hệ thống quản lý đất đai — Backend API (.NET 10)
 
 ## Khởi chạy
 
-### 1. Infrastructure dependencies
-
-```bash
-docker compose -f docker-compose.data.yml up -d
-```
-
-### 2. Database migration
+### 1. Database migration
 
 ```bash
 dotnet ef database update --project Infrastructure --startup-project Api
@@ -68,7 +61,7 @@ Xem chi tiết trong file `architect.md`.
 
 ## CI/CD
 
-GitLab CI — tự động build Docker, push registry, deploy lên dev/prod.
+Deploy lên Heroku (app `land-management`) từ nhánh `main`; cấu hình qua biến môi trường Heroku.
 
 ## GitLab
 

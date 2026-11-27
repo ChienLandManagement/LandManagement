@@ -82,18 +82,9 @@ Tạo file `.env`:
 VITE_API_URL=http://localhost:5155
 ```
 
-## Docker
-
-```bash
-docker build -t landmanagement-fe .
-docker run -p 3000:80 landmanagement-fe
-```
-
-Nginx serve static files + proxy `/api/` → backend.
-
 ## CI/CD
 
-GitLab CI — tự động build Docker, push registry, deploy lên dev/prod.
+Deploy lên Vercel (project `land-management`); `vercel.json` rewrite `/api/*` sang Heroku nên FE không cần `VITE_API_URL` khi chạy production.
 
 ## GitLab
 
