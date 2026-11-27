@@ -1,9 +1,12 @@
 import { Suspense } from 'react';
-import { Outlet, createRootRoute, createRoute } from '@tanstack/react-router';
+import { Outlet, createRootRoute, createRoute, redirect } from '@tanstack/react-router';
+import { getUser } from '@/entities/session';
 import { lazy } from 'react';
 import { NotFoundPage } from '@/pages/not-found';
 
 const LoginPage = lazy(() => import('@/pages/login').then((m) => ({ default: m.LoginPage })));
+
+const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.HomePage })));
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -20,4 +23,13 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
-export const routeTree = rootRoute.addChildren([loginRoute]);
+const homeRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/home',
+  beforeLoad: () => {
+    if (!getUser()) throw redirect({ to: '/login' });
+  },
+  component: HomePage,
+});
+
+export const routeTree = rootRoute.addChildren([loginRoute, homeRoute]);

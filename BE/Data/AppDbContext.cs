@@ -1,14 +1,20 @@
 using System.Linq.Expressions;
 using System.Reflection;
-using LandManagement.Api.Common;
+using LandManagement.Common;
+using LandManagement.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using ResultLib.Interfaces;
 
-namespace LandManagement.Api.Data;
+namespace LandManagement.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     private IDbContextTransaction? _currentTransaction;
+
+    public DbSet<User> Users => Set<User>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<LoginLog> LoginLogs => Set<LoginLog>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -36,29 +42,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         }
 
         base.OnModelCreating(builder);
-    }
-
-    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        foreach (var entry in ChangeTracker.Entries<AuditableEntity<Guid>>())
-        {
-            if (entry.State == EntityState.Added)
-                entry.Entity.Touch(null);
-
-            if (entry.State == EntityState.Modified)
-            {
-                entry.Property(nameof(AuditableEntity<Guid>.CreatedAt)).IsModified = false;
-                entry.Property(nameof(AuditableEntity<Guid>.CreatedBy)).IsModified = false;
-            }
-
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.State = EntityState.Modified;
-                entry.Entity.Delete(null);
-            }
-        }
-
-        return base.SaveChangesAsync(cancellationToken);
     }
 
     public async Task BeginTransactionAsync(CancellationToken ct)

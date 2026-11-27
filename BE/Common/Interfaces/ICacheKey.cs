@@ -1,4 +1,4 @@
-namespace LandManagement.Api.Common.Interfaces;
+namespace LandManagement.Common.Interfaces;
 
 public interface ICacheKey
 {

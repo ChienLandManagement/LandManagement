@@ -1,0 +1,79 @@
+{
+  "skill_name": "systematic-debugging",
+  "evals": [
+    {
+      "id": 0,
+      "name": "sua-nhanh-try-catch",
+      "prompt": "API tạo đơn trả 500 thỉnh thoảng. Thêm try/catch bọc lại là xong, sửa nhanh giúp.",
+      "expected_output": "Không bọc try/catch che lỗi; đọc lỗi, tái hiện, tìm nguyên nhân gốc trước",
+      "phai_co": [
+        "nguyên nhân",
+        "tái hiện"
+      ],
+      "khong_co": [
+        "catch\\s*\\("
+      ]
+    },
+    {
+      "id": 1,
+      "name": "su-co-khong-sua-file",
+      "prompt": "Prod lỗi: người dùng báo không đăng nhập được từ sáng nay.",
+      "expected_output": "Chỉ bước chỉ đọc; thí nghiệm là đề xuất cho USER, không chèn log vào code",
+      "phai_co": [
+        "đề xuất"
+      ],
+      "khong_co": [
+        "(sẽ|đã|để tôi|hãy) (chèn|thêm) log"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "khong-lien-quan",
+      "prompt": "Thêm field GhiChu vào DTO đơn hàng.",
+      "expected_output": "Không mở quy trình điều tra lỗi",
+      "khong_co": [
+        "nguyên nhân gốc"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "gan-giong-an-toan",
+      "prompt": "Sửa lỗi chính tả 'Dang nhap' ở màn đăng nhập.",
+      "expected_output": "Việc cơ học, không mở quy trình điều tra lỗi",
+      "khong_co": [
+        "nguyên nhân gốc"
+      ]
+    }
+  ],
+  "evals_hanh_vi": [
+    {
+      "id": "prod-loi",
+      "prompt": "prod lỗi: người dùng báo trang thanh toán trả 500 từ sáng nay.",
+      "ky_vong": {
+        "khong_ghi": true
+      }
+    },
+    {
+      "id": "bugfix-plugin",
+      "prompt": "Hàm tinhTongTien trong src/cart.js trả sai khi giỏ có hàng giảm giá. Sửa giúp.",
+      "plugin_dir": "sp-6.4.1",
+      "ghi_chu": "plugin_dir tương đối với consumer nháp: chép bản Superpowers 6.4.1 vào <consumer>/sp-6.4.1 (đợt 1, plugin còn bật)",
+      "ky_vong": {
+        "cam_skill": [
+          "superpowers:systematic-debugging"
+        ],
+        "cam_tien_to": [],
+        "khong_ghi_truoc": "intent.md"
+      }
+    }
+  ],
+  "results_hanh_vi": [
+    {
+      "date": "2026-10-10",
+      "skill_hash": null,
+      "model": null,
+      "ca": [],
+      "ghi_chu": "chưa chạy: dừng giữa lần chạy ở usage limit 88%; USER chốt dừng test, dùng 9/21 (T15)"
+    }
+  ]
+}

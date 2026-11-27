@@ -2,13 +2,22 @@ using System.Net;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
-using LandManagement.Api.Common.Models;
-using LandManagement.Api.Options;
-using LandManagement.Api.Services;
+using LandManagement.Common.Models;
+using LandManagement.Options;
+using LandManagement.Services;
 using ErrorOr;
 using Microsoft.Extensions.Options;
+using ResultLib.Extensions;
 
-namespace LandManagement.Api.Services.FileStorage;
+namespace LandManagement.Services.FileStorage;
+
+public interface IFileStorageService
+{
+    Task<ErrorOr<string>> UploadFileAsync(Guid userId, Stream fileStream, string contentType, string folder, CancellationToken ct = default);
+    Task<ErrorOr<Success>> DeleteFileAsync(string key, CancellationToken ct = default);
+    Task<ErrorOr<FileDownloadResult>> GetFileBytesAsync(string key, CancellationToken ct = default);
+    string? GetFileUrl(string? key);
+}
 
 public class S3FileStorageService : IFileStorageService
 {
@@ -57,7 +66,7 @@ public class S3FileStorageService : IFileStorageService
             return Error.Validation("File type not supported.");
 
         var normalizedFolder = folder.Trim().Trim('/');
-        if (string.IsNullOrWhiteSpace(normalizedFolder))
+        if (normalizedFolder.IsEmpty())
             return Error.Validation("Invalid storage folder.");
 
         var key = $"{normalizedFolder}/{userId}/{Guid.CreateVersion7()}{extension}";
@@ -108,7 +117,7 @@ public class S3FileStorageService : IFileStorageService
 
     public async Task<ErrorOr<FileDownloadResult>> GetFileBytesAsync(string key, CancellationToken ct = default)
     {
-        if (string.IsNullOrWhiteSpace(key))
+        if (key.IsEmpty())
             return Error.Validation("Invalid file key.");
 
         try
@@ -133,6 +142,6 @@ public class S3FileStorageService : IFileStorageService
 
     public string? GetFileUrl(string? key)
     {
-        return string.IsNullOrWhiteSpace(key) ? null : $"{_options.ServiceUrl}/{_options.BucketName}/{key}";
+        return key.IsEmpty() ? null : $"{_options.ServiceUrl}/{_options.BucketName}/{key}";
     }
 }

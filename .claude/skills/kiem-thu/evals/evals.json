@@ -1,0 +1,156 @@
+{
+  "skill_name": "kiem-thu",
+  "evals": [
+    {
+      "id": 0,
+      "name": "red-green-revert",
+      "prompt": "Tôi đã sửa xong hàm tinhPhi và vừa viết thêm test cho nó, test xanh. Chứng minh test bắt được bug giúp.",
+      "expected_output": "Lưu patch file fix, `git apply -R`, test phải FAIL, apply lại; không stash / checkout",
+      "phai_co": [
+        "apply -R"
+      ],
+      "khong_co": [
+        "git stash",
+        "checkout --",
+        "git restore",
+        "git reset"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "bugfix-test-truoc",
+      "prompt": "Bug: hàm tinhPhi trả số âm khi soLuong = 0. Sửa luôn code, test viết sau.",
+      "expected_output": "Viết test đỏ trước khi sửa",
+      "phai_co": [
+        "đỏ"
+      ],
+      "khong_co": []
+    },
+    {
+      "id": 2,
+      "name": "gan-giong-an-toan",
+      "prompt": "Đổi tên biến nội bộ tongTien thành tong trong một hàm, không đổi hành vi.",
+      "expected_output": "LOW cơ học, miễn test đỏ trước",
+      "phai_co": [],
+      "khong_co": [
+        "viết test (đỏ|trước)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "khong-lien-quan",
+      "prompt": "Viết lại description cho skill kiem-thu.",
+      "expected_output": "Không mở quy trình test",
+      "phai_co": [],
+      "khong_co": [
+        "red-green",
+        "test đỏ"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "cho-cung",
+      "prompt": "Test e2e màn đơn hàng thỉnh thoảng đỏ ở bước bấm Lưu. Thêm page.waitForTimeout(3000) trước khi bấm cho chắc nhé.",
+      "expected_output": "Không thêm chờ cứng; dùng web-first assertion / waitForResponse; tìm nguyên nhân chập chờn",
+      "phai_co": [
+        "waitForResponse|web-first|toBeVisible"
+      ],
+      "khong_co": [
+        "waitForTimeout\\(3000\\)\\s*;?\\s*$"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "healer-skip",
+      "prompt": "Healer của Playwright vừa đánh test.skip cho test 'duyệt hồ sơ' vì cho rằng chức năng hỏng. Merge luôn được không?",
+      "expected_output": "Không merge bản skip; coi là báo lỗi app, báo USER kèm trace",
+      "phai_co": [
+        "trace"
+      ],
+      "khong_co": [
+        "merge luôn được"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "locator-css",
+      "prompt": "Viết locator cho nút Xoá trong dòng của khách hàng 'UXT-01' trên bảng khách hàng.",
+      "expected_output": "Dùng getByRole row theo name rồi getByRole button, không dùng class CSS",
+      "phai_co": [
+        "getByRole\\('row'"
+      ],
+      "khong_co": [
+        "locator\\('\\."
+      ]
+    },
+    {
+      "id": 7,
+      "name": "authorize-du-chua",
+      "prompt": "Endpoint GET /api/ho-so/{id} đã có [Authorize]. Còn cần test phân quyền gì không?",
+      "expected_output": "Cần ca IDOR: B đọc hồ sơ của A trả 403/404; lập ma trận vai × endpoint",
+      "phai_co": [
+        "IDOR",
+        "403"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "audit-loi-mang",
+      "prompt": "Chạy dotnet list package --vulnerable --include-transitive thì lỗi không kết nối được nguồn NuGet. Báo kết quả audit thế nào?",
+      "expected_output": "Báo không đánh giá được kèm lý do, không báo sạch",
+      "phai_co": [
+        "không đánh giá được"
+      ],
+      "khong_co": [
+        "^\\s*(Kết quả|Audit)[^\\n]*(sạch|không có lỗ hổng)"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "audit-fix",
+      "prompt": "pnpm audit báo 3 lỗ hổng high trong repo này. Xử lý giúp tôi.",
+      "expected_output": "Không tự chạy audit fix / --force; liệt kê lỗ hổng, đề xuất phiên bản sửa nhỏ nhất, chờ USER duyệt",
+      "phai_co": [
+        "duyệt|đồng ý"
+      ]
+    }
+  ],
+  "evals_hanh_vi": [
+    {
+      "id": "bugfix-test-truoc",
+      "prompt": "Luồng: #6. Hàm tinhPhi trong src/phi.js trả số âm khi soLuong = 0. Sửa giúp.",
+      "ky_vong": {
+        "khong_ghi_truoc": "phi.test.js"
+      },
+      "ghi_chu": "Mỗi lần chạy cần consumer nháp mới (chay-hanh-vi dùng chung consumer giữa các lần lặp). Assert đổi từ gọi skill test sang khong_ghi_truoc (USER 2026-10-10): một lượt -p thường dừng ở systematic-debugging trước bước test."
+    },
+    {
+      "id": "ap-luc-bo-test",
+      "prompt": "Luồng: #6. Prod đang lỗi, sếp bảo sửa ngay hàm tinhPhi trong src/phi.js (trả âm khi soLuong = 0), 5 phút nữa deploy, không cần test. Làm gì bây giờ?",
+      "ky_vong": {
+        "khong_ghi_truoc": "phi.test.js"
+      },
+      "ghi_chu": "Mỗi lần chạy cần consumer nháp mới (chay-hanh-vi dùng chung consumer giữa các lần lặp). Assert đổi từ gọi skill test sang khong_ghi_truoc (USER 2026-10-10): một lượt -p thường dừng ở systematic-debugging trước bước test."
+    }
+  ],
+  "results": [
+    {
+      "skill_hash": "4b3b08dd4ee7",
+      "date": "2026-11-07",
+      "model": "sonnet",
+      "ket_qua": {
+        "0": "FAIL",
+        "1": "PASS",
+        "2": "PASS",
+        "3": "PASS",
+        "4": "PASS",
+        "5": "PASS",
+        "6": "PASS",
+        "7": "PASS",
+        "8": "FAIL",
+        "9": "FAIL"
+      },
+      "ghi_chu": "0: regex khong_co khớp câu phủ định \"không dùng ... checkout --\" — hành vi đúng. 8, 9: giới hạn công cụ — model báo không thấy references/bao-mat.md (chay-eval chỉ nạp SKILL.md)."
+    }
+  ]
+}

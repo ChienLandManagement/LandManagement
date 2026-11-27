@@ -1,4 +1,4 @@
-namespace LandManagement.Api.Common;
+namespace LandManagement.Common;
 public abstract class ValueObject : IEquatable<ValueObject>
 {
     public bool Equals(ValueObject? other) => Equals((object?)other);

@@ -2,9 +2,10 @@ import { create } from 'zustand';
 
 interface User {
   id: string;
-  email: string;
-  name: string;
-  roles: string[];
+  userName: string;
+  fullName: string;
+  email: string | null;
+  role: string;
 }
 
 interface AuthState {
@@ -25,5 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 export const getAccessToken = () => useAuthStore.getState().accessToken;
 export const getUser = () => useAuthStore.getState().user;
+export const setAuth = (user: User, accessToken: string) => useAuthStore.getState().setAuth(user, accessToken);
 export const clearAuth = () => useAuthStore.getState().clearAuth();
-export const hasRole = (role: string) => useAuthStore.getState().user?.roles.includes(role) ?? false;
+export const hasRole = (role: string) => useAuthStore.getState().user?.role === role;

@@ -1,8 +1,8 @@
 export interface ApiResponse<T = unknown> {
-  object?: T;
+  data: T | null;
   isError: boolean;
-  status: number;
-  message?: string;
+  statusCode: number;
+  errorMessage: string | null;
 }
 
 export interface PaginatedResponse<T> {

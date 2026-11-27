@@ -1,4 +1,4 @@
-namespace LandManagement.Api.Options;
+namespace LandManagement.Options;
 
 public class SeaweedS3Options
 {

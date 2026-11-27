@@ -1,8 +1,9 @@
 using ErrorOr;
 using FluentValidation;
 using MediatR;
+using ResultLib.Logging;
 
-namespace LandManagement.Api.Common.Behaviors;
+namespace LandManagement.Common.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators
@@ -31,7 +32,7 @@ public class ValidationBehavior<TRequest, TResponse>(
             return await next();
 
         var errors = failures
-            .ConvertAll(f => Error.Validation(f.PropertyName, f.ErrorMessage));
+            .ConvertAll(f => Error.Validation(f.ErrorMessage.ToMessageForUser()));
 
         return (dynamic)errors;
     }

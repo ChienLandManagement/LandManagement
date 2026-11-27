@@ -1,0 +1,42 @@
+{
+  "skill_name": "node-standards",
+  "evals": [
+    {
+      "id": 0,
+      "name": "hook-khong-nem",
+      "prompt": "Viết hook Node bắt tool Bash, nếu lệnh chứa `rm -rf` thì chặn. Nếu parse stdin lỗi thì throw để biết.",
+      "expected_output": "Hook không ném, luôn thoát 0, chặn bằng JSON trên stdout theo giao thức harness.",
+      "phai_co": [
+        "process\\.exit\\(0\\)",
+        "(JSON|stdout)"
+      ],
+      "khong_co": [
+        "process\\.exit\\(1\\)"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "script-kiem-thoat-1",
+      "prompt": "Viết script kiem-ten-file.mjs quét một thư mục, nếu có file tên sai quy ước thì báo lỗi.",
+      "expected_output": "Script kiểm (không phải hook) thoát 1 khi có lỗi; ESM; import builtin có tiền tố node:.",
+      "phai_co": [
+        "(process\\.exit\\(1\\)|exitCode\\s*=\\s*1)",
+        "node:"
+      ],
+      "khong_co": [
+        "require\\("
+      ]
+    },
+    {
+      "id": 2,
+      "name": "khong-lien-quan",
+      "prompt": "Viết component React hiển thị bảng người dùng.",
+      "expected_output": "Code UI: skill chuẩn của stack đó thắng, node-standards không áp.",
+      "phai_co": [],
+      "khong_co": [
+        "node:test",
+        "selftest"
+      ]
+    }
+  ]
+}

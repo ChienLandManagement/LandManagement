@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace LandManagement.Api.Common;
+namespace LandManagement.Common;
 
 public abstract class BaseEvent : INotification
 {

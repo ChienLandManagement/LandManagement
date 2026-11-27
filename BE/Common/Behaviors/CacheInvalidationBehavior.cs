@@ -1,10 +1,10 @@
 using System.Reflection;
-using LandManagement.Api.Common.Attributes;
-using LandManagement.Api.Common.Interfaces;
-using LandManagement.Api.Common.Interfaces;
+using LandManagement.Common.Attributes;
+using LandManagement.Common.Interfaces;
+using LandManagement.Common.Interfaces;
 using MediatR;
 
-namespace LandManagement.Api.Common.Behaviors;
+namespace LandManagement.Common.Behaviors;
 
 public sealed class CacheInvalidationBehavior<TCommand, TResponse>(ICacheService cache) : IPipelineBehavior<TCommand, TResponse> where TCommand : ICommand<TResponse>
 {

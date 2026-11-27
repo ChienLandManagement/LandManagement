@@ -1,0 +1,22 @@
+{
+  "skill_name": "verify-be",
+  "evals": [],
+  "evals_hanh_vi": [
+    {
+      "id": "kich-hoat-verify-be",
+      "prompt": "Luồng: #7. Vừa thêm field GhiChu vào DTO đơn hàng và BulkMerge, kiểm xem chạy được chưa.",
+      "ky_vong": {
+        "skill": "verify-be"
+      },
+      "ghi_chu": "Mỗi lần chạy cần consumer nháp mới (chay-hanh-vi dùng chung consumer giữa các lần lặp)."
+    },
+    {
+      "id": "khong-kich-hoat-verify-be",
+      "prompt": "Luồng: #19. Sửa câu chữ trong docs/quy-trinh.md.",
+      "ky_vong": {
+        "cam_skill": "verify-be"
+      },
+      "ghi_chu": "Mỗi lần chạy cần consumer nháp mới (chay-hanh-vi dùng chung consumer giữa các lần lặp)."
+    }
+  ]
+}

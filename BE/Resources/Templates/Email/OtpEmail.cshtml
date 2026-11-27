@@ -1,0 +1,38 @@
+@model LandManagement.Models.OtpEmailModel
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mã xác thực đăng nhập - @Model.AppName</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 30px auto; background-color: #ffffff; border: 1px solid #e1e8ed; }
+        .header { background-color: #003a8c; padding: 28px 20px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 19px; font-weight: 700; }
+        .content { padding: 32px 28px; line-height: 1.6; color: #333333; }
+        .otp { margin: 24px 0; padding: 18px; background-color: #f0f5ff; border: 1px solid #adc6ff; color: #003a8c; font-size: 30px; font-weight: 700; letter-spacing: 8px; text-align: center; }
+        .footer { background-color: #fafafa; padding: 20px; text-align: center; font-size: 12px; color: #8c8c8c; border-top: 1px solid #f0f0f0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>@Model.AppName</h1>
+    </div>
+    <div class="content">
+        <h2>Mã xác thực đăng nhập</h2>
+        <p>Xin chào @Model.UserName,</p>
+        <p>Mã xác thực để đăng nhập của bạn:</p>
+        <div class="otp">@Model.Code</div>
+        <p><strong>Mã có hiệu lực trong @Model.LifetimeMinutes phút</strong> và chỉ dùng được một lần.</p>
+        <p>Vui lòng không chia sẻ mã này cho người khác. Nếu bạn không yêu cầu đăng nhập, hãy bỏ qua email này.</p>
+    </div>
+    <div class="footer">
+        &copy; @DateTime.Now.Year @Model.AppName.<br>
+        Đây là email tự động từ hệ thống, vui lòng không phản hồi thư này.
+    </div>
+</div>
+</body>
+</html>

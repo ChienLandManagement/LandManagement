@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace LandManagement.Api.UseCases.Base.Ping;
+namespace LandManagement.UseCases.Base.Ping;
 
 public class PingHandler : IRequestHandler<PingQuery, ErrorOr<PingResponse>>
 {

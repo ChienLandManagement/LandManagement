@@ -1,6 +1,6 @@
 using FastEndpoints;
 
-namespace LandManagement.Api.Groups;
+namespace LandManagement.Groups;
 
 public sealed class BaseGroup : Group
 {

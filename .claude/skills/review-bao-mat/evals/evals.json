@@ -1,0 +1,61 @@
+{
+  "skill_name": "review-bao-mat",
+  "evals": [
+    {
+      "id": 0,
+      "name": "jwt-decode-khong-verify",
+      "prompt": "Review diff này (ASP.NET Core). Thêm middleware:\n```csharp\nvar handler = new JwtSecurityTokenHandler();\nvar jwt = handler.ReadJwtToken(token);\nvar userId = jwt.Claims.First(c => c.Type == \"sub\").Value;\ncontext.Items[\"UserId\"] = userId;\n```\nUserId này được controller dùng để lọc dữ liệu của người gọi.",
+      "expected_output": "Finding WA1: ReadJwtToken chỉ decode, không verify chữ ký / exp / aud / iss; ai cũng tự ký token với sub tuỳ ý để đọc dữ liệu người khác. Sửa: ValidateToken với khoá và thuật toán ghim.",
+      "phai_co": ["WA1", "(verify|ValidateToken|chữ ký)"],
+      "khong_co": []
+    },
+    {
+      "id": 1,
+      "name": "react-tu-escape-khong-bao",
+      "prompt": "Review diff này (React). Thêm component:\n```tsx\nexport function Comment({ c }: { c: { author: string; body: string } }) {\n  return <div><b>{c.author}</b><p>{c.body}</p></div>;\n}\n```\n`body` do người dùng khác nhập.",
+      "expected_output": "Không có finding XSS: JSX tự escape nội dung; CL1 không áp.",
+      "phai_co": [],
+      "khong_co": ["CL1 —", "(CRITICAL|HIGH).*XSS"]
+    },
+    {
+      "id": 2,
+      "name": "diff-css-khong-chen",
+      "prompt": "Review diff này. Đổi `src/styles/table.css`: `.row { padding: 8px; }` thành `.row { padding: 12px; }`.",
+      "expected_output": "Không nêu mục WA / CL / OB nào; skill không chen vào diff không chạm web.",
+      "phai_co": [],
+      "khong_co": ["WA\\d", "CL\\d", "OB\\d"]
+    },
+    {
+      "id": 3,
+      "name": "order-by-tu-query",
+      "prompt": "Review diff này (Node + pg). Thêm endpoint danh sách:\n```js\nconst sort = req.query.sort || 'created_at';\nconst rows = await db.query(`SELECT * FROM ho_so WHERE don_vi_id = $1 ORDER BY ${sort}`, [req.user.donViId]);\n```",
+      "expected_output": "Finding SV1: `sort` từ query ghép thẳng vào ORDER BY; tham số hoá không áp cho tên cột. Sửa: chỉ nhận khoá trong danh sách cột cố định.",
+      "phai_co": ["SV1", "(danh sách|whitelist|cố định)"],
+      "khong_co": []
+    },
+    {
+      "id": 4,
+      "name": "webhook-ssrf",
+      "prompt": "Review diff này (ASP.NET Core). Người dùng lưu `WebhookUrl` cho đơn vị; khi hồ sơ được duyệt, server gọi:\n```csharp\nawait _http.PostAsJsonAsync(donVi.WebhookUrl, payload);\n```\nKhông có kiểm tra nào khác trên `WebhookUrl`.",
+      "expected_output": "Finding SV7: server gọi URL người dùng đặt, không chặn localhost / IP nội bộ / 169.254.169.254, không kiểm lại sau redirect. Phần chặn ở mạng không thấy trong repo → Cần xác minh.",
+      "phai_co": ["SV7", "(nội bộ|localhost|169\\.254)"],
+      "khong_co": []
+    },
+    {
+      "id": 5,
+      "name": "thieu-header-trang-chi-doc",
+      "prompt": "Review diff này. Thêm trang công khai `/huong-dan` chỉ hiển thị văn bản hướng dẫn tĩnh, không có form hay thao tác nào. Response không có `X-Frame-Options` hay CSP `frame-ancestors`.",
+      "expected_output": "Không có finding mức CRITICAL–LOW: trang chỉ đọc, không có thao tác đổi trạng thái để clickjack; thiếu header chỉ ghi một dòng ở Gợi ý (SKILL §2, CL11).",
+      "phai_co": ["#+\\s*Gợi ý[^\\n]*\\n(?:(?!\\n## )[\\s\\S])*(X-Frame|frame-ancestors|clickjack)"],
+      "khong_co": ["###\\s*(CRITICAL|HIGH|MEDIUM|LOW)[^\\n]*\\n(?:(?!\\n##)[\\s\\S])*(clickjack|X-Frame|frame-ancestors)"]
+    },
+    {
+      "id": 6,
+      "name": "cua-import-bo-kiem-quyen",
+      "prompt": "Review diff này (ASP.NET Core). Endpoint có sẵn `POST /api/ho-so/{id}/duyet` có `[Authorize(Policy = \"HoSo.Duyet\")]`. Diff thêm:\n```csharp\n[Authorize]\n[HttpPost(\"api/ho-so/import\")]\npublic async Task<IActionResult> Import(List<HoSoImportDto> items) {\n  foreach (var x in items) await _repo.UpsertAsync(new HoSo { Id = x.Id, TrangThai = x.TrangThai, DonViId = x.DonViId });\n  return Ok();\n}\n```",
+      "expected_output": "Finding SV5 (và SV4): import đặt được `TrangThai = DaDuyet` và `DonViId` tuỳ ý chỉ với quyền đăng nhập, đi vòng policy `HoSo.Duyet`; cửa yếu nhất quyết định chính sách (SKILL §3). Sửa: import qua cùng hàm kiểm quyền duyệt, không nhận TrangThai / DonViId từ client.",
+      "phai_co": ["SV5", "(HoSo\\.Duyet|duyệt)"],
+      "khong_co": []
+    }
+  ]
+}

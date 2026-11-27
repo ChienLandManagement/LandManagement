@@ -1,0 +1,26 @@
+name: landmanagement-agent-config
+version: 0.1.0
+description: Nguồn duy nhất cho rule / skill / agent của LandManagement, biên dịch ra .claude (Claude Code)
+
+targets:
+  - claude
+  - antigravity
+  - codex
+
+includes: auto
+
+dependencies:
+  mcp:
+    # KHONG khai khoa o day. Do 2026-09-08: `${VAR}` trong `headers` bi APM NUONG
+    # gia tri that vao `.mcp.json`, `.agents/mcp_config.json` - ma ca hai deu commit.
+    - name: codegraphcontext
+      registry: false
+      transport: stdio
+      command: cgc
+      args: ["mcp", "start"]
+
+compilation:
+  exclude:
+    - "FE/**"
+  agents_md:
+    mode: managed_section

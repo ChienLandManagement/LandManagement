@@ -1,0 +1,65 @@
+@model LandManagement.Models.WelcomeEmailModel
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chào mừng - @Model.AppName</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 1px solid #e1e8ed; }
+        .header { background: linear-gradient(135deg, #003a8c 0%, #1890ff 100%); padding: 28px 20px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+        .content { padding: 32px 28px; line-height: 1.6; color: #333333; }
+        .content h2 { color: #003a8c; font-size: 18px; margin-top: 0; margin-bottom: 12px; }
+        .qr-section { background-color: #fafafa; border: 1px solid #e8e8e8; border-radius: 10px; padding: 20px; text-align: center; margin: 24px 0 16px 0; }
+        .qr-image { width: 170px; height: 170px; border: 1px solid #d9d9d9; border-radius: 8px; background-color: #ffffff; padding: 6px; display: inline-block; }
+        .qr-label { font-size: 13px; color: #595959; margin-top: 10px; }
+        .cta-container { text-align: center; margin: 24px 0; }
+        .btn-cta { display: inline-block; background: linear-gradient(90deg, #1890ff 0%, #096dd9 100%); color: #ffffff !important; text-decoration: none; font-weight: 600; font-size: 15px; padding: 12px 32px; border-radius: 6px; }
+        .expiry-box { background-color: #fffbe6; border: 1px solid #ffe58f; border-left: 4px solid #faad14; padding: 12px 16px; font-size: 13px; color: #8c6b00; margin: 20px 0; border-radius: 4px; }
+        .fallback-box { background-color: #f9fbfd; border: 1px dashed #d6e4ff; border-radius: 6px; padding: 14px; margin-top: 20px; font-size: 12px; color: #595959; word-break: break-all; }
+        .fallback-box a { color: #1890ff; text-decoration: underline; }
+        .footer { background-color: #fafafa; padding: 20px; text-align: center; font-size: 12px; color: #8c8c8c; border-top: 1px solid #f0f0f0; line-height: 1.5; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>@Model.AppName</h1>
+    </div>
+    <div class="content">
+        <h2>Chào mừng bạn đến với hệ thống</h2>
+        <p>Xin chào <strong>@(string.IsNullOrWhiteSpace(Model.FullName) ? Model.UserName : Model.FullName)</strong>,</p>
+        @if (!string.IsNullOrEmpty(Model.SetPasswordUrl))
+        {
+            <p>Tài khoản <strong>@Model.UserName</strong> của bạn đã được tạo / phê duyệt. Vui lòng quét mã QR hoặc bấm nút bên dưới để đặt mật khẩu và bắt đầu sử dụng hệ thống:</p>
+            <div class="qr-section">
+                <img src="cid:qrcode-image" alt="Mã QR thiết lập mật khẩu" class="qr-image" />
+                <div class="qr-label">Quét mã QR bằng Camera điện thoại hoặc Ứng dụng để thiết lập nhanh</div>
+            </div>
+            <div class="cta-container">
+                <a href="@Model.SetPasswordUrl" target="_blank" class="btn-cta">ĐẶT MẬT KHẨU</a>
+            </div>
+            <div class="expiry-box">
+                <div>⏱ <strong>Thời hạn hiệu lực:</strong> Đến <strong>@Model.ExpiresAtFormatted</strong>.</div>
+                <div style="margin-top: 4px;">⚠️ <strong>Lưu ý bảo mật:</strong> Liên kết chỉ có hiệu lực sử dụng <strong>01 lần duy nhất</strong>. Nếu bạn không yêu cầu tài khoản này, vui lòng bỏ qua thư hoặc liên hệ Quản trị viên.</div>
+            </div>
+            <div class="fallback-box">
+                <strong>Đường dẫn dự phòng:</strong> Nếu nút bấm không hoạt động, hãy sao chép và dán liên kết sau vào trình duyệt:<br>
+                <a href="@Model.SetPasswordUrl" target="_blank">@Model.SetPasswordUrl</a>
+            </div>
+        }
+        else
+        {
+            <p>Tài khoản <strong>@Model.UserName</strong> của bạn đã được quản trị viên phê duyệt. Bạn có thể đăng nhập vào hệ thống bằng mật khẩu đã đăng ký.</p>
+        }
+    </div>
+    <div class="footer">
+        &copy; @DateTime.Now.Year @Model.AppName.<br>
+        Đây là email tự động từ hệ thống, vui lòng không phản hồi thư này.
+    </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,7 @@ export {
   getAccessToken,
   getUser,
   hasRole,
+  setAuth,
   useAuthStore,
 } from './model/auth.store';
 export { decodeToken, getTokenRoles, isTokenExpired } from './lib/token';

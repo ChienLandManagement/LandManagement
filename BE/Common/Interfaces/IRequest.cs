@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace LandManagement.Api.Common.Interfaces;
+namespace LandManagement.Common.Interfaces;
 
 public interface ICommand<T> : IRequest<ErrorOr<T>>;
 

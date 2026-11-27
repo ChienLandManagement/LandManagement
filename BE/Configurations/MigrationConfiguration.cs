@@ -1,7 +1,7 @@
-using LandManagement.Api.Data;
+using LandManagement.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace LandManagement.Api.Configurations;
+namespace LandManagement.Configurations;
 
 public static class MigrationConfiguration
 {

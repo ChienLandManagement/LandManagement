@@ -1,5 +1,5 @@
-using LandManagement.Api.Common.Interfaces;
+using LandManagement.Common.Interfaces;
 
-namespace LandManagement.Api.UseCases.Base.Ping;
+namespace LandManagement.UseCases.Base.Ping;
 
 public record PingQuery : IQuery<PingResponse>;

@@ -1,0 +1,43 @@
+@model LandManagement.Models.NoticeEmailModel
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Subject</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f9; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); border: 1px solid #e1e8ed; }
+        .header { background: linear-gradient(135deg, #003a8c 0%, #1890ff 100%); padding: 28px 20px; text-align: center; color: #ffffff; }
+        .header h1 { margin: 0; font-size: 19px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+        .content { padding: 32px 28px; line-height: 1.6; color: #333333; font-size: 15px; }
+        .content h2 { color: #003a8c; font-size: 18px; margin-top: 0; margin-bottom: 16px; }
+        .footer { background-color: #fafafa; padding: 20px; text-align: center; font-size: 12px; color: #8c8c8c; border-top: 1px solid #f0f0f0; line-height: 1.5; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>@Model.AppName</h1>
+    </div>
+    <div class="content">
+        <h2>@Model.Subject</h2>
+        <div>
+            @for (var i = 0; i < Model.Lines.Count; i++)
+            {
+                if (i > 0)
+                {
+                    <br>
+                }
+                @Model.Lines[i]
+            }
+        </div>
+    </div>
+    <div class="footer">
+        &copy; @DateTime.Now.Year @Model.AppName.<br>
+        Đây là email tự động từ hệ thống, vui lòng không phản hồi thư này.
+    </div>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-namespace LandManagement.Api.Common.Attributes;
+namespace LandManagement.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class CacheAttribute(int seconds = 60, params string[] tags) : Attribute

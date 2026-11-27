@@ -1,7 +1,7 @@
-using LandManagement.Api.Groups;
+using LandManagement.Groups;
 using FastEndpoints;
 
-namespace LandManagement.Api.Endpoints;
+namespace LandManagement.Endpoints;
 
 public class HealthEndpoint : EndpointWithoutRequest
 {

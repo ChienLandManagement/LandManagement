@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LandManagement.Api.Data.Migrations
+namespace LandManagement.Data.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

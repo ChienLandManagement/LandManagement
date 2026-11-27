@@ -1,9 +1,9 @@
-using LandManagement.Api.Groups;
-using LandManagement.Api.UseCases.Base.Ping;
+using LandManagement.Groups;
+using LandManagement.UseCases.Base.Ping;
 using FastEndpoints;
 using MediatR;
 
-namespace LandManagement.Api.Endpoints;
+namespace LandManagement.Endpoints;
 
 public class PingEndpoint(ISender sender) : EndpointWithoutRequest
 {
