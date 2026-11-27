@@ -136,3 +136,35 @@ Trước khi thêm: tiêu chí này có trùng hoặc đá với B1–B16 không
 - **Ca gốc:** `if (string.IsNullOrEmpty(hash)) return false;` · `.When(x => !string.IsNullOrWhiteSpace(x.Query))`
 - **Cách đúng:** `if (hash.IsEmpty()) return false;` · `.When(x => x.Query.IsNotEmpty())`
 - **Vì sao:** một cách viết thống nhất toàn dự án, ngắn hơn, null-safe. Chiến chốt (2026-11-27); đã quét và sửa toàn BE.
+
+
+### S66 · Interface và implementation chung một file, đặt tên theo implementation
+- **Luật:** interface còn giữ lại (thoả S35) nằm cùng file với class implement, file đặt theo tên class: `PasswordHasher.cs` chứa `IPasswordHasher` rồi `PasswordHasher`. Không có file `I<Tên>.cs` riêng cho interface đó.
+- **Ca gốc:** `Security/IPasswordHasher.cs` (chỉ interface) + `Security/PasswordHasher.cs` (chỉ class); `Common/Interfaces/ICacheService.cs` tách khỏi `Services/FusionCacheService.cs`.
+- **Cách đúng:** `Security/PasswordHasher.cs` chứa cả hai; `Common/FusionCacheService.cs` chứa `ICacheService` và `FusionCacheService`.
+- **Vì sao:** dự án nhỏ, interface và implementation luôn đổi cùng nhau nên để chung một chỗ cho dễ đọc, như VBDT (`FusionCacheService.cs`, `EmailService.cs`). Chiến chốt (2026-11-27).
+
+
+### S67 · Primary constructor, danh sách kế thừa viết cùng một hàng
+- **Luật:** class nhận phụ thuộc qua primary constructor (`class X(A a, B b)`), không viết constructor thường rồi gán field. Khai báo class (tham số primary constructor và `: Base`/`: IInterface<...>`) nằm trên **một hàng**, không xuống dòng trước dấu `:`.
+- **Ca gốc:** `public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens)` rồi xuống dòng `    : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>`.
+- **Cách đúng:** `public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens) : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>`
+- **Vì sao:** một khai báo đọc trên một hàng, không nhảy xuống dòng để tìm kiểu cha. Chiến chốt (2026-11-27). Dòng khai báo quá dài thì ghi chú, vẫn không xuống dòng.
+
+### S68 · Thời gian luôn là UTC
+- **Luật:** BE lưu và so sánh thời gian bằng UTC: `DateTime.UtcNow` (hoặc `DateTimeOffset.UtcNow`), cột thời gian là UTC. Cấm `DateTime.Now`, `ToLocalTime()`, `DateTimeKind.Local`. Chuyển sang giờ địa phương chỉ ở FE khi hiển thị.
+- **Ca gốc:** `EmailService`: `expiresAt ?? DateTime.Now.AddHours(_auth.ActivationTokenLifetimeHours)`.
+- **Cách đúng:** `expiresAt ?? DateTime.UtcNow.AddHours(...)`.
+- **Vì sao:** `Now` phụ thuộc múi giờ máy chủ (Heroku là UTC, máy dev là +7) nên cùng một mã cho kết quả khác nhau giữa môi trường. Chiến chốt (2026-11-27).
+
+### S69 · FE hiển thị ngày theo `dd/MM/yyyy`
+- **Luật:** mọi ngày hiển thị trên FE theo định dạng `dd/MM/yyyy` (kèm giờ thì `HH:mm`, 24 giờ). Không hiển thị `yyyy-MM-dd`, `MM/dd/yyyy`, hay chuỗi ISO thô. Dữ liệu từ API là UTC (S68), FE đổi sang giờ địa phương rồi mới định dạng; dùng một hàm định dạng chung trong `shared`, không tự viết ở từng component.
+- **Ca gốc:** (chưa có ca cụ thể; ghi để rà khi review FE).
+- **Cách đúng:** một helper `formatDate(value)` trong `shared` trả `dd/MM/yyyy`, các component gọi helper này.
+- **Vì sao:** người dùng cấp xã quen định dạng ngày Việt Nam, một nơi định dạng thì đổi một chỗ. Chiến chốt (2026-11-27).
+
+### S70 · Khoá chính và khoá ngoại là UUID v7
+- **Luật:** cột Id (khoá chính) và cột tham chiếu tới nó có kiểu `Guid`, sinh bằng `Guid.CreateVersion7()`. Không dùng `int`/`long` tự tăng, không `Guid.NewGuid()`. Entity gán Id trong constructor: `public User() => Id = Guid.CreateVersion7();`.
+- **Ca gốc:** `LoginLog.Id` kiểu `long` (tự tăng) trong khi `User`, `RefreshToken` dùng `Guid.CreateVersion7()`.
+- **Cách đúng:** `LoginLog : Entity<Guid>` với `Id = Guid.CreateVersion7()` trong constructor, kèm migration đổi kiểu cột.
+- **Vì sao:** v7 sắp theo thời gian nên chỉ mục B-tree ít phân mảnh hơn v4, và id không đoán được như số tự tăng. Chiến chốt (2026-11-27). Đổi kiểu cột đang có dữ liệu cần migration, hỏi Chiến trước khi sửa.

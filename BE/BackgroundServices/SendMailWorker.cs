@@ -3,8 +3,7 @@ using LandManagement.Services;
 
 namespace LandManagement.BackgroundServices;
 
-public class SendMailWorker(MailQueue queue, IServiceScopeFactory scopeFactory, ILogger<SendMailWorker> logger)
-    : ChannelWorkerBase<MailJob>(scopeFactory, logger)
+public class SendMailWorker(MailQueue queue, IServiceScopeFactory scopeFactory, ILogger<SendMailWorker> logger) : ChannelWorkerBase<MailJob>(scopeFactory, logger)
 {
     protected override ChannelReader<MailJob> Reader => queue.Reader;
 

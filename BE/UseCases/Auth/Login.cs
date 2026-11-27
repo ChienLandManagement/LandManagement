@@ -12,8 +12,7 @@ namespace LandManagement.UseCases.Auth;
 
 public record LoginCommand(string UserName, string Password, string? Ip, string? UserAgent) : ICommand<AuthResult>;
 
-public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens)
-    : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>
+public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens) : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>
 {
     public async Task<ErrorOr<AuthResult>> Handle(LoginCommand cmd, CancellationToken ct)
     {

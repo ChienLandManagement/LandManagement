@@ -36,7 +36,7 @@ public class EmailService(IOptions<MailOptions> mailOptions, IOptions<AuthOption
     public Task<ErrorOr<Success>> SendWelcomeAsync(string toEmail, string userName, string fullName, string? token, DateTime? expiresAt, CancellationToken ct = default)
     {
         var url = token.IsEmpty() ? null : PasswordUrl(token);
-        var expires = url is null ? null : FormatTime(expiresAt ?? DateTime.Now.AddHours(_auth.ActivationTokenLifetimeHours));
+        var expires = url is null ? null : FormatTime(expiresAt ?? DateTime.UtcNow.AddHours(_auth.ActivationTokenLifetimeHours));
         var model = new WelcomeEmailModel(fullName, userName, url, expires);
         return SendAsync(toEmail, $"Chào mừng bạn đến với {EmailDefaults.AppName}", TemplatePaths.Email.Welcome, model, url is null ? null : QrCodeHelper.GeneratePngBytes(url, 8), ct);
     }
@@ -69,7 +69,7 @@ public class EmailService(IOptions<MailOptions> mailOptions, IOptions<AuthOption
             if (qrCode is { Length: > 0 }) body.LinkedResources.Add("qrcode.png", qrCode, new ContentType("image", "png")).ContentId = "qrcode-image";
             message.Body = body.ToMessageBody();
 
-            using var smtp = new SmtpClient();
+            await using var smtp = new SmtpClient();
             await smtp.ConnectAsync(_mail.Host, _mail.Port, _mail.EnableSsl ? SecureSocketOptions.StartTls : SecureSocketOptions.Auto, ct);
             if (_mail.UseAuthentication && _mail.Username.IsNotEmpty()) await smtp.AuthenticateAsync(_mail.Username, _mail.Password, ct);
             await smtp.SendAsync(new SendRequest(message), ct);

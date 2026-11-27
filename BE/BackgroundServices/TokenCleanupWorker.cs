@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LandManagement.BackgroundServices;
 
 /// <summary>Dọn refresh token đã hết hạn. Token đã thu hồi nhưng chưa hết hạn được giữ lại để phát hiện dùng lại.</summary>
-public class TokenCleanupWorker(IConfiguration configuration, IServiceScopeFactory scopeFactory, ILogger<TokenCleanupWorker> logger)
-    : PeriodicWorkerBase(configuration, scopeFactory, logger)
+public class TokenCleanupWorker(IConfiguration configuration, IServiceScopeFactory scopeFactory, ILogger<TokenCleanupWorker> logger) : PeriodicWorkerBase(configuration, scopeFactory, logger)
 {
     protected override string WorkerName => "TokenCleanup";
 

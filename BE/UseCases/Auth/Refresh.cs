@@ -11,8 +11,7 @@ namespace LandManagement.UseCases.Auth;
 
 public record RefreshCommand(string? RefreshToken, string? Ip, string? UserAgent) : ICommand<AuthResult>;
 
-public class RefreshHandler(AppDbContext db, ITokenService tokens)
-    : IRequestHandler<RefreshCommand, ErrorOr<AuthResult>>
+public class RefreshHandler(AppDbContext db, ITokenService tokens) : IRequestHandler<RefreshCommand, ErrorOr<AuthResult>>
 {
     private static readonly Error Invalid = Error.Unauthorized("Phiên đăng nhập đã hết hạn".ToMessageForUser());
 

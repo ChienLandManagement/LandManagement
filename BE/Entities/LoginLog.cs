@@ -1,8 +1,11 @@
+using LandManagement.Common;
+
 namespace LandManagement.Entities;
 
-public class LoginLog
+public class LoginLog : Entity<Guid>
 {
-    public long Id { get; set; }
+    public LoginLog() => Id = Guid.CreateVersion7();
+
     public string UserName { get; set; } = string.Empty;
     public LoginResult Result { get; set; }
     public LoginFailReason? FailReason { get; set; }

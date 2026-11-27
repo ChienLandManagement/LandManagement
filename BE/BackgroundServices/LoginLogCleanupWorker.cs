@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace LandManagement.BackgroundServices;
 
 /// <summary>Dọn log đăng nhập quá hạn (AuditLog:RetentionDays).</summary>
-public class LoginLogCleanupWorker(IConfiguration configuration, IServiceScopeFactory scopeFactory, ILogger<LoginLogCleanupWorker> logger)
-    : PeriodicWorkerBase(configuration, scopeFactory, logger)
+public class LoginLogCleanupWorker(IConfiguration configuration, IServiceScopeFactory scopeFactory, ILogger<LoginLogCleanupWorker> logger) : PeriodicWorkerBase(configuration, scopeFactory, logger)
 {
     private readonly int _retentionDays = configuration.GetValue("AuditLog:RetentionDays", 90);
 
