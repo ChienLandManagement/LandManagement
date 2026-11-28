@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Group, Modal, NumberInput, Select, Stack, Textarea, TextInput } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -206,13 +207,14 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
             name="changeDate"
             control={control}
             render={({ field }) => (
-              <TextInput
-                type="date"
+              <DateInput
                 label="Ngày biến động"
-                max={cutoffDate}
+                placeholder="dd/mm/yyyy"
+                valueFormat="DD/MM/YYYY"
+                maxDate={cutoffDate}
                 required
-                value={field.value}
-                onChange={field.onChange}
+                value={field.value || null}
+                onChange={(value) => field.onChange(value ?? '')}
                 error={errors.changeDate?.message}
               />
             )}

@@ -16,12 +16,12 @@ import {
   Title,
 } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
-import { format, parseISO } from 'date-fns';
 import { ArrowRight, Info } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { formatArea } from '@/features/inventory';
 import { useGetPeriodDashboard, useListPeriods } from '@/shared/api/generated/api';
 import type { DashboardLandTypeItem } from '@/shared/api/model';
+import { formatDate } from '@/shared/lib/date';
 
 const LEVEL1_COLORS: Record<string, string> = {
   NNP: 'green.6',
@@ -36,15 +36,6 @@ function getLandTypeColor(code?: string, index = 0): string {
     return LEVEL1_COLORS[code];
   }
   return FALLBACK_COLORS[index % FALLBACK_COLORS.length];
-}
-
-function formatDateVi(dateStr?: string | null): string {
-  if (!dateStr) return '—';
-  try {
-    return format(parseISO(dateStr), 'dd/MM/yyyy');
-  } catch {
-    return dateStr;
-  }
 }
 
 function formatPercent(value?: number | null): string {
@@ -89,7 +80,7 @@ export function DashboardView() {
         .filter((p) => p.id)
         .map((p) => ({
           value: p.id ?? '',
-          label: `${formatDateVi(p.cutoffDate)}${p.wardName ? ` - ${p.wardName}` : ''}`,
+          label: `${formatDate(p.cutoffDate, false)}${p.wardName ? ` - ${p.wardName}` : ''}`,
         })),
     [sortedPeriods],
   );
@@ -188,7 +179,7 @@ export function DashboardView() {
               </Text>
               {totalDiff != null && (
                 <Text size="xs" c={totalDiff > 0 ? 'teal' : totalDiff < 0 ? 'red' : 'dimmed'} mt={4}>
-                  {formatChange(totalDiff)} ha so với kỳ trước ({formatDateVi(dashboard?.previousCutoffDate)})
+                  {formatChange(totalDiff)} ha so với kỳ trước ({formatDate(dashboard?.previousCutoffDate, false)})
                 </Text>
               )}
             </Paper>
