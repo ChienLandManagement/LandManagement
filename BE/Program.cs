@@ -124,6 +124,7 @@ Log.Configure(app.Services.GetRequiredService<ILoggerFactory>(), new LogOptions 
 
 app.UseForwardedHeaders();
 app.UseResultLibExceptionHandler();
+app.UseStaticFiles();
 
 if (app.Environment.IsDevelopment()) app.UseSwaggerGen();
 
