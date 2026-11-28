@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Group,
-  Tabs,
-  Text,
-  TextInput,
-} from '@mantine/core';
+import { Badge, Box, Button, Group, Tabs, Text, TextInput } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
@@ -22,11 +14,7 @@ import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
 import { ListPageLayout } from '@/shared/ui/templates';
 import { LAND_HOLDER_KIND_LABELS, toLandHolderKind } from '../model/catalogSchemas';
-import {
-  type TreeNode,
-  buildTreeList,
-  getDescendantIds,
-} from '../model/treeUtils';
+import { buildTreeList, getDescendantIds, type TreeNode } from '../model/treeUtils';
 import { CatalogTreeSidebar } from './CatalogTreeSidebar';
 import { LandHolderTypeFormDialog } from './LandHolderTypeFormDialog';
 
@@ -43,8 +31,7 @@ export function LandHolderTypesTab() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<LandHolderTypeItem | null>(null);
 
-  const queryParams =
-    kindFilter === 'all' ? undefined : { Kind: toLandHolderKind(kindFilter) };
+  const queryParams = kindFilter === 'all' ? undefined : { Kind: toLandHolderKind(kindFilter) };
 
   const { data, isLoading, isFetching, isError, refetch } = useListLandHolderTypes(queryParams);
 
@@ -58,10 +45,7 @@ export function LandHolderTypesTab() {
     }
     const q = search.trim().toLowerCase();
     if (q) {
-      list = list.filter(
-        (item) =>
-          item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q),
-      );
+      list = list.filter((item) => item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q));
     }
     return list;
   }, [treeItems, selectedTreeId, search]);
@@ -186,11 +170,7 @@ export function LandHolderTypesTab() {
         </>
       }
     >
-      <Tabs
-        value={kindFilter}
-        onChange={(val) => setKindFilter((val as KindFilter) || 'all')}
-        mb="sm"
-      >
+      <Tabs value={kindFilter} onChange={(val) => setKindFilter((val as KindFilter) || 'all')} mb="sm">
         <Tabs.List>
           <Tabs.Tab value="all">Tất cả</Tabs.Tab>
           <Tabs.Tab value="User">Người sử dụng đất</Tabs.Tab>

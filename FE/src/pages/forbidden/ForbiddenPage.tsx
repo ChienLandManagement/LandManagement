@@ -36,15 +36,12 @@ export default function ForbiddenPage() {
                   Không có quyền truy cập
                 </Title>
                 <Text size="sm" c="dimmed" lh={1.6}>
-                  Tài khoản của bạn không có quyền truy cập vào trang này. Vui lòng liên hệ quản trị viên nếu cần hỗ trợ.
+                  Tài khoản của bạn không có quyền truy cập vào trang này. Vui lòng liên hệ quản trị viên nếu cần hỗ
+                  trợ.
                 </Text>
 
                 <Group justify="center" gap="sm" mt="md">
-                  <Button
-                    variant="default"
-                    leftSection={<ArrowLeft size={16} />}
-                    onClick={() => window.history.back()}
-                  >
+                  <Button variant="default" leftSection={<ArrowLeft size={16} />} onClick={() => window.history.back()}>
                     Quay lại
                   </Button>
                   <Button leftSection={<Home size={16} />} onClick={() => navigate({ to: ROUTES.HOME })}>

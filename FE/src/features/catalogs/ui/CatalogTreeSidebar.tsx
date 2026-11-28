@@ -1,17 +1,7 @@
-import {
-  ActionIcon,
-  Badge,
-  Box,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  TextInput,
-  UnstyledButton,
-} from '@mantine/core';
+import { ActionIcon, Badge, Box, Group, Paper, Stack, Text, TextInput, UnstyledButton } from '@mantine/core';
 import { ChevronDown, ChevronRight, FolderTree, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { type TreeNode, filterVisibleTreeNodes } from '../model/treeUtils';
+import { filterVisibleTreeNodes, type TreeNode } from '../model/treeUtils';
 
 interface CatalogTreeItem {
   id?: string;
@@ -39,10 +29,7 @@ export function CatalogTreeSidebar<T extends CatalogTreeItem>({
   const visibleNodes = useMemo(() => {
     const q = treeSearch.trim().toLowerCase();
     if (q) {
-      return items.filter(
-        (item) =>
-          item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q),
-      );
+      return items.filter((item) => item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q));
     }
     return filterVisibleTreeNodes(items, collapsedIds);
   }, [items, collapsedIds, treeSearch]);
@@ -90,10 +77,8 @@ export function CatalogTreeSidebar<T extends CatalogTreeItem>({
           py={6}
           style={(theme) => ({
             borderRadius: theme.radius.sm,
-            backgroundColor:
-              selectedId === null ? 'var(--mantine-primary-color-light)' : 'transparent',
-            color:
-              selectedId === null ? 'var(--mantine-primary-color-light-color)' : 'inherit',
+            backgroundColor: selectedId === null ? 'var(--mantine-primary-color-light)' : 'transparent',
+            color: selectedId === null ? 'var(--mantine-primary-color-light-color)' : 'inherit',
           })}
         >
           <Group justify="space-between" wrap="nowrap">
@@ -107,56 +92,51 @@ export function CatalogTreeSidebar<T extends CatalogTreeItem>({
         </UnstyledButton>
 
         <Stack gap={2}>
-            {visibleNodes.map((node) => {
-              const id = node.id ?? '';
-              const isSelected = Boolean(id && selectedId === id);
-              const isCollapsed = Boolean(id && collapsedIds.has(id));
-              const showToggle = !treeSearch.trim() && node.hasChildren && Boolean(id);
+          {visibleNodes.map((node) => {
+            const id = node.id ?? '';
+            const isSelected = Boolean(id && selectedId === id);
+            const isCollapsed = Boolean(id && collapsedIds.has(id));
+            const showToggle = !treeSearch.trim() && node.hasChildren && Boolean(id);
 
-              return (
-                <Group
-                  key={id || `${node.code}-${node.depth}`}
-                  gap={4}
-                  pl={node.depth * 14}
-                  wrap="nowrap"
-                  px={6}
-                  py={4}
-                  style={(theme) => ({
-                    borderRadius: theme.radius.sm,
-                    backgroundColor: isSelected
-                      ? 'var(--mantine-primary-color-light)'
-                      : 'transparent',
-                    color: isSelected ? 'var(--mantine-primary-color-light-color)' : 'inherit',
-                  })}
-                >
-                  {showToggle ? (
-                    <ActionIcon
-                      variant="subtle"
-                      size="xs"
-                      color="gray"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleExpand(id);
-                      }}
-                      aria-label={isCollapsed ? 'Mở rộng' : 'Thu gọn'}
-                    >
-                      {isCollapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
-                    </ActionIcon>
-                  ) : (
-                    <Box w={18} style={{ flexShrink: 0 }} />
-                  )}
-                  <UnstyledButton
-                    onClick={() => onSelect(id || null)}
-                    style={{ flex: 1, minWidth: 0 }}
+            return (
+              <Group
+                key={id || `${node.code}-${node.depth}`}
+                gap={4}
+                pl={node.depth * 14}
+                wrap="nowrap"
+                px={6}
+                py={4}
+                style={(theme) => ({
+                  borderRadius: theme.radius.sm,
+                  backgroundColor: isSelected ? 'var(--mantine-primary-color-light)' : 'transparent',
+                  color: isSelected ? 'var(--mantine-primary-color-light-color)' : 'inherit',
+                })}
+              >
+                {showToggle ? (
+                  <ActionIcon
+                    variant="subtle"
+                    size="xs"
+                    color="gray"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleExpand(id);
+                    }}
+                    aria-label={isCollapsed ? 'Mở rộng' : 'Thu gọn'}
                   >
-                    <Text size="sm" fw={node.depth === 0 || node.hasChildren ? 600 : 400} truncate>
-                      {node.code ? `${node.code} - ` : ''}
-                      {node.name ?? '—'}
-                    </Text>
-                  </UnstyledButton>
-                </Group>
-              );
-            })}
+                    {isCollapsed ? <ChevronRight size={12} /> : <ChevronDown size={12} />}
+                  </ActionIcon>
+                ) : (
+                  <Box w={18} style={{ flexShrink: 0 }} />
+                )}
+                <UnstyledButton onClick={() => onSelect(id || null)} style={{ flex: 1, minWidth: 0 }}>
+                  <Text size="sm" fw={node.depth === 0 || node.hasChildren ? 600 : 400} truncate>
+                    {node.code ? `${node.code} - ` : ''}
+                    {node.name ?? '—'}
+                  </Text>
+                </UnstyledButton>
+              </Group>
+            );
+          })}
         </Stack>
       </Stack>
     </Paper>

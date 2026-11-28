@@ -3,12 +3,7 @@ import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import {
-  getListWardsQueryKey,
-  useDeleteWard,
-  useListProvinces,
-  useListWards,
-} from '@/shared/api/generated/api';
+import { getListWardsQueryKey, useDeleteWard, useListProvinces, useListWards } from '@/shared/api/generated/api';
 import type { WardItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
@@ -156,7 +151,6 @@ export function WardsTab() {
         </Button>
       }
     >
-
       <DataTable
         columns={columns}
         records={items}
@@ -183,11 +177,7 @@ export function WardsTab() {
         actions={actions}
       />
 
-      <WardFormDialog
-        opened={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        ward={editingWard}
-      />
+      <WardFormDialog opened={dialogOpen} onClose={() => setDialogOpen(false)} ward={editingWard} />
     </ListPageLayout>
   );
 }

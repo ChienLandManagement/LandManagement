@@ -1,4 +1,4 @@
-import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { routeTree } from '@/app/routes';
 import { NotFoundPage } from '@/pages/not-found';
 

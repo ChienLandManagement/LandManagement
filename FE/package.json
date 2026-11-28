@@ -18,6 +18,7 @@
     "typecheck": "tsc -b --pretty",
     "gen:api": "orval",
     "check:deps": "node scripts/check-deps.mjs",
+    "guard": "node scripts/ds-guard.mjs",
     "prepare": "git config core.hooksPath .githooks || exit 0"
   },
   "dependencies": {

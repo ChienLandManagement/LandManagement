@@ -40,11 +40,7 @@ export default function NotFoundPage() {
                 </Text>
 
                 <Group justify="center" gap="sm" mt="md">
-                  <Button
-                    variant="default"
-                    leftSection={<ArrowLeft size={16} />}
-                    onClick={() => window.history.back()}
-                  >
+                  <Button variant="default" leftSection={<ArrowLeft size={16} />} onClick={() => window.history.back()}>
                     Quay lại
                   </Button>
                   <Button leftSection={<Home size={16} />} onClick={() => navigate({ to: ROUTES.HOME })}>

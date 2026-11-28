@@ -3,12 +3,7 @@ import { Button, Group, Modal, Select, Stack, TextInput } from '@mantine/core';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  getListWardsQueryKey,
-  useCreateWard,
-  useListProvinces,
-  useUpdateWard,
-} from '@/shared/api/generated/api';
+import { getListWardsQueryKey, useCreateWard, useListProvinces, useUpdateWard } from '@/shared/api/generated/api';
 import type { WardItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { type WardFormValues, wardSchema } from '../model/locationSchemas';
@@ -25,10 +20,7 @@ export function WardFormDialog({ opened, onClose, ward }: WardFormDialogProps) {
   const updateWard = useUpdateWard();
   const isEdit = Boolean(ward?.id);
 
-  const { data: provincesData } = useListProvinces(
-    { PageSize: 100 },
-    { query: { enabled: opened } },
-  );
+  const { data: provincesData } = useListProvinces({ PageSize: 100 }, { query: { enabled: opened } });
   const provinceOptions = (provincesData?.data?.items ?? []).map((p) => ({
     value: p.id ?? '',
     label: `${p.provinceCode ?? ''} - ${p.name ?? ''}`,
@@ -77,12 +69,7 @@ export function WardFormDialog({ opened, onClose, ward }: WardFormDialogProps) {
   const isPending = createWard.isPending || updateWard.isPending;
 
   return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      title={isEdit ? 'Cập nhật xã/phường' : 'Thêm xã/phường'}
-      centered
-    >
+    <Modal opened={opened} onClose={onClose} title={isEdit ? 'Cập nhật xã/phường' : 'Thêm xã/phường'} centered>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="sm">
           <Controller

@@ -160,7 +160,10 @@ export function DataTable<T>({
           <Table.Thead>
             <Table.Tr>
               {columns.map((column) => (
-                <Table.Th key={column.key} style={{ width: column.width, textAlign: column.align ?? 'left', whiteSpace: 'nowrap' }}>
+                <Table.Th
+                  key={column.key}
+                  style={{ width: column.width, textAlign: column.align ?? 'left', whiteSpace: 'nowrap' }}
+                >
                   {column.sortable && onSortChange ? (
                     <UnstyledButton
                       onClick={() => handleSort(column.key)}

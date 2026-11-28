@@ -120,12 +120,7 @@ export function ProvinceFormDialog({ opened, onClose, province }: ProvinceFormDi
             name="shortName"
             control={control}
             render={({ field }) => (
-              <TextInput
-                {...field}
-                label="Tên viết tắt"
-                placeholder="VD: Hà Nội"
-                error={errors.shortName?.message}
-              />
+              <TextInput {...field} label="Tên viết tắt" placeholder="VD: Hà Nội" error={errors.shortName?.message} />
             )}
           />
           <Controller
@@ -147,12 +142,7 @@ export function ProvinceFormDialog({ opened, onClose, province }: ProvinceFormDi
             name="country"
             control={control}
             render={({ field }) => (
-              <TextInput
-                {...field}
-                label="Quốc gia"
-                placeholder="VN"
-                error={errors.country?.message}
-              />
+              <TextInput {...field} label="Quốc gia" placeholder="VN" error={errors.country?.message} />
             )}
           />
           <Group justify="flex-end" mt="sm">

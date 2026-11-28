@@ -3,15 +3,11 @@ import { Button, Checkbox, Group, Modal, NumberInput, Select, Stack, TextInput }
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import {
-  getListLandTypesQueryKey,
-  useCreateLandType,
-  useUpdateLandType,
-} from '@/shared/api/generated/api';
+import { getListLandTypesQueryKey, useCreateLandType, useUpdateLandType } from '@/shared/api/generated/api';
 import type { LandTypeItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { type LandTypeFormValues, landTypeSchema } from '../model/catalogSchemas';
-import { type TreeNode, getDescendantIds } from '../model/treeUtils';
+import { getDescendantIds, type TreeNode } from '../model/treeUtils';
 
 interface LandTypeFormDialogProps {
   opened: boolean;
@@ -103,12 +99,7 @@ export function LandTypeFormDialog({ opened, onClose, item, allItems }: LandType
   const isPending = createLandType.isPending || updateLandType.isPending;
 
   return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      title={isEdit ? 'Cập nhật loại đất' : 'Thêm loại đất'}
-      centered
-    >
+    <Modal opened={opened} onClose={onClose} title={isEdit ? 'Cập nhật loại đất' : 'Thêm loại đất'} centered>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="sm">
           <Controller

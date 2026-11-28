@@ -1,6 +1,7 @@
 # LandManagement FE — Kiến trúc tổng quan
 
 ## Tech Stack
+
 - **Framework**: React 19.2.8 + TypeScript 5.9.3
 - **Build Tool**: Vite 8.1.5
 - **Routing**: TanStack Router 1.170.18 (file-based route tree)
@@ -89,6 +90,7 @@ User Interaction
 ## Routing
 
 TanStack Router với route tree:
+
 ```
 /login              → LoginPage (public)
 /                   → AppLayout (authenticated)
@@ -104,12 +106,12 @@ TanStack Router với route tree:
 
 ## State Management
 
-| Scope | Tool | Notes |
-|-------|------|-------|
-| Server state | TanStack Query | Cache, refetch, optimistic update |
-| Auth state | Zustand | Token, user profile, login/logout |
-| UI state | React useState | Form, modal, drawer |
-| URL state | TanStack Router | Search params, path params |
+| Scope        | Tool            | Notes                             |
+| ------------ | --------------- | --------------------------------- |
+| Server state | TanStack Query  | Cache, refetch, optimistic update |
+| Auth state   | Zustand         | Token, user profile, login/logout |
+| UI state     | React useState  | Form, modal, drawer               |
+| URL state    | TanStack Router | Search params, path params        |
 
 ## API Client
 
