@@ -12,4 +12,6 @@ public class User : AuditableEntity<Guid>
     public string? Email { get; set; }
     public UserRole Role { get; set; }
     public bool IsActive { get; set; } = true;
+    public Guid? WardId { get; set; }
+    public Ward? Ward { get; set; }
 }

@@ -91,6 +91,71 @@ namespace LandManagement.Data.Migrations
                     b.ToTable("login_logs", (string)null);
                 });
 
+            modelBuilder.Entity("LandManagement.Entities.Province", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Country")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("country");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("PlaceType")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("place_type");
+
+                    b.Property<string>("ProvinceCode")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)")
+                        .HasColumnName("province_code");
+
+                    b.Property<string>("ShortName")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("short_name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_provinces");
+
+                    b.HasIndex("ProvinceCode")
+                        .IsUnique()
+                        .HasDatabaseName("ix_provinces_province_code")
+                        .HasFilter("is_deleted = false");
+
+                    b.ToTable("provinces", (string)null);
+                });
+
             modelBuilder.Entity("LandManagement.Entities.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -218,6 +283,10 @@ namespace LandManagement.Data.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("user_name");
 
+                    b.Property<Guid?>("WardId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ward_id");
+
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -226,7 +295,100 @@ namespace LandManagement.Data.Migrations
                         .HasDatabaseName("ix_users_user_name")
                         .HasFilter("is_deleted = false");
 
+                    b.HasIndex("WardId")
+                        .HasDatabaseName("ix_users_ward_id");
+
                     b.ToTable("users", (string)null);
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.Ward", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid>("ProvinceId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("province_id");
+
+                    b.Property<string>("WardCode")
+                        .IsRequired()
+                        .HasMaxLength(6)
+                        .HasColumnType("character varying(6)")
+                        .HasColumnName("ward_code");
+
+                    b.HasKey("Id")
+                        .HasName("pk_wards");
+
+                    b.HasIndex("ProvinceId")
+                        .HasDatabaseName("ix_wards_province_id");
+
+                    b.HasIndex("WardCode")
+                        .IsUnique()
+                        .HasDatabaseName("ix_wards_ward_code")
+                        .HasFilter("is_deleted = false");
+
+                    b.ToTable("wards", (string)null);
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.User", b =>
+                {
+                    b.HasOne("LandManagement.Entities.Ward", "Ward")
+                        .WithMany("Users")
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_users_wards_ward_id");
+
+                    b.Navigation("Ward");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.Ward", b =>
+                {
+                    b.HasOne("LandManagement.Entities.Province", "Province")
+                        .WithMany("Wards")
+                        .HasForeignKey("ProvinceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_wards_provinces_province_id");
+
+                    b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.Province", b =>
+                {
+                    b.Navigation("Wards");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.Ward", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,5 @@
 import type { AxiosError } from 'axios';
-import { toast } from 'sonner';
+import { notifications } from '@mantine/notifications';
 
 export function extractError(error: AxiosError<{ message?: string }>): string {
   return error.response?.data?.message ?? error.message ?? 'Có lỗi xảy ra';
@@ -7,9 +7,9 @@ export function extractError(error: AxiosError<{ message?: string }>): string {
 
 export function showError(error: unknown) {
   const message = error instanceof Error ? error.message : 'Có lỗi xảy ra';
-  toast.error(message);
+  notifications.show({ message, color: 'red' });
 }
 
 export function showSuccess(message: string) {
-  toast.success(message);
+  notifications.show({ message, color: 'teal' });
 }

@@ -1,10 +1,9 @@
+import { Button, Group, Modal, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import { getListUsersQueryKey, useDeleteUser, useSetUserActive } from '@/shared/api/generated/api';
 import { HttpError } from '@/shared/api/http';
 import type { UserItem } from '@/shared/api/model/userItem';
-import { Button } from '@/shared/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
 
 export type UserConfirmActionType = 'lock' | 'unlock' | 'delete';
 
@@ -22,7 +21,7 @@ const ACTION_CONFIG: Record<
     description: (userName: string) => string;
     confirmLabel: string;
     successMessage: string;
-    variant: 'default' | 'destructive';
+    color: 'red' | 'green';
   }
 > = {
   lock: {
@@ -30,21 +29,21 @@ const ACTION_CONFIG: Record<
     description: (userName) => `Bạn có chắc chắn muốn khóa tài khoản "${userName}"? Người dùng sẽ không thể đăng nhập.`,
     confirmLabel: 'Khóa tài khoản',
     successMessage: 'Đã khóa tài khoản',
-    variant: 'destructive',
+    color: 'red',
   },
   unlock: {
     title: 'Mở khóa tài khoản',
     description: (userName) => `Bạn có chắc chắn muốn mở khóa tài khoản "${userName}"?`,
     confirmLabel: 'Mở khóa',
     successMessage: 'Đã mở khóa tài khoản',
-    variant: 'default',
+    color: 'green',
   },
   delete: {
     title: 'Xóa tài khoản',
     description: (userName) => `Bạn có chắc chắn muốn xóa tài khoản "${userName}"? Hành động này không thể hoàn tác.`,
     confirmLabel: 'Xóa tài khoản',
     successMessage: 'Đã xóa tài khoản',
-    variant: 'destructive',
+    color: 'red',
   },
 };
 
@@ -67,13 +66,13 @@ export function ConfirmUserActionDialog({ user, action, open, onOpenChange }: Co
 
     const onSuccess = () => {
       void queryClient.invalidateQueries({ queryKey: getListUsersQueryKey() });
-      toast.success(config.successMessage);
+      notifications.show({ color: 'green', message: config.successMessage });
       onOpenChange(false);
     };
 
     const onError = (error: unknown) => {
       const message = error instanceof HttpError ? error.errorMessage : 'Thao tác thất bại';
-      toast.error(message);
+      notifications.show({ color: 'red', message });
     };
 
     if (action === 'delete') {
@@ -91,22 +90,19 @@ export function ConfirmUserActionDialog({ user, action, open, onOpenChange }: Co
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[420px]">
-        <DialogHeader>
-          <DialogTitle>{config.title}</DialogTitle>
-          <DialogDescription>{config.description(user.userName ?? '')}</DialogDescription>
-        </DialogHeader>
+    <Modal opened={open} onClose={() => onOpenChange(false)} title={config.title} centered size="sm">
+      <Text size="sm" c="dimmed" mb="lg">
+        {config.description(user.userName ?? '')}
+      </Text>
 
-        <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isPending}>
-            Hủy
-          </Button>
-          <Button type="button" variant={config.variant} onClick={handleConfirm} disabled={isPending}>
-            {isPending ? 'Đang xử lý...' : config.confirmLabel}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <Group justify="flex-end">
+        <Button type="button" variant="default" onClick={() => onOpenChange(false)} disabled={isPending}>
+          Hủy
+        </Button>
+        <Button type="button" color={config.color} onClick={handleConfirm} loading={isPending}>
+          {isPending ? 'Đang xử lý...' : config.confirmLabel}
+        </Button>
+      </Group>
+    </Modal>
   );
 }

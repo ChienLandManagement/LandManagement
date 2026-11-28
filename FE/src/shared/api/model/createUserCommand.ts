@@ -13,4 +13,6 @@ export interface CreateUserCommand {
   /** @nullable */
   email?: string | null;
   role?: UserRole;
+  /** @nullable */
+  wardId?: string | null;
 }

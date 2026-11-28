@@ -12,8 +12,8 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [x] Deploy BE (Heroku container), FE (Vercel)
 - [x] Người dùng BE: danh sách/tìm kiếm, tạo, sửa, khóa/mở khóa, đặt lại mật khẩu, xóa mềm, tự đổi mật khẩu (chưa có test, chưa chạy thử trên DB)
 - [ ] Người dùng FE: màn quản lý user, đổi mật khẩu
-- [ ] Gán user với xã (làm cùng đơn vị hành chính)
-- [ ] Đơn vị hành chính (xã, huyện, tỉnh)
+- [~] Gán user với xã/phường (BE xong, FE chờ)
+- [~] Địa giới hành chính 2 cấp Tỉnh → Xã/Phường (BE xong, FE đang chuyển theo mẫu VBDT; không seed, Admin tự nhập)
 
 ### Phase 1 – Danh mục
 - [ ] Loại đất (cây 67 mục, seed từ `danh-muc-loai-dat.json`)

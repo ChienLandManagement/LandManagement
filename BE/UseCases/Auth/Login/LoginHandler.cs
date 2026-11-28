@@ -3,6 +3,7 @@ using LandManagement.Common;
 using LandManagement.Data;
 using LandManagement.Entities;
 using LandManagement.Security;
+using ResultLib.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Logging;

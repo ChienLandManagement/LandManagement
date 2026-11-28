@@ -25,6 +25,13 @@ const optionalEmailSchema = z
   .transform((val) => (val === '' ? undefined : val))
   .pipe(z.string().email('Email không hợp lệ').optional());
 
+const optionalWardIdSchema = z
+  .string()
+  .trim()
+  .optional()
+  .nullable()
+  .transform((val) => (val === '' || val == null ? null : val));
+
 export const createUserSchema = z
   .object({
     userName: z
@@ -36,22 +43,43 @@ export const createUserSchema = z
     fullName: z.string().trim().min(1, 'Họ và tên không được để trống'),
     email: optionalEmailSchema,
     role: z.enum(USER_ROLES, { error: 'Vui lòng chọn vai trò' }),
+    wardId: optionalWardIdSchema,
     password: z.string().min(8, 'Mật khẩu phải có ít nhất 8 ký tự').max(128, 'Mật khẩu tối đa 128 ký tự'),
     confirmPassword: z.string().min(1, 'Vui lòng xác nhận mật khẩu'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Mật khẩu xác nhận không khớp',
     path: ['confirmPassword'],
+  })
+  .superRefine((data, ctx) => {
+    if (data.role !== 'Admin' && !data.wardId) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Vui lòng chọn xã/phường',
+        path: ['wardId'],
+      });
+    }
   });
 
 export type CreateUserFormValues = z.input<typeof createUserSchema>;
 export type CreateUserSubmitValues = z.output<typeof createUserSchema>;
 
-export const editUserSchema = z.object({
-  fullName: z.string().trim().min(1, 'Họ và tên không được để trống'),
-  email: optionalEmailSchema,
-  role: z.enum(USER_ROLES, { error: 'Vui lòng chọn vai trò' }),
-});
+export const editUserSchema = z
+  .object({
+    fullName: z.string().trim().min(1, 'Họ và tên không được để trống'),
+    email: optionalEmailSchema,
+    role: z.enum(USER_ROLES, { error: 'Vui lòng chọn vai trò' }),
+    wardId: optionalWardIdSchema,
+  })
+  .superRefine((data, ctx) => {
+    if (data.role !== 'Admin' && !data.wardId) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Vui lòng chọn xã/phường',
+        path: ['wardId'],
+      });
+    }
+  });
 
 export type EditUserFormValues = z.input<typeof editUserSchema>;
 export type EditUserSubmitValues = z.output<typeof editUserSchema>;

@@ -3,4 +3,4 @@ using LandManagement.Entities;
 
 namespace LandManagement.UseCases.Users.CreateUser;
 
-public record CreateUserCommand(string UserName, string Password, string FullName, string? Email, UserRole Role) : ICommand<UserItem>;
+public record CreateUserCommand(string UserName, string Password, string FullName, string? Email, UserRole Role, Guid? WardId = null) : ICommand<UserItem>;

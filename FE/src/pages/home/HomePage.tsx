@@ -1,14 +1,12 @@
+import { Badge, Box, Button, Card, Container, Group, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
-import { KeyRound, Landmark, LogOut, Users } from 'lucide-react';
+import { KeyRound, Landmark, LogOut, MapPin, Users } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
 import { USER_ROLE_LABELS } from '@/features/users';
 import { APP_NAME } from '@/shared/config/constants';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
 
 export default function HomePage() {
   const user = useAuthStore((s) => s.user);
@@ -27,73 +25,123 @@ export default function HomePage() {
         <title>Trang chủ - {APP_NAME}</title>
       </Helmet>
 
-      <div className="min-h-screen bg-muted/30 text-foreground">
-        <header className="border-b border-border bg-background">
-          <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <Landmark className="h-4 w-4" />
-              </div>
-              <span className="text-lg font-bold tracking-tight">{APP_NAME}</span>
-            </div>
+      <Box mih="100vh" bg="var(--mantine-color-default-hover)">
+        <Box
+          component="header"
+          bg="var(--mantine-color-body)"
+          style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}
+        >
+          <Container size="lg" h={64}>
+            <Group justify="space-between" h="100%">
+              <Group gap="xs">
+                <ThemeIcon size={36} radius="md">
+                  <Landmark size={18} />
+                </ThemeIcon>
+                <Text size="lg" fw={700}>
+                  {APP_NAME}
+                </Text>
+              </Group>
 
-            <div className="flex items-center gap-2">
-              {isAdmin && (
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/users">
-                    <Users className="mr-1.5 h-4 w-4" />
+              <Group gap="xs">
+                {isAdmin && (
+                  <Button
+                    component={Link}
+                    to="/users"
+                    variant="default"
+                    size="sm"
+                    leftSection={<Users size={16} />}
+                  >
                     Quản lý người dùng
-                  </Link>
-                </Button>
-              )}
-              <Button variant="outline" size="sm" onClick={() => setChangePasswordOpen(true)}>
-                <KeyRound className="mr-1.5 h-4 w-4" />
-                Đổi mật khẩu
-              </Button>
-              <Button variant="ghost" size="sm" onClick={logout}>
-                <LogOut className="mr-1.5 h-4 w-4" />
-                Đăng xuất
-              </Button>
-            </div>
-          </div>
-        </header>
-
-        <main className="mx-auto max-w-6xl space-y-6 px-4 py-8 sm:px-6">
-          <Card>
-            <CardHeader>
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <CardTitle className="text-2xl">Xin chào, {user?.fullName}</CardTitle>
-                  <CardDescription>Hệ thống quản lý đất đai cấp xã</CardDescription>
-                </div>
-                <Badge variant="secondary">{roleLabel}</Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Tài khoản đăng nhập: <span className="font-medium text-foreground">{user?.userName}</span>
-            </CardContent>
-          </Card>
-
-          {isAdmin && (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              <Card className="transition-shadow hover:shadow-md">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <Users className="h-4 w-4 text-primary" />
-                    Quản lý người dùng
-                  </CardTitle>
-                  <CardDescription>Tạo tài khoản, phân quyền, khóa/mở khóa và đặt lại mật khẩu.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button size="sm" asChild>
-                    <Link to="/users">Mở danh sách</Link>
                   </Button>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </main>
-      </div>
+                )}
+                <Button
+                  variant="default"
+                  size="sm"
+                  leftSection={<KeyRound size={16} />}
+                  onClick={() => setChangePasswordOpen(true)}
+                >
+                  Đổi mật khẩu
+                </Button>
+                <Button variant="subtle" color="gray" size="sm" leftSection={<LogOut size={16} />} onClick={logout}>
+                  Đăng xuất
+                </Button>
+              </Group>
+            </Group>
+          </Container>
+        </Box>
+
+        <Container size="lg" py="xl">
+          <Stack gap="lg">
+            <Card withBorder radius="md" padding="lg">
+              <Group justify="space-between" align="flex-start" mb="xs">
+                <Box>
+                  <Title order={2} size="h3">
+                    Xin chào, {user?.fullName}
+                  </Title>
+                  <Text size="sm" c="dimmed">
+                    Hệ thống quản lý đất đai cấp xã
+                  </Text>
+                </Box>
+                <Badge variant="light" size="lg">
+                  {roleLabel}
+                </Badge>
+              </Group>
+              <Text size="sm" c="dimmed">
+                Tài khoản đăng nhập:{' '}
+                <Text span fw={600} c="var(--mantine-color-text)">
+                  {user?.userName}
+                </Text>
+              </Text>
+            </Card>
+
+            {isAdmin && (
+              <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="md">
+                <Card withBorder radius="md" padding="lg">
+                  <Stack gap="sm" justify="space-between" h="100%">
+                    <Box>
+                      <Group gap="xs" mb="xs">
+                        <Users size={18} color="var(--mantine-color-green-6)" />
+                        <Text fw={700} size="md">
+                          Quản lý người dùng
+                        </Text>
+                      </Group>
+                      <Text size="sm" c="dimmed">
+                        Tạo tài khoản, phân quyền, khóa/mở khóa và đặt lại mật khẩu.
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Button component={Link} to="/users" size="sm">
+                        Mở danh sách
+                      </Button>
+                    </Box>
+                  </Stack>
+                </Card>
+
+                <Card withBorder radius="md" padding="lg">
+                  <Stack gap="sm" justify="space-between" h="100%">
+                    <Box>
+                      <Group gap="xs" mb="xs">
+                        <MapPin size={18} color="var(--mantine-color-green-6)" />
+                        <Text fw={700} size="md">
+                          Địa giới hành chính
+                        </Text>
+                      </Group>
+                      <Text size="sm" c="dimmed">
+                        Quản lý danh mục Tỉnh/Thành phố, Xã/Phường.
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Button component={Link} to="/locations" size="sm">
+                        Mở danh sách
+                      </Button>
+                    </Box>
+                  </Stack>
+                </Card>
+              </SimpleGrid>
+            )}
+          </Stack>
+        </Container>
+      </Box>
 
       <ChangePasswordDialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
     </>

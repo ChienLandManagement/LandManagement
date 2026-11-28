@@ -25,17 +25,27 @@ import type {
 
 import type {
   ApiResultOfLoginResponse,
+  ApiResultOfPagedResponseOfProvinceItem,
   ApiResultOfPagedResponseOfUserItem,
+  ApiResultOfPagedResponseOfWardItem,
+  ApiResultOfProvinceItem,
   ApiResultOfUserItem,
   ApiResultOfUserProfile,
+  ApiResultOfWardItem,
   ChangeMyPasswordCommand,
+  CreateProvinceCommand,
   CreateUserCommand,
+  CreateWardCommand,
+  ListProvincesParams,
   ListUsersParams,
+  ListWardsParams,
   LoginRequest,
   ResetUserPasswordCommand,
   Result,
   SetUserActiveCommand,
-  UpdateUserCommand
+  UpdateProvinceCommand,
+  UpdateUserCommand,
+  UpdateWardCommand
 } from '../model';
 
 import { apiOrvalClient } from '../mutator';
@@ -243,6 +253,297 @@ export function usePing<TData = Awaited<ReturnType<typeof ping>>, TError = unkno
 
 
 
+
+/**
+ * @summary Tạo xã/phường
+ */
+export const createWard = (
+    createWardCommand: CreateWardCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfWardItem>(
+      {url: `/api/wards`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createWardCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateWardMutationKey = () => ['createWard'] as const;
+
+export const getCreateWardMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWard>>, TError,CreateWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createWard>>, TError,CreateWardMutationVariables, TContext> => {
+
+const mutationKey = getCreateWardMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWard>>, CreateWardMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createWard(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateWardMutationResult = NonNullable<Awaited<ReturnType<typeof createWard>>>
+    export type CreateWardMutationBody = CreateWardCommand
+    export type CreateWardMutationError = void
+    export type CreateWardMutationVariables = {data: CreateWardCommand}
+
+    /** @summary Tạo xã/phường */
+export const useCreateWard = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWard>>, TError,CreateWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createWard>>,
+        TError,
+        CreateWardMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateWardMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách xã/phường (phân trang, tìm theo mã/tên)
+ */
+export const listWards = (
+    params?: ListWardsParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfWardItem>(
+      {url: `/api/wards`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListWardsQueryKey = (params?: ListWardsParams,) => {
+    return [
+    `/api/wards`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListWardsQueryOptions = <TData = Awaited<ReturnType<typeof listWards>>, TError = void>(params?: ListWardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListWardsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listWards>>> = ({ signal }) => listWards(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListWardsQueryResult = NonNullable<Awaited<ReturnType<typeof listWards>>>
+export type ListWardsQueryError = void
+
+
+/** @summary Danh sách xã/phường (phân trang, tìm theo mã/tên) */
+export function useListWards<TData = Awaited<ReturnType<typeof listWards>>, TError = void>(
+ params: undefined |  ListWardsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listWards>>,
+          TError,
+          Awaited<ReturnType<typeof listWards>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách xã/phường (phân trang, tìm theo mã/tên) */
+export function useListWards<TData = Awaited<ReturnType<typeof listWards>>, TError = void>(
+ params?: ListWardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listWards>>,
+          TError,
+          Awaited<ReturnType<typeof listWards>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách xã/phường (phân trang, tìm theo mã/tên) */
+export function useListWards<TData = Awaited<ReturnType<typeof listWards>>, TError = void>(
+ params?: ListWardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách xã/phường (phân trang, tìm theo mã/tên) */
+export function useListWards<TData = Awaited<ReturnType<typeof listWards>>, TError = void>(
+ params?: ListWardsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listWards>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListWardsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) xã/phường
+ */
+export const deleteWard = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/wards/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteWardMutationKey = () => ['deleteWard'] as const;
+
+export const getDeleteWardMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWard>>, TError,DeleteWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteWard>>, TError,DeleteWardMutationVariables, TContext> => {
+
+const mutationKey = getDeleteWardMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteWard>>, DeleteWardMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteWard(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteWardMutationResult = NonNullable<Awaited<ReturnType<typeof deleteWard>>>
+
+    export type DeleteWardMutationError = void
+    export type DeleteWardMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) xã/phường */
+export const useDeleteWard = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWard>>, TError,DeleteWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteWard>>,
+        TError,
+        DeleteWardMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteWardMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Cập nhật xã/phường
+ */
+export const updateWard = (
+    id: string,
+    updateWardCommand: UpdateWardCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfWardItem>(
+      {url: `/api/wards/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateWardCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateWardMutationKey = () => ['updateWard'] as const;
+
+export const getUpdateWardMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateWard>>, TError,UpdateWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateWard>>, TError,UpdateWardMutationVariables, TContext> => {
+
+const mutationKey = getUpdateWardMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateWard>>, UpdateWardMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateWard(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateWardMutationResult = NonNullable<Awaited<ReturnType<typeof updateWard>>>
+    export type UpdateWardMutationBody = UpdateWardCommand
+    export type UpdateWardMutationError = void
+    export type UpdateWardMutationVariables = {id: string;data: UpdateWardCommand}
+
+    /** @summary Cập nhật xã/phường */
+export const useUpdateWard = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateWard>>, TError,UpdateWardMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateWard>>,
+        TError,
+        UpdateWardMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateWardMutationOptions(options), queryClient);
+    }
 
 /**
  * @summary Người dùng tự đổi mật khẩu (thu hồi phiên đăng nhập)
@@ -733,6 +1034,297 @@ export const useSetUserActive = <TError = void,
         TContext
       > => {
       return useMutation(getSetUserActiveMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Tạo tỉnh/thành phố
+ */
+export const createProvince = (
+    createProvinceCommand: CreateProvinceCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfProvinceItem>(
+      {url: `/api/provinces`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createProvinceCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateProvinceMutationKey = () => ['createProvince'] as const;
+
+export const getCreateProvinceMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProvince>>, TError,CreateProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createProvince>>, TError,CreateProvinceMutationVariables, TContext> => {
+
+const mutationKey = getCreateProvinceMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createProvince>>, CreateProvinceMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createProvince(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateProvinceMutationResult = NonNullable<Awaited<ReturnType<typeof createProvince>>>
+    export type CreateProvinceMutationBody = CreateProvinceCommand
+    export type CreateProvinceMutationError = void
+    export type CreateProvinceMutationVariables = {data: CreateProvinceCommand}
+
+    /** @summary Tạo tỉnh/thành phố */
+export const useCreateProvince = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProvince>>, TError,CreateProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createProvince>>,
+        TError,
+        CreateProvinceMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateProvinceMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách tỉnh/thành phố (phân trang, tìm theo mã/tên)
+ */
+export const listProvinces = (
+    params?: ListProvincesParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfProvinceItem>(
+      {url: `/api/provinces`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListProvincesQueryKey = (params?: ListProvincesParams,) => {
+    return [
+    `/api/provinces`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListProvincesQueryOptions = <TData = Awaited<ReturnType<typeof listProvinces>>, TError = void>(params?: ListProvincesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListProvincesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listProvinces>>> = ({ signal }) => listProvinces(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListProvincesQueryResult = NonNullable<Awaited<ReturnType<typeof listProvinces>>>
+export type ListProvincesQueryError = void
+
+
+/** @summary Danh sách tỉnh/thành phố (phân trang, tìm theo mã/tên) */
+export function useListProvinces<TData = Awaited<ReturnType<typeof listProvinces>>, TError = void>(
+ params: undefined |  ListProvincesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listProvinces>>,
+          TError,
+          Awaited<ReturnType<typeof listProvinces>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách tỉnh/thành phố (phân trang, tìm theo mã/tên) */
+export function useListProvinces<TData = Awaited<ReturnType<typeof listProvinces>>, TError = void>(
+ params?: ListProvincesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listProvinces>>,
+          TError,
+          Awaited<ReturnType<typeof listProvinces>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách tỉnh/thành phố (phân trang, tìm theo mã/tên) */
+export function useListProvinces<TData = Awaited<ReturnType<typeof listProvinces>>, TError = void>(
+ params?: ListProvincesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách tỉnh/thành phố (phân trang, tìm theo mã/tên) */
+export function useListProvinces<TData = Awaited<ReturnType<typeof listProvinces>>, TError = void>(
+ params?: ListProvincesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listProvinces>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListProvincesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) tỉnh/thành phố
+ */
+export const deleteProvince = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/provinces/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteProvinceMutationKey = () => ['deleteProvince'] as const;
+
+export const getDeleteProvinceMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProvince>>, TError,DeleteProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteProvince>>, TError,DeleteProvinceMutationVariables, TContext> => {
+
+const mutationKey = getDeleteProvinceMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteProvince>>, DeleteProvinceMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteProvince(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteProvinceMutationResult = NonNullable<Awaited<ReturnType<typeof deleteProvince>>>
+
+    export type DeleteProvinceMutationError = void
+    export type DeleteProvinceMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) tỉnh/thành phố */
+export const useDeleteProvince = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteProvince>>, TError,DeleteProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteProvince>>,
+        TError,
+        DeleteProvinceMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteProvinceMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Cập nhật tỉnh/thành phố
+ */
+export const updateProvince = (
+    id: string,
+    updateProvinceCommand: UpdateProvinceCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfProvinceItem>(
+      {url: `/api/provinces/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateProvinceCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateProvinceMutationKey = () => ['updateProvince'] as const;
+
+export const getUpdateProvinceMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProvince>>, TError,UpdateProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateProvince>>, TError,UpdateProvinceMutationVariables, TContext> => {
+
+const mutationKey = getUpdateProvinceMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateProvince>>, UpdateProvinceMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateProvince(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateProvinceMutationResult = NonNullable<Awaited<ReturnType<typeof updateProvince>>>
+    export type UpdateProvinceMutationBody = UpdateProvinceCommand
+    export type UpdateProvinceMutationError = void
+    export type UpdateProvinceMutationVariables = {id: string;data: UpdateProvinceCommand}
+
+    /** @summary Cập nhật tỉnh/thành phố */
+export const useUpdateProvince = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProvince>>, TError,UpdateProvinceMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateProvince>>,
+        TError,
+        UpdateProvinceMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateProvinceMutationOptions(options), queryClient);
     }
 
 /**

@@ -1,14 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Group, Modal, PasswordInput, Stack, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useNavigate } from '@tanstack/react-router';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { clearAuth } from '@/entities/session';
 import { useChangeMyPassword } from '@/shared/api/generated/api';
 import { ROUTES } from '@/shared/config/constants';
-import { Button } from '@/shared/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/shared/ui/dialog';
-import { Input } from '@/shared/ui/input';
-import { Label } from '@/shared/ui/label';
 import { type ChangePasswordFormValues, changePasswordSchema } from '../model/changePasswordSchema';
 
 interface ChangePasswordDialogProps {
@@ -19,21 +16,24 @@ interface ChangePasswordDialogProps {
 export function ChangePasswordDialog({ open, onOpenChange }: ChangePasswordDialogProps) {
   const navigate = useNavigate();
   const {
-    register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<ChangePasswordFormValues>({
     resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
   });
 
   const { mutateAsync: changePassword, isPending } = useChangeMyPassword();
 
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen) {
-      reset();
-    }
-    onOpenChange(nextOpen);
+  const handleClose = () => {
+    reset();
+    onOpenChange(false);
   };
 
   const onSubmit = async (values: ChangePasswordFormValues) => {
@@ -48,7 +48,7 @@ export function ChangePasswordDialog({ open, onOpenChange }: ChangePasswordDialo
         color: 'green',
         message: 'Đổi mật khẩu thành công, vui lòng đăng nhập lại',
       });
-      handleOpenChange(false);
+      handleClose();
       clearAuth();
       navigate({ to: ROUTES.LOGIN });
     } catch (error) {
@@ -60,43 +60,58 @@ export function ChangePasswordDialog({ open, onOpenChange }: ChangePasswordDialo
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Đổi mật khẩu</DialogTitle>
-          <DialogDescription>Sau khi đổi mật khẩu thành công, phiên đăng nhập hiện tại sẽ kết thúc.</DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-          <div className="space-y-2">
-            <Label htmlFor="currentPassword">Mật khẩu hiện tại</Label>
-            <Input
-              id="currentPassword"
-              type="password"
-              autoComplete="current-password"
-              {...register('currentPassword')}
-            />
-            {errors.currentPassword && <p className="text-sm text-destructive">{errors.currentPassword.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="newPassword">Mật khẩu mới</Label>
-            <Input id="newPassword" type="password" autoComplete="new-password" {...register('newPassword')} />
-            {errors.newPassword && <p className="text-sm text-destructive">{errors.newPassword.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Xác nhận mật khẩu mới</Label>
-            <Input id="confirmPassword" type="password" autoComplete="new-password" {...register('confirmPassword')} />
-            {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
-          </div>
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => handleOpenChange(false)} disabled={isPending}>
+    <Modal opened={open} onClose={handleClose} title="Đổi mật khẩu" centered size="md">
+      <Text size="sm" c="dimmed" mb="md">
+        Sau khi đổi mật khẩu thành công, phiên đăng nhập hiện tại sẽ kết thúc.
+      </Text>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <Stack gap="md">
+          <Controller
+            name="currentPassword"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                label="Mật khẩu hiện tại"
+                autoComplete="current-password"
+                error={errors.currentPassword?.message}
+              />
+            )}
+          />
+          <Controller
+            name="newPassword"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                label="Mật khẩu mới"
+                autoComplete="new-password"
+                error={errors.newPassword?.message}
+              />
+            )}
+          />
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                label="Xác nhận mật khẩu mới"
+                autoComplete="new-password"
+                error={errors.confirmPassword?.message}
+              />
+            )}
+          />
+          <Group justify="flex-end" mt="xs">
+            <Button type="button" variant="default" onClick={handleClose} disabled={isPending}>
               Hủy
             </Button>
-            <Button type="submit" disabled={isPending}>
+            <Button type="submit" loading={isPending}>
               {isPending ? 'Đang lưu...' : 'Đổi mật khẩu'}
             </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+          </Group>
+        </Stack>
+      </form>
+    </Modal>
   );
 }

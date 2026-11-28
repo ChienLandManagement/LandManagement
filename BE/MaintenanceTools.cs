@@ -1,6 +1,7 @@
 using LandManagement.Data;
 using LandManagement.Entities;
 using LandManagement.Security;
+using ResultLib.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Extensions;
 

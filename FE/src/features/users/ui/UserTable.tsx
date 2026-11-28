@@ -1,4 +1,17 @@
 import {
+  ActionIcon,
+  Badge,
+  Button,
+  Card,
+  Group,
+  Pagination,
+  Skeleton,
+  Stack,
+  Table,
+  Text,
+  UnstyledButton,
+} from '@mantine/core';
+import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
@@ -11,10 +24,6 @@ import {
 } from 'lucide-react';
 import type { UserItem } from '@/shared/api/model';
 import { formatDate } from '@/shared/lib/date';
-import { Badge } from '@/shared/ui/badge';
-import { Button } from '@/shared/ui/button';
-import { Card, CardContent } from '@/shared/ui/card';
-import { Skeleton } from '@/shared/ui/skeleton';
 import { USER_ROLE_LABELS } from '../model/userSchemas';
 import type { UserConfirmActionType } from './ConfirmUserActionDialog';
 
@@ -61,78 +70,76 @@ export function UserTable({
 
   const renderSortIcon = (field: UserSortField) => {
     if (sortBy !== field) {
-      return <ArrowUpDown className="ml-1 inline h-3.5 w-3.5 text-muted-foreground" />;
+      return <ArrowUpDown size={14} />;
     }
-    return isDescending ? (
-      <ArrowDown className="ml-1 inline h-3.5 w-3.5" />
-    ) : (
-      <ArrowUp className="ml-1 inline h-3.5 w-3.5" />
-    );
+    return isDescending ? <ArrowDown size={14} /> : <ArrowUp size={14} />;
   };
 
   return (
-    <Card>
-      <CardContent className="p-0">
-        {isLoading ? (
-          <div className="space-y-3 p-6">
-            {['s1', 's2', 's3', 's4', 's5'].map((key) => (
-              <Skeleton key={key} className="h-12 w-full" />
-            ))}
-          </div>
-        ) : isError ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
-            <p className="text-sm text-destructive">Không thể tải danh sách người dùng. Vui lòng thử lại.</p>
-            <Button variant="outline" size="sm" onClick={onRetry} disabled={isFetching}>
-              <RefreshCw className="mr-1.5 h-4 w-4" />
-              Thử lại
-            </Button>
-          </div>
-        ) : items.length === 0 ? (
-          <div className="py-12 text-center text-sm text-muted-foreground">
-            Không tìm thấy người dùng nào phù hợp.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b bg-muted/50 text-xs uppercase text-muted-foreground">
-                <tr>
-                  <th className="px-4 py-3 font-medium">
-                    <button
-                      type="button"
-                      onClick={() => onSort('userName')}
-                      className="inline-flex items-center hover:text-foreground"
-                    >
-                      Tên đăng nhập
-                      {renderSortIcon('userName')}
-                    </button>
-                  </th>
-                  <th className="px-4 py-3 font-medium">
-                    <button
-                      type="button"
-                      onClick={() => onSort('fullName')}
-                      className="inline-flex items-center hover:text-foreground"
-                    >
-                      Họ tên
-                      {renderSortIcon('fullName')}
-                    </button>
-                  </th>
-                  <th className="px-4 py-3 font-medium">Email</th>
-                  <th className="px-4 py-3 font-medium">Vai trò</th>
-                  <th className="px-4 py-3 font-medium">Trạng thái</th>
-                  <th className="px-4 py-3 font-medium">
-                    <button
-                      type="button"
-                      onClick={() => onSort('createdAt')}
-                      className="inline-flex items-center hover:text-foreground"
-                    >
-                      Ngày tạo
-                      {renderSortIcon('createdAt')}
-                    </button>
-                  </th>
-                  <th className="px-4 py-3 text-right font-medium">Thao tác</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y">
+    <Card withBorder radius="md" padding={0}>
+      {isLoading ? (
+        <Stack gap="sm" p="md">
+          {['s1', 's2', 's3', 's4', 's5'].map((key) => (
+            <Skeleton key={key} height={44} radius="sm" />
+          ))}
+        </Stack>
+      ) : isError ? (
+        <Stack align="center" justify="center" gap="sm" py="xl" px="md">
+          <Text size="sm" c="red">
+            Không thể tải danh sách người dùng. Vui lòng thử lại.
+          </Text>
+          <Button variant="default" size="sm" leftSection={<RefreshCw size={14} />} onClick={onRetry} loading={isFetching}>
+            Thử lại
+          </Button>
+        </Stack>
+      ) : items.length === 0 ? (
+        <Text py="xl" ta="center" size="sm" c="dimmed">
+          Không tìm thấy người dùng nào phù hợp.
+        </Text>
+      ) : (
+        <>
+          <Table.ScrollContainer minWidth={800}>
+            <Table striped highlightOnHover verticalSpacing="sm" horizontalSpacing="md">
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>
+                    <UnstyledButton onClick={() => onSort('userName')}>
+                      <Group gap={4} wrap="nowrap">
+                        <Text size="xs" fw={700} tt="uppercase" c="dimmed">
+                          Tên đăng nhập
+                        </Text>
+                        {renderSortIcon('userName')}
+                      </Group>
+                    </UnstyledButton>
+                  </Table.Th>
+                  <Table.Th>
+                    <UnstyledButton onClick={() => onSort('fullName')}>
+                      <Group gap={4} wrap="nowrap">
+                        <Text size="xs" fw={700} tt="uppercase" c="dimmed">
+                          Họ tên
+                        </Text>
+                        {renderSortIcon('fullName')}
+                      </Group>
+                    </UnstyledButton>
+                  </Table.Th>
+                  <Table.Th>Email</Table.Th>
+                  <Table.Th>Vai trò</Table.Th>
+                  <Table.Th>Xã/Phường</Table.Th>
+                  <Table.Th>Trạng thái</Table.Th>
+                  <Table.Th>
+                    <UnstyledButton onClick={() => onSort('createdAt')}>
+                      <Group gap={4} wrap="nowrap">
+                        <Text size="xs" fw={700} tt="uppercase" c="dimmed">
+                          Ngày tạo
+                        </Text>
+                        {renderSortIcon('createdAt')}
+                      </Group>
+                    </UnstyledButton>
+                  </Table.Th>
+                  <Table.Th ta="right">Thao tác</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
                 {items.map((item) => {
                   const isSelf = currentUserId === item.id;
                   const roleLabel =
@@ -141,96 +148,82 @@ export function UserTable({
                       : item.role) ?? '—';
 
                   return (
-                    <tr key={item.id} className="hover:bg-muted/30">
-                      <td className="px-4 py-3 font-medium">{item.userName}</td>
-                      <td className="px-4 py-3">{item.fullName}</td>
-                      <td className="px-4 py-3 text-muted-foreground">{item.email || '—'}</td>
-                      <td className="px-4 py-3">
-                        <Badge variant="secondary">{roleLabel}</Badge>
-                      </td>
-                      <td className="px-4 py-3">
+                    <Table.Tr key={item.id}>
+                      <Table.Td fw={500}>{item.userName}</Table.Td>
+                      <Table.Td>{item.fullName}</Table.Td>
+                      <Table.Td c="dimmed">{item.email || '—'}</Table.Td>
+                      <Table.Td>
+                        <Badge variant="light">{roleLabel}</Badge>
+                      </Table.Td>
+                      <Table.Td c="dimmed">{item.wardName || '-'}</Table.Td>
+                      <Table.Td>
                         {item.isActive ? (
-                          <Badge variant="default">Hoạt động</Badge>
+                          <Badge color="green" variant="light">
+                            Hoạt động
+                          </Badge>
                         ) : (
-                          <Badge variant="destructive">Đã khóa</Badge>
+                          <Badge color="red" variant="light">
+                            Đã khóa
+                          </Badge>
                         )}
-                      </td>
-                      <td className="px-4 py-3 text-muted-foreground">{formatDate(item.createdAt, false)}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center justify-end gap-1">
-                          <Button variant="ghost" size="sm" title="Sửa" onClick={() => onEdit(item)}>
-                            <Pencil className="h-4 w-4" />
-                          </Button>
+                      </Table.Td>
+                      <Table.Td c="dimmed">{formatDate(item.createdAt, false)}</Table.Td>
+                      <Table.Td>
+                        <Group gap={4} justify="flex-end" wrap="nowrap">
+                          <ActionIcon variant="subtle" color="gray" aria-label="Sửa" title="Sửa" onClick={() => onEdit(item)}>
+                            <Pencil size={16} />
+                          </ActionIcon>
 
-                          <Button
-                            variant="ghost"
-                            size="sm"
+                          <ActionIcon
+                            variant="subtle"
+                            color="gray"
+                            aria-label={item.isActive ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
                             title={item.isActive ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
                             disabled={isSelf}
                             onClick={() => onConfirmAction(item, item.isActive ? 'lock' : 'unlock')}
                           >
-                            {item.isActive ? <Lock className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
-                          </Button>
+                            {item.isActive ? <Lock size={16} /> : <Unlock size={16} />}
+                          </ActionIcon>
 
-                          <Button
-                            variant="ghost"
-                            size="sm"
+                          <ActionIcon
+                            variant="subtle"
+                            color="gray"
+                            aria-label="Đặt lại mật khẩu"
                             title="Đặt lại mật khẩu"
                             onClick={() => onResetPassword(item)}
                           >
-                            <KeyRound className="h-4 w-4" />
-                          </Button>
+                            <KeyRound size={16} />
+                          </ActionIcon>
 
-                          <Button
-                            variant="ghost"
-                            size="sm"
+                          <ActionIcon
+                            variant="subtle"
+                            color="red"
+                            aria-label="Xóa"
                             title="Xóa"
                             disabled={isSelf}
-                            className="text-destructive hover:text-destructive"
                             onClick={() => onConfirmAction(item, 'delete')}
                           >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
+                            <Trash2 size={16} />
+                          </ActionIcon>
+                        </Group>
+                      </Table.Td>
+                    </Table.Tr>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-        )}
+              </Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
 
-        {!isLoading && !isError && totalItems > 0 && (
-          <div className="flex flex-wrap items-center justify-between gap-4 border-t px-4 py-3 text-sm">
-            <p className="text-muted-foreground">
-              Hiển thị {(currentPage - 1) * pageSize + 1}–{Math.min(currentPage * pageSize, totalItems)} trên tổng
-              số {totalItems} người dùng
-            </p>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={currentPage <= 1}
-                onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-              >
-                Trước
-              </Button>
-              <span className="text-xs text-muted-foreground">
-                Trang {currentPage} / {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={currentPage >= totalPages}
-                onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-              >
-                Sau
-              </Button>
-            </div>
-          </div>
-        )}
-      </CardContent>
+          {totalPages > 1 && (
+            <Group justify="space-between" p="md" style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}>
+              <Text size="xs" c="dimmed">
+                Trang {currentPage} / {totalPages} (Tổng {totalItems} tài khoản)
+              </Text>
+              <Pagination total={totalPages} value={currentPage} onChange={onPageChange} size="sm" />
+            </Group>
+          )}
+        </>
+      )}
     </Card>
   );
 }
