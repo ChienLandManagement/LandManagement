@@ -1,0 +1,7 @@
+#!/bin/sh
+# Chạy khi commit có đụng FE/: chặn import chưa khai trong package.json + lỗi typecheck.
+if git diff --cached --name-only | grep -q '^FE/'; then
+  echo "[pre-commit] FE: kiểm tra dependency + typecheck..."
+  pnpm -C FE check:deps || exit 1
+  pnpm -C FE typecheck || exit 1
+fi

@@ -1,0 +1,13 @@
+using FastEndpoints;
+
+namespace LandManagement.Groups;
+
+public sealed class InventoryPeriodsGroup : Group
+{
+    public InventoryPeriodsGroup() => Configure("inventory-periods", ep => ep.Description(d => d.WithTags("InventoryPeriods")));
+}
+
+public sealed class LandChangesGroup : Group
+{
+    public LandChangesGroup() => Configure("land-changes", ep => ep.Description(d => d.WithTags("LandChanges")));
+}

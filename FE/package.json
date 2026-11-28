@@ -16,13 +16,16 @@
     "format": "biome format --write .",
     "format:check": "biome format --check .",
     "typecheck": "tsc -b --pretty",
-    "gen:api": "orval"
+    "gen:api": "orval",
+    "check:deps": "node scripts/check-deps.mjs",
+    "prepare": "git config core.hooksPath .githooks || exit 0"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.9",
     "@mantine/charts": "^9.8.2",
     "@mantine/core": "^9.8.2",
     "@mantine/hooks": "^9.8.2",
+    "@mantine/modals": "^9.8.2",
     "@mantine/notifications": "^9.8.2",
     "@tanstack/react-query": "^5.108.4",
     "@tanstack/react-router": "^1.170.46",
@@ -33,6 +36,7 @@
     "jwt-decode": "^4.0.0",
     "ky": "^2.2.0",
     "lucide-react": "^1.81.0",
+    "mantine-datatable": "^9.8.4",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "react": "^19.3.1",

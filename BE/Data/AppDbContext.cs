@@ -19,6 +19,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Ward> Wards => Set<Ward>();
     public DbSet<LandType> LandTypes => Set<LandType>();
     public DbSet<LandHolderType> LandHolderTypes => Set<LandHolderType>();
+    public DbSet<InventoryPeriod> InventoryPeriods => Set<InventoryPeriod>();
+    public DbSet<LandChange> LandChanges => Set<LandChange>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
