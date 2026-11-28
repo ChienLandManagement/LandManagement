@@ -87,7 +87,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
     );
   };
 
-  const roleOptions = USER_ROLES.map((roleKey) => ({
+  const roleOptions = USER_ROLES.filter((roleKey) => roleKey !== 'Admin').map((roleKey) => ({
     value: roleKey,
     label: USER_ROLE_LABELS[roleKey],
   }));

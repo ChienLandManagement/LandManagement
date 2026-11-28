@@ -97,7 +97,7 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
     );
   };
 
-  const roleOptions = USER_ROLES.map((roleKey) => ({
+  const roleOptions = USER_ROLES.filter((roleKey) => roleKey !== 'Admin' || user?.role === 'Admin').map((roleKey) => ({
     value: roleKey,
     label: USER_ROLE_LABELS[roleKey],
   }));
