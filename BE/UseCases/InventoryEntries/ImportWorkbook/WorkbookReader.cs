@@ -1,10 +1,9 @@
-using System.Text;
 using System.Text.RegularExpressions;
-using ExcelDataReader;
+using ClosedXML.Excel;
 
 namespace LandManagement.UseCases.InventoryEntries.ImportWorkbook;
 
-// Đọc file biểu kiểm kê (.xls hoặc .xlsx): trả các dòng của từng sheet, ô là double / string / null.
+// Đọc file biểu kiểm kê (.xlsx): trả các dòng của từng sheet, ô là double / string / null.
 public static partial class WorkbookReader
 {
     // Thứ tự đối tượng ở các cột của Biểu 01 (cột 6-17 và 19-22) và Biểu 02 (cột 5-20): 12 người sử dụng, rồi 4 người được giao quản lý.
@@ -18,26 +17,25 @@ public static partial class WorkbookReader
 
     public static int B02Column(int i) => 4 + i;
 
-    static WorkbookReader() => Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
     public static Dictionary<string, List<object?[]>> Read(Stream stream)
     {
-        var sheets = new Dictionary<string, List<object?[]>>();
-        using var reader = ExcelReaderFactory.CreateReader(stream);
-        do
+        using var workbook = new XLWorkbook(stream);
+        return workbook.Worksheets.ToDictionary(ws => ws.Name, ws =>
         {
-            var rows = new List<object?[]>();
-            while (reader.Read())
-            {
-                var row = new object?[reader.FieldCount];
-                for (var i = 0; i < row.Length; i++) row[i] = reader.GetValue(i);
-                rows.Add(row);
-            }
+            var range = ws.RangeUsed();
+            if (range is null) return new List<object?[]>();
+            var lastCol = range.LastColumn().ColumnNumber();
+            // Luôn đọc từ ô A1 (mảng 0-based, cột A = chỉ số 0) để khớp vị trí cột cố định của biểu.
+            return Enumerable.Range(1, range.LastRow().RowNumber())
+                .Select(r => Enumerable.Range(1, lastCol).Select(c => ToCell(ws.Cell(r, c))).ToArray())
+                .ToList();
+        });
+    }
 
-            sheets[reader.Name] = rows;
-        } while (reader.NextResult());
-
-        return sheets;
+    private static object? ToCell(IXLCell cell)
+    {
+        var value = cell.Value;
+        return value.IsBlank ? null : value.IsNumber ? (double)value.GetNumber() : value.ToString();
     }
 
     public static List<object?[]>? FindSheet(Dictionary<string, List<object?[]>> sheets, string prefix) =>

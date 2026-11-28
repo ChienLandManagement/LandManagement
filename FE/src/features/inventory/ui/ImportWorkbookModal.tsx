@@ -71,9 +71,9 @@ export function ImportWorkbookModal({ opened, onClose, periodId }: ImportWorkboo
         </Alert>
 
         <FileInput
-          label="Chọn tệp Excel (.xls, .xlsx)"
+          label="Chọn tệp Excel (.xlsx)"
           placeholder="Chọn tệp bảng tính..."
-          accept=".xls,.xlsx"
+          accept=".xlsx"
           leftSection={<FileSpreadsheet size={16} />}
           value={file}
           onChange={(nextFile) => {
