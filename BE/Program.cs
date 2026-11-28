@@ -122,19 +122,17 @@ Log.Configure(app.Services.GetRequiredService<ILoggerFactory>(), new LogOptions 
 app.UseForwardedHeaders();
 app.UseResultLibExceptionHandler();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()) app.UseSwaggerGen();
+
+try
 {
-    app.UseSwaggerGen();
-    try
-    {
-        await app.MigrateDatabaseAsync();
-        await app.SeedAdminAsync();
-    }
-    catch (Exception ex)
-    {
-        var logger = app.Services.GetRequiredService<ILogger<Program>>();
-        logger.LogWarning(ex, "Database migration failed. App will continue without database.");
-    }
+    await app.MigrateDatabaseAsync();
+    await app.SeedAdminAsync();
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogWarning(ex, "Database migration failed. App will continue without database.");
 }
 
 app.UseCors();
