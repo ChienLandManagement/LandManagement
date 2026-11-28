@@ -17,6 +17,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<LoginLog> LoginLogs => Set<LoginLog>();
     public DbSet<Province> Provinces => Set<Province>();
     public DbSet<Ward> Wards => Set<Ward>();
+    public DbSet<LandType> LandTypes => Set<LandType>();
+    public DbSet<LandHolderType> LandHolderTypes => Set<LandHolderType>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

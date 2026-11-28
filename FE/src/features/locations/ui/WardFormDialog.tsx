@@ -26,7 +26,7 @@ export function WardFormDialog({ opened, onClose, ward }: WardFormDialogProps) {
   const isEdit = Boolean(ward?.id);
 
   const { data: provincesData } = useListProvinces(
-    { PageSize: 200 },
+    { PageSize: 100 },
     { query: { enabled: opened } },
   );
   const provinceOptions = (provincesData?.data?.items ?? []).map((p) => ({

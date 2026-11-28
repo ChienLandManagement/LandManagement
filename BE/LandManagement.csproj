@@ -40,6 +40,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Danh mục chuẩn (TT 08/2024) nạp lần đầu khi bảng còn trống; bản gốc ở docs/data. -->
+    <EmbeddedResource Include="Data\SeedData\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Template cshtml cho RazorLight nạp từ disk lúc chạy. -->
     <None Include="Resources\Templates\**\*.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

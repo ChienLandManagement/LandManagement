@@ -37,7 +37,7 @@ export function WardsTab() {
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  const { data: provincesData } = useListProvinces({ PageSize: 200 });
+  const { data: provincesData } = useListProvinces({ PageSize: 100 });
   const provinceOptions = (provincesData?.data?.items ?? []).map((p) => ({
     value: p.id ?? '',
     label: `${p.provinceCode ?? ''} - ${p.name ?? ''}`,

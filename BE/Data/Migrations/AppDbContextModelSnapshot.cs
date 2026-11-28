@@ -22,6 +22,142 @@ namespace LandManagement.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("kind");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("sort_order");
+
+                    b.HasKey("Id")
+                        .HasName("pk_land_holder_types");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_land_holder_types_code")
+                        .HasFilter("is_deleted = false");
+
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_land_holder_types_parent_id");
+
+                    b.ToTable("land_holder_types", (string)null);
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<bool>("InB02")
+                        .HasColumnType("boolean")
+                        .HasColumnName("in_b02");
+
+                    b.Property<bool>("InB05")
+                        .HasColumnType("boolean")
+                        .HasColumnName("in_b05");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("name");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parent_id");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("sort_order");
+
+                    b.HasKey("Id")
+                        .HasName("pk_land_types");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_land_types_code")
+                        .HasFilter("is_deleted = false");
+
+                    b.HasIndex("ParentId")
+                        .HasDatabaseName("ix_land_types_parent_id");
+
+                    b.ToTable("land_types", (string)null);
+                });
+
             modelBuilder.Entity("LandManagement.Entities.LoginLog", b =>
                 {
                     b.Property<Guid>("Id")
@@ -358,6 +494,28 @@ namespace LandManagement.Data.Migrations
                     b.ToTable("wards", (string)null);
                 });
 
+            modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
+                {
+                    b.HasOne("LandManagement.Entities.LandHolderType", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_land_holder_types_land_holder_types_parent_id");
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandType", b =>
+                {
+                    b.HasOne("LandManagement.Entities.LandType", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_land_types_land_types_parent_id");
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("LandManagement.Entities.User", b =>
                 {
                     b.HasOne("LandManagement.Entities.Ward", "Ward")
@@ -379,6 +537,16 @@ namespace LandManagement.Data.Migrations
                         .HasConstraintName("fk_wards_provinces_province_id");
 
                     b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
+                {
+                    b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandType", b =>
+                {
+                    b.Navigation("Children");
                 });
 
             modelBuilder.Entity("LandManagement.Entities.Province", b =>

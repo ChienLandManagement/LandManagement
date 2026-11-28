@@ -18,4 +18,6 @@ export interface UserItem {
   wardId?: string | null;
   /** @nullable */
   wardName?: string | null;
+  /** @nullable */
+  provinceId?: string | null;
 }

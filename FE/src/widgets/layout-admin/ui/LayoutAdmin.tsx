@@ -22,17 +22,20 @@ import {
   LogOut,
   Map as MapIcon,
   Moon,
+  Palette,
   Sun,
 } from 'lucide-react';
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { getUser } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
 import { MENU_CONFIG } from '../model/menuConfig';
+import { UiSettingsDrawer } from './UiSettingsDrawer';
 
 const SIDEBAR_COLLAPSED_KEY = 'admin-sidebar-collapsed';
 
 export function LayoutAdmin() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] = useDisclosure();
+  const [settingsOpened, { open: openSettings, close: closeSettings }] = useDisclosure();
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
       return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
@@ -104,6 +107,18 @@ export function LayoutAdmin() {
             </Group>
 
             <Group gap="sm">
+              <Tooltip label="Tùy chỉnh giao diện">
+                <ActionIcon
+                  variant="subtle"
+                  color="gray"
+                  size="lg"
+                  onClick={openSettings}
+                  aria-label="Tùy chỉnh giao diện"
+                >
+                  <Palette size={18} />
+                </ActionIcon>
+              </Tooltip>
+
               <Tooltip label={computedColorScheme === 'dark' ? 'Chế độ sáng' : 'Chế độ tối'}>
                 <ActionIcon
                   variant="subtle"
@@ -160,7 +175,7 @@ export function LayoutAdmin() {
             <MapIcon size={24} color="var(--mantine-color-teal-6)" style={{ flexShrink: 0 }} />
             {!collapsed && (
               <Text fw={700} size="md" truncate>
-                LandManagement
+                Quản lý đất đai
               </Text>
             )}
           </Group>
@@ -168,6 +183,53 @@ export function LayoutAdmin() {
           <Stack gap={4}>
             {visibleMenu.map((item) => {
               const Icon = item.icon;
+              const visibleChildren = item.children?.filter(
+                (child) => !child.roles || (user?.role && child.roles.includes(user.role)),
+              );
+
+              if (visibleChildren && visibleChildren.length > 0) {
+                const hasActiveChild = visibleChildren.some(
+                  (child) => pathname === child.path || pathname.startsWith(`${child.path}/`),
+                );
+
+                const groupNav = (
+                  <NavLink
+                    key={item.path}
+                    label={collapsed ? undefined : item.label}
+                    leftSection={<Icon size={18} strokeWidth={1.7} />}
+                    defaultOpened={hasActiveChild}
+                    childrenOffset={collapsed ? 0 : 24}
+                    style={{ borderRadius: 'var(--mantine-radius-md)' }}
+                  >
+                    {!collapsed &&
+                      visibleChildren.map((child) => {
+                        const ChildIcon = child.icon;
+                        const childActive = pathname === child.path || pathname.startsWith(`${child.path}/`);
+                        return (
+                          <NavLink
+                            key={child.path}
+                            component={Link}
+                            to={child.path}
+                            label={child.label}
+                            leftSection={<ChildIcon size={16} strokeWidth={1.7} />}
+                            active={childActive}
+                            onClick={closeMobile}
+                            style={{ borderRadius: 'var(--mantine-radius-md)' }}
+                          />
+                        );
+                      })}
+                  </NavLink>
+                );
+
+                return collapsed ? (
+                  <Tooltip key={item.path} label={item.label} position="right" withArrow>
+                    {groupNav}
+                  </Tooltip>
+                ) : (
+                  groupNav
+                );
+              }
+
               const active = pathname === item.path || pathname.startsWith(`${item.path}/`);
               const navLink = (
                 <NavLink
@@ -199,6 +261,7 @@ export function LayoutAdmin() {
       </AppShell>
 
       <ChangePasswordDialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
+      <UiSettingsDrawer opened={settingsOpened} onClose={closeSettings} />
     </>
   );
 }

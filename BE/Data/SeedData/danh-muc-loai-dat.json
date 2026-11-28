@@ -1,0 +1,538 @@
+[
+ {
+  "stt": "I",
+  "ma": "NNP",
+  "ten": "Nhóm đất nông nghiệp",
+  "cha": null,
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1",
+  "ma": "CHN",
+  "ten": "Đất trồng cây hằng năm",
+  "cha": "NNP",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1.1",
+  "ma": "LUA",
+  "ten": "Đất trồng lúa",
+  "cha": "CHN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "1.1.1",
+  "ma": "LUC",
+  "ten": "Đất chuyên trồng lúa",
+  "cha": "LUA",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1.1.2",
+  "ma": "LUK",
+  "ten": "Đất trồng lúa còn lại",
+  "cha": "LUA",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1.2",
+  "ma": "HNK",
+  "ten": "Đất trồng cây hằng năm khác",
+  "cha": "CHN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "2",
+  "ma": "CLN",
+  "ten": "Đất trồng cây lâu năm",
+  "cha": "NNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3",
+  "ma": "LNP",
+  "ten": "Đất lâm nghiệp",
+  "cha": "NNP",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "3.1",
+  "ma": "RDD",
+  "ten": "Đất rừng đặc dụng",
+  "cha": "LNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3.2",
+  "ma": "RPH",
+  "ten": "Đất rừng phòng hộ",
+  "cha": "LNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3.3",
+  "ma": "RSX",
+  "ten": "Đất rừng sản xuất",
+  "cha": "LNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "",
+  "ma": "RSN",
+  "ten": "Trong đó: Đất rừng sản xuất là rừng tự nhiên",
+  "cha": "RSX",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "4",
+  "ma": "NTS",
+  "ten": "Đất nuôi trồng thủy sản",
+  "cha": "NNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5",
+  "ma": "CNT",
+  "ten": "Đất chăn nuôi tập trung",
+  "cha": "NNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6",
+  "ma": "LMU",
+  "ten": "Đất làm muối",
+  "cha": "NNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "7",
+  "ma": "NKH",
+  "ten": "Đất nông nghiệp khác",
+  "cha": "NNP",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "II",
+  "ma": "PNN",
+  "ten": "Nhóm đất phi nông nghiệp",
+  "cha": null,
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1",
+  "ma": "OTC",
+  "ten": "Đất ở",
+  "cha": "PNN",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1.1",
+  "ma": "ONT",
+  "ten": "Đất ở tại nông thôn",
+  "cha": "OTC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "1.2",
+  "ma": "ODT",
+  "ten": "Đất ở tại đô thị",
+  "cha": "OTC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "2",
+  "ma": "TSC",
+  "ten": "Đất xây dựng trụ sở cơ quan",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3",
+  "ma": "CQA",
+  "ten": "Đất quốc phòng, an ninh",
+  "cha": "PNN",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "3.1",
+  "ma": "CQP",
+  "ten": "Đất quốc phòng",
+  "cha": "CQA",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3.2",
+  "ma": "CAN",
+  "ten": "Đất an ninh",
+  "cha": "CQA",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4",
+  "ma": "DSN",
+  "ten": "Đất xây dựng công trình sự nghiệp",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "4.1",
+  "ma": "DVH",
+  "ten": "Đất xây dựng cơ sở văn hóa",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.2",
+  "ma": "DXH",
+  "ten": "Đất xây dựng cơ sở xã hội",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.3",
+  "ma": "DYT",
+  "ten": "Đất xây dựng cơ sở y tế",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.4",
+  "ma": "DGD",
+  "ten": "Đất xây dựng cơ sở giáo dục và đào tạo",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.5",
+  "ma": "DTT",
+  "ten": "Đất xây dựng cơ sở thể dục, thể thao",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.6",
+  "ma": "DKH",
+  "ten": "Đất xây dựng cơ sở khoa học và công nghệ",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.7",
+  "ma": "DMT",
+  "ten": "Đất xây dựng cơ sở môi trường",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.8",
+  "ma": "DKT",
+  "ten": "Đất xây dựng cơ sở khí tượng thủy văn",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.9",
+  "ma": "DNG",
+  "ten": "Đất xây dựng cơ sở ngoại giao",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4.10",
+  "ma": "DSK",
+  "ten": "Đất xây dựng công trình sự nghiệp khác",
+  "cha": "DSN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5",
+  "ma": "CSK",
+  "ten": "Đất sản xuất, kinh doanh phi nông nghiệp",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "5.1",
+  "ma": "SCC",
+  "ten": "Đất khu công nghiệp, cụm công nghiệp",
+  "cha": "CSK",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "5.1.1",
+  "ma": "SKK",
+  "ten": "Đất khu công nghiệp",
+  "cha": "SCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5.1.2",
+  "ma": "SKN",
+  "ten": "Đất cụm công nghiệp",
+  "cha": "SCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5.1.3",
+  "ma": "SCT",
+  "ten": "Đất khu công nghệ thông tin tập trung",
+  "cha": "SCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5.2",
+  "ma": "TMD",
+  "ten": "Đất thương mại, dịch vụ",
+  "cha": "CSK",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5.3",
+  "ma": "SKC",
+  "ten": "Đất cơ sở sản xuất phi nông nghiệp",
+  "cha": "CSK",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5.4",
+  "ma": "SKS",
+  "ten": "Đất sử dụng cho hoạt động khoáng sản",
+  "cha": "CSK",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6",
+  "ma": "CCC",
+  "ten": "Đất sử dụng vào mục đích công cộng",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "6.1",
+  "ma": "DGT",
+  "ten": "Đất công trình giao thông",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.2",
+  "ma": "DTL",
+  "ten": "Đất công trình thủy lợi",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.3",
+  "ma": "DCT",
+  "ten": "Đất công trình cấp nước, thoát nước",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.4",
+  "ma": "DPC",
+  "ten": "Đất công trình phòng, chống thiên tai",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.5",
+  "ma": "DDD",
+  "ten": "Đất có di tích lịch sử - văn hóa danh lam thắng cảnh, di sản thiên nhiên",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.6",
+  "ma": "DRA",
+  "ten": "Đất công trình xử lý chất thải",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.7",
+  "ma": "DNL",
+  "ten": "Đất công trình năng lượng, chiếu sáng công cộng",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.8",
+  "ma": "DBV",
+  "ten": "Đất công trình hạ tầng bưu chính, viễn thông, công nghệ thông tin",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.9",
+  "ma": "DCH",
+  "ten": "Đất chợ dân sinh, chợ đầu mối",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "6.10",
+  "ma": "DKV",
+  "ten": "Đất khu vui chơi, giải trí công cộng, sinh hoạt cộng đồng",
+  "cha": "CCC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "7",
+  "ma": "TON",
+  "ten": "Đất tôn giáo",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "8",
+  "ma": "TIN",
+  "ten": "Đất tín ngưỡng",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "9",
+  "ma": "NTD",
+  "ten": "Đất nghĩa trang, nhà tang lễ, cơ sở hỏa táng; đất cơ sở lưu trữ tro cốt",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "10",
+  "ma": "TVC",
+  "ten": "Đất có mặt nước chuyên dùng",
+  "cha": "PNN",
+  "coTrongB02": false,
+  "coTrongB05": false
+ },
+ {
+  "stt": "10.1",
+  "ma": "MNC",
+  "ten": "Đất có mặt nước chuyên dùng dạng ao, hồ, đầm, phá",
+  "cha": "TVC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "10.2",
+  "ma": "SON",
+  "ten": "Đất có mặt nước dạng sông, ngòi, kênh, rạch, suối",
+  "cha": "TVC",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "11",
+  "ma": "PNK",
+  "ten": "Đất phi nông nghiệp khác",
+  "cha": "PNN",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "III",
+  "ma": "CSD",
+  "ten": "Nhóm đất chưa sử dụng",
+  "cha": null,
+  "coTrongB02": true,
+  "coTrongB05": false
+ },
+ {
+  "stt": "1",
+  "ma": "CGT",
+  "ten": "Đất do Nhà nước thu hồi theo quy định của pháp luật đất đai chưa giao, chưa cho thuê",
+  "cha": "CSD",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "2",
+  "ma": "BCS",
+  "ten": "Đất bằng chưa sử dụng",
+  "cha": "CSD",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "3",
+  "ma": "DCS",
+  "ten": "Đất đồi núi chưa sử dụng",
+  "cha": "CSD",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "4",
+  "ma": "NCS",
+  "ten": "Núi đá không có rừng cây",
+  "cha": "CSD",
+  "coTrongB02": true,
+  "coTrongB05": true
+ },
+ {
+  "stt": "5",
+  "ma": "MCS",
+  "ten": "Đất có mặt nước chưa sử dụng",
+  "cha": "CSD",
+  "coTrongB02": true,
+  "coTrongB05": true
+ }
+]

@@ -130,6 +130,7 @@ try
 {
     await app.MigrateDatabaseAsync();
     await app.SeedAdminAsync();
+    await app.SeedCatalogsAsync();
 }
 catch (Exception ex)
 {
