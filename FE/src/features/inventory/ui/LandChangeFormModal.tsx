@@ -299,8 +299,8 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
                 placeholder="Nhập diện tích"
                 min={0.00001}
                 decimalScale={5}
-                thousandSeparator="."
                 decimalSeparator=","
+                allowedDecimalSeparators={['.', ',']}
                 required
                 value={field.value ?? ''}
                 onChange={(val) => field.onChange(typeof val === 'number' ? val : undefined)}
