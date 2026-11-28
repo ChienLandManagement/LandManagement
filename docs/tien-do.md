@@ -19,11 +19,12 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [x] Loại đất `LandType` (cây 67 mục, seed từ JSON; cờ B02/B05 và dòng "Trong đó" `IsMemo` cho `RSN`; Admin quản lý, vai trò khác chỉ xem)
 - [x] Đối tượng sử dụng / được giao quản lý `LandHolderType` (18 mã: 14 người sử dụng + 4 người được giao quản lý, seed từ JSON)
 
-### Phase 2 – Kỳ kiểm kê và nhập số liệu
-- [ ] Kỳ kiểm kê (ngày chốt, loại, trạng thái)
-- [ ] Import B01 (diện tích)
-- [ ] Import B02 (số lượng đối tượng)
-- [ ] Import B05 (chu chuyển)
+### Phase 2 – Kỳ kiểm kê và biến động (cách A: ghi biến động theo tổng, chưa có thửa đất)
+- [x] BE: kỳ kiểm kê (xã, ngày chốt, loại 5 năm/hằng năm, khóa/mở khóa), cán bộ chỉ thấy xã mình
+- [x] BE: ghi biến động (loại đất cũ → mới, diện tích ha, đối tượng; tăng khác/giảm khác)
+- [ ] FE: trang kỳ kiểm kê và ghi biến động (giao Antigravity)
+- [ ] Import số liệu kỳ gốc B01, B02 (từ Phuluc.xls)
+- [ ] Số liệu kỳ sau = kỳ gốc + biến động; B05 tính từ biến động
 - [ ] Kiểm tra: tổng, cha–con, lệch so với file (dung sai 0,005 ha)
 
 ### Phase 3 – Báo cáo biểu kiểm kê

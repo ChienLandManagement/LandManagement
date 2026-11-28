@@ -22,6 +22,140 @@ namespace LandManagement.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateOnly>("CutoffDate")
+                        .HasColumnType("date")
+                        .HasColumnName("cutoff_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.Property<Guid>("WardId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ward_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_inventory_periods");
+
+                    b.HasIndex("WardId", "CutoffDate")
+                        .IsUnique()
+                        .HasDatabaseName("ix_inventory_periods_ward_id_cutoff_date")
+                        .HasFilter("is_deleted = false");
+
+                    b.ToTable("inventory_periods", (string)null);
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandChange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<decimal>("Area")
+                        .HasPrecision(18, 5)
+                        .HasColumnType("numeric(18,5)")
+                        .HasColumnName("area");
+
+                    b.Property<DateOnly>("ChangeDate")
+                        .HasColumnType("date")
+                        .HasColumnName("change_date");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<Guid?>("FromLandTypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("from_land_type_id");
+
+                    b.Property<Guid?>("HolderTypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("holder_type_id");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("note");
+
+                    b.Property<Guid>("PeriodId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("period_id");
+
+                    b.Property<Guid?>("ToLandTypeId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("to_land_type_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_land_changes");
+
+                    b.HasIndex("FromLandTypeId")
+                        .HasDatabaseName("ix_land_changes_from_land_type_id");
+
+                    b.HasIndex("HolderTypeId")
+                        .HasDatabaseName("ix_land_changes_holder_type_id");
+
+                    b.HasIndex("PeriodId")
+                        .HasDatabaseName("ix_land_changes_period_id");
+
+                    b.HasIndex("ToLandTypeId")
+                        .HasDatabaseName("ix_land_changes_to_land_type_id");
+
+                    b.ToTable("land_changes", (string)null);
+                });
+
             modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -498,6 +632,54 @@ namespace LandManagement.Data.Migrations
                     b.ToTable("wards", (string)null);
                 });
 
+            modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
+                {
+                    b.HasOne("LandManagement.Entities.Ward", "Ward")
+                        .WithMany()
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_inventory_periods_wards_ward_id");
+
+                    b.Navigation("Ward");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.LandChange", b =>
+                {
+                    b.HasOne("LandManagement.Entities.LandType", "FromLandType")
+                        .WithMany()
+                        .HasForeignKey("FromLandTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_land_changes_land_types_from_land_type_id");
+
+                    b.HasOne("LandManagement.Entities.LandHolderType", "HolderType")
+                        .WithMany()
+                        .HasForeignKey("HolderTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_land_changes_land_holder_types_holder_type_id");
+
+                    b.HasOne("LandManagement.Entities.InventoryPeriod", "Period")
+                        .WithMany("Changes")
+                        .HasForeignKey("PeriodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_land_changes_inventory_periods_period_id");
+
+                    b.HasOne("LandManagement.Entities.LandType", "ToLandType")
+                        .WithMany()
+                        .HasForeignKey("ToLandTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_land_changes_land_types_to_land_type_id");
+
+                    b.Navigation("FromLandType");
+
+                    b.Navigation("HolderType");
+
+                    b.Navigation("Period");
+
+                    b.Navigation("ToLandType");
+                });
+
             modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
                 {
                     b.HasOne("LandManagement.Entities.LandHolderType", "Parent")
@@ -541,6 +723,11 @@ namespace LandManagement.Data.Migrations
                         .HasConstraintName("fk_wards_provinces_province_id");
 
                     b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
+                {
+                    b.Navigation("Changes");
                 });
 
             modelBuilder.Entity("LandManagement.Entities.LandHolderType", b =>
