@@ -6,10 +6,10 @@ import {
   Button,
   Center,
   Group,
-  Loader,
   Paper,
   Select,
   SimpleGrid,
+  Skeleton,
   Stack,
   Table,
   Text,
@@ -118,9 +118,11 @@ export function DashboardView() {
 
   if (isLoadingPeriods) {
     return (
-      <Center py="xl">
-        <Loader />
-      </Center>
+      <Stack gap="md">
+        <Skeleton height={32} width="40%" />
+        <Skeleton height={96} />
+        <Skeleton height={280} />
+      </Stack>
     );
   }
 
@@ -166,9 +168,14 @@ export function DashboardView() {
       </Group>
 
       {isLoadingDashboard ? (
-        <Center py="xl">
-          <Loader />
-        </Center>
+        <Stack gap="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md">
+            {[0, 1, 2, 3].map((i) => (
+              <Skeleton key={i} height={88} />
+            ))}
+          </SimpleGrid>
+          <Skeleton height={280} />
+        </Stack>
       ) : (
         <>
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="md">

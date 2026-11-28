@@ -1,34 +1,32 @@
-import { Center, Loader } from '@mantine/core';
-import { createRootRoute, createRoute, Outlet, redirect } from '@tanstack/react-router';
+import { Skeleton, Stack } from '@mantine/core';
+import { createRootRoute, createRoute, lazyRouteComponent, Outlet, redirect } from '@tanstack/react-router';
 import { lazy, Suspense } from 'react';
 import { getUser } from '@/entities/session';
 import { NotFoundPage } from '@/pages/not-found';
 import { LayoutAdmin } from '@/widgets/layout-admin';
 
-const LandingPage = lazy(() => import('@/pages/landing').then((m) => ({ default: m.LandingPage })));
-const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.HomePage })));
+const LandingPage = lazyRouteComponent(() => import('@/pages/landing'), 'LandingPage');
+const HomePage = lazyRouteComponent(() => import('@/pages/home'), 'HomePage');
 const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.UsersPage })));
 const LocationsPage = lazy(() => import('@/pages/locations').then((m) => ({ default: m.LocationsPage })));
-const LandTypesPage = lazy(() => import('@/pages/land-types').then((m) => ({ default: m.LandTypesPage })));
-const LandHolderTypesPage = lazy(() =>
-  import('@/pages/land-holder-types').then((m) => ({ default: m.LandHolderTypesPage })),
+const LandTypesPage = lazyRouteComponent(() => import('@/pages/land-types'), 'LandTypesPage');
+const LandHolderTypesPage = lazyRouteComponent(() => import('@/pages/land-holder-types'), 'LandHolderTypesPage');
+const InventoryPeriodsPage = lazyRouteComponent(() => import('@/pages/inventory-periods'), 'InventoryPeriodsPage');
+const InventoryPeriodDetailPage = lazyRouteComponent(
+  () => import('@/pages/inventory-period-detail'),
+  'InventoryPeriodDetailPage',
 );
-const InventoryPeriodsPage = lazy(() =>
-  import('@/pages/inventory-periods').then((m) => ({ default: m.InventoryPeriodsPage })),
-);
-const InventoryPeriodDetailPage = lazy(() =>
-  import('@/pages/inventory-period-detail').then((m) => ({ default: m.InventoryPeriodDetailPage })),
-);
-const ParcelsPage = lazy(() => import('@/pages/parcels').then((m) => ({ default: m.ParcelsPage })));
+const ParcelsPage = lazyRouteComponent(() => import('@/pages/parcels'), 'ParcelsPage');
 const ForbiddenPage = lazy(() => import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })));
 
 const rootRoute = createRootRoute({
   component: () => (
     <Suspense
       fallback={
-        <Center mih="100vh">
-          <Loader />
-        </Center>
+        <Stack p="md" gap="md">
+          <Skeleton height={48} />
+          <Skeleton height={320} />
+        </Stack>
       }
     >
       <Outlet />
@@ -61,6 +59,7 @@ const homeRoute = createRoute({
 const usersRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
   path: '/users',
+  loader: () => import('@/pages/users'),
   component: () => {
     const user = getUser();
     if (user?.role !== 'Admin') return <ForbiddenPage />;
@@ -71,6 +70,7 @@ const usersRoute = createRoute({
 const locationsRoute = createRoute({
   getParentRoute: () => adminLayoutRoute,
   path: '/locations',
+  loader: () => import('@/pages/locations'),
   component: () => {
     const user = getUser();
     if (user?.role !== 'Admin') return <ForbiddenPage />;

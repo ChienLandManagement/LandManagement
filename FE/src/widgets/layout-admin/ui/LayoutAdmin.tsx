@@ -8,6 +8,7 @@ import {
   Group,
   Menu,
   NavLink,
+  Skeleton,
   Stack,
   Text,
   Tooltip,
@@ -17,7 +18,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { ChevronLeft, ChevronRight, KeyRound, LogOut, Map as MapIcon, Moon, Palette, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { getUser } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
 import { type UiMainBg, useUiSettingsStore } from '@/shared/model/uiSettingsStore';
@@ -275,7 +276,18 @@ export function LayoutAdmin() {
         </AppShell.Navbar>
 
         <AppShell.Main bg={computedColorScheme === 'dark' ? undefined : MAIN_BG_MAP[mainBg]}>
-          <Outlet />
+          {/* Suspense riêng cho vùng nội dung: tải trang lazy lần đầu chỉ thay phần này, sidebar và header đứng yên. */}
+          <Suspense
+            fallback={
+              <Stack gap="md">
+                <Skeleton height={32} width="30%" />
+                <Skeleton height={20} width="50%" />
+                <Skeleton height={320} />
+              </Stack>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </AppShell.Main>
       </AppShell>
 
