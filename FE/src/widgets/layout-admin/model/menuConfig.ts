@@ -1,4 +1,14 @@
-import { FolderTree, Home, Layers, type LucideIcon, MapPin, Settings, Users, UsersRound } from 'lucide-react';
+import {
+  ClipboardList,
+  FolderTree,
+  Home,
+  Layers,
+  type LucideIcon,
+  MapPin,
+  Settings,
+  Users,
+  UsersRound,
+} from 'lucide-react';
 
 export interface MenuItem {
   path: string;
@@ -30,6 +40,12 @@ export const MENU_CONFIG: MenuItem[] = [
         icon: UsersRound,
       },
     ],
+  },
+  {
+    path: '/inventory-periods',
+    label: 'Kiểm kê',
+    icon: ClipboardList,
+    roles: ['Admin', 'LandOfficer', 'Leader'],
   },
   {
     path: '#system',

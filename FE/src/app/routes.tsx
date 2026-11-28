@@ -13,6 +13,12 @@ const LandTypesPage = lazy(() => import('@/pages/land-types').then((m) => ({ def
 const LandHolderTypesPage = lazy(() =>
   import('@/pages/land-holder-types').then((m) => ({ default: m.LandHolderTypesPage })),
 );
+const InventoryPeriodsPage = lazy(() =>
+  import('@/pages/inventory-periods').then((m) => ({ default: m.InventoryPeriodsPage })),
+);
+const InventoryPeriodDetailPage = lazy(() =>
+  import('@/pages/inventory-period-detail').then((m) => ({ default: m.InventoryPeriodDetailPage })),
+);
 const ForbiddenPage = lazy(() => import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })));
 
 const rootRoute = createRootRoute({
@@ -83,7 +89,27 @@ const landHolderTypesRoute = createRoute({
   component: LandHolderTypesPage,
 });
 
+const inventoryPeriodsRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/inventory-periods',
+  component: InventoryPeriodsPage,
+});
+
+const inventoryPeriodDetailRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/inventory-periods/$periodId',
+  component: InventoryPeriodDetailPage,
+});
+
 export const routeTree = rootRoute.addChildren([
   landingRoute,
-  adminLayoutRoute.addChildren([homeRoute, landTypesRoute, landHolderTypesRoute, usersRoute, locationsRoute]),
+  adminLayoutRoute.addChildren([
+    homeRoute,
+    landTypesRoute,
+    landHolderTypesRoute,
+    inventoryPeriodsRoute,
+    inventoryPeriodDetailRoute,
+    usersRoute,
+    locationsRoute,
+  ]),
 ]);
