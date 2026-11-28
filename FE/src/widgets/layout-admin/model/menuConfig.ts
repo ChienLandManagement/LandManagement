@@ -31,6 +31,12 @@ export const MENU_CONFIG: MenuItem[] = [
     icon: MapIcon,
   },
   {
+    path: '/inventory-periods',
+    label: 'Kiểm kê',
+    icon: ClipboardList,
+    roles: ['Admin', 'LandOfficer', 'Leader'],
+  },
+  {
     path: '#catalogs',
     label: 'Danh mục',
     icon: FolderTree,
@@ -46,12 +52,6 @@ export const MENU_CONFIG: MenuItem[] = [
         icon: UsersRound,
       },
     ],
-  },
-  {
-    path: '/inventory-periods',
-    label: 'Kiểm kê',
-    icon: ClipboardList,
-    roles: ['Admin', 'LandOfficer', 'Leader'],
   },
   {
     path: '#system',
