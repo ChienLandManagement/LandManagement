@@ -33,6 +33,7 @@ import {
   EntriesGrid,
   formatArea,
   ImportWorkbookModal,
+  LAND_CHANGE_REASON_LABELS,
   LandChangeFormModal,
   PERIOD_STATUS_COLORS,
   PERIOD_STATUS_LABELS,
@@ -333,6 +334,20 @@ export function InventoryPeriodDetailPage() {
           <Badge color="gray" variant="light">
             Nhập tay
           </Badge>
+        ),
+    },
+    {
+      key: 'reason',
+      title: 'Lý do',
+      render: (row) =>
+        row.reason ? (
+          <Text size="sm">
+            {row.reason === 'Other' ? row.reasonText : (LAND_CHANGE_REASON_LABELS[row.reason] ?? row.reason)}
+          </Text>
+        ) : (
+          <Text size="sm" c="dimmed">
+            —
+          </Text>
         ),
     },
     {

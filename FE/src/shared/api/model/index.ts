@@ -62,6 +62,7 @@ export * from './inventoryPeriodItem';
 export * from './inventoryPeriodStatus';
 export * from './inventoryPeriodType';
 export * from './landChangeItem';
+export * from './landChangeReason';
 export * from './landHolderKind';
 export * from './landHolderTypeItem';
 export * from './landTypeItem';

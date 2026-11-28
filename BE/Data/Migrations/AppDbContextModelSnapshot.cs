@@ -174,6 +174,15 @@ namespace LandManagement.Data.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("period_id");
 
+                    b.Property<int?>("Reason")
+                        .HasColumnType("integer")
+                        .HasColumnName("reason");
+
+                    b.Property<string>("ReasonText")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("reason_text");
+
                     b.Property<int>("Source")
                         .HasColumnType("integer")
                         .HasColumnName("source");

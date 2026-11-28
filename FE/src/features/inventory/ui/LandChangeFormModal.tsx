@@ -14,9 +14,10 @@ import {
   useListLandTypes,
   useUpdateLandChange,
 } from '@/shared/api/generated/api';
-import type { LandChangeItem } from '@/shared/api/model';
+import type { LandChangeItem, LandChangeReason } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { toDateOnlyString } from '../model/constants';
+import { LAND_CHANGE_REASON_OPTIONS } from '../model/landChangeReasons';
 
 interface LandChangeFormModalProps {
   opened: boolean;
@@ -34,10 +35,20 @@ const landChangeSchema = z
     area: z.number({ message: 'Vui lòng nhập diện tích' }).positive('Diện tích phải lớn hơn 0'),
     holderTypeId: z.string().nullable().optional(),
     note: z.string().max(500, 'Ghi chú tối đa 500 ký tự').nullable().optional(),
+    reason: z.string().nullable().optional(),
+    reasonText: z.string().max(200, 'Lý do tối đa 200 ký tự').nullable().optional(),
   })
   .refine((data) => Boolean(data.fromLandTypeId || data.toLandTypeId), {
     message: 'Phải chọn ít nhất một trong hai loại đất (cũ hoặc mới)',
     path: ['fromLandTypeId'],
+  })
+  .refine((data) => Boolean(data.fromLandTypeId && data.toLandTypeId) || Boolean(data.reason), {
+    message: 'Tăng/giảm khác phải chọn lý do',
+    path: ['reason'],
+  })
+  .refine((data) => data.reason !== 'Other' || Boolean(data.reasonText?.trim()), {
+    message: 'Nhập lý do khác',
+    path: ['reasonText'],
   })
   .refine((data) => !(data.fromLandTypeId && data.toLandTypeId && data.fromLandTypeId === data.toLandTypeId), {
     message: 'Loại đất cũ và loại đất mới không được trùng nhau',
@@ -92,11 +103,16 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
       area: undefined,
       holderTypeId: null,
       note: '',
+      reason: null,
+      reasonText: '',
     },
   });
 
   const selectedFromId = watch('fromLandTypeId');
   const selectedToId = watch('toLandTypeId');
+  const selectedReason = watch('reason');
+  // Chỉ tăng khác / giảm khác (thiếu một trong hai loại đất) mới cần lý do.
+  const needsReason = !selectedFromId || !selectedToId;
 
   const fromOptions = useMemo(
     () => validLandTypes.filter((o) => o.value !== selectedToId),
@@ -118,6 +134,8 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
         area: editingItem.area ?? undefined,
         holderTypeId: editingItem.holderTypeId ?? null,
         note: editingItem.note ?? '',
+        reason: editingItem.reason ?? null,
+        reasonText: editingItem.reasonText ?? '',
       });
     } else {
       reset({
@@ -127,6 +145,8 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
         area: undefined,
         holderTypeId: null,
         note: '',
+        reason: null,
+        reasonText: '',
       });
     }
   }, [opened, editingItem, defaultDate, reset]);
@@ -140,6 +160,8 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
         area: values.area,
         holderTypeId: values.holderTypeId || null,
         note: values.note?.trim() || null,
+        reason: needsReason ? ((values.reason as LandChangeReason | null) ?? null) : null,
+        reasonText: needsReason && values.reason === 'Other' ? values.reasonText?.trim() || null : null,
       };
 
       if (isEditing && editingItem?.id) {
@@ -229,6 +251,42 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
               />
             )}
           />
+
+          {needsReason && (
+            <>
+              <Controller
+                name="reason"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    label="Lý do tăng/giảm khác"
+                    placeholder="Chọn lý do"
+                    data={LAND_CHANGE_REASON_OPTIONS}
+                    required
+                    value={field.value ?? null}
+                    onChange={field.onChange}
+                    error={errors.reason?.message}
+                  />
+                )}
+              />
+              {selectedReason === 'Other' && (
+                <Controller
+                  name="reasonText"
+                  control={control}
+                  render={({ field }) => (
+                    <TextInput
+                      label="Nêu rõ lý do"
+                      placeholder="Ví dụ: nhận bàn giao từ xã khác"
+                      required
+                      value={field.value ?? ''}
+                      onChange={field.onChange}
+                      error={errors.reasonText?.message}
+                    />
+                  )}
+                />
+              )}
+            </>
+          )}
 
           <Controller
             name="area"

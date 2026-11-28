@@ -4,6 +4,7 @@
  * Api
  * OpenAPI spec version: v1
  */
+import type { LandChangeReason } from './landChangeReason';
 
 export interface LandChangeItem {
   id?: string;
@@ -30,4 +31,7 @@ export interface LandChangeItem {
   note?: string | null;
   source?: string;
   createdAt?: string;
+  reason?: LandChangeReason | null;
+  /** @nullable */
+  reasonText?: string | null;
 }
