@@ -28,7 +28,9 @@ const createSchema = (canPickWard: boolean, isEditing: boolean) =>
     wardId: canPickWard && !isEditing ? z.string().min(1, 'Vui lòng chọn xã/phường') : z.string().optional().nullable(),
     mapSheet: z.string().trim().min(1, 'Vui lòng nhập số tờ'),
     parcelNumber: z.string().trim().min(1, 'Vui lòng nhập số thửa'),
-    area: z.number({ message: 'Vui lòng nhập diện tích' }).positive('Diện tích phải lớn hơn 0'),
+    area: z
+      .union([z.number(), z.string()], { message: 'Vui lòng nhập diện tích' })
+      .refine((v) => Number(v) > 0, 'Diện tích phải lớn hơn 0'),
     landTypeId: z.string().min(1, 'Vui lòng chọn loại đất'),
     holderTypeId: z.string().optional().nullable(),
     holderName: z.string().max(200, 'Tên người sử dụng tối đa 200 ký tự').optional().nullable(),
@@ -124,7 +126,7 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
       const commonFields = {
         mapSheet: values.mapSheet.trim(),
         parcelNumber: values.parcelNumber.trim(),
-        area: values.area,
+        area: Number(values.area),
         landTypeId: values.landTypeId,
         holderTypeId: values.holderTypeId || null,
         holderName: values.holderName?.trim() || null,
@@ -220,10 +222,9 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
                   hideControls
                   decimalScale={5}
                   decimalSeparator=","
-                  allowedDecimalSeparators={['.', ',']}
                   min={0}
                   value={field.value ?? ''}
-                  onChange={(val) => field.onChange(typeof val === 'number' ? val : undefined)}
+                  onChange={field.onChange}
                   error={errors.area?.message}
                 />
               )}

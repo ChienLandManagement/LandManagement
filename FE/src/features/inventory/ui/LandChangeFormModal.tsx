@@ -33,7 +33,9 @@ const landChangeSchema = z
     changeDate: z.string().min(1, 'Vui lòng chọn ngày biến động'),
     fromLandTypeId: z.string().nullable().optional(),
     toLandTypeId: z.string().nullable().optional(),
-    area: z.number({ message: 'Vui lòng nhập diện tích' }).positive('Diện tích phải lớn hơn 0'),
+    area: z
+      .union([z.number(), z.string()], { message: 'Vui lòng nhập diện tích' })
+      .refine((v) => Number(v) > 0, 'Diện tích phải lớn hơn 0'),
     holderTypeId: z.string().nullable().optional(),
     note: z.string().max(500, 'Ghi chú tối đa 500 ký tự').nullable().optional(),
     reason: z.string().nullable().optional(),
@@ -158,7 +160,7 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
         changeDate: values.changeDate,
         fromLandTypeId: values.fromLandTypeId || null,
         toLandTypeId: values.toLandTypeId || null,
-        area: values.area,
+        area: Number(values.area),
         holderTypeId: values.holderTypeId || null,
         note: values.note?.trim() || null,
         reason: needsReason ? ((values.reason as LandChangeReason | null) ?? null) : null,
@@ -300,10 +302,9 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
                 min={0.00001}
                 decimalScale={5}
                 decimalSeparator=","
-                allowedDecimalSeparators={['.', ',']}
                 required
                 value={field.value ?? ''}
-                onChange={(val) => field.onChange(typeof val === 'number' ? val : undefined)}
+                onChange={field.onChange}
                 error={errors.area?.message}
               />
             )}
