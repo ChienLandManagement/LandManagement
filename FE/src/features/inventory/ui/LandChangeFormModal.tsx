@@ -5,6 +5,8 @@ import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
+  getCheckPeriodQueryKey,
+  getGetEntriesQueryKey,
   getListLandChangesQueryKey,
   getListPeriodsQueryKey,
   useCreateLandChange,
@@ -159,6 +161,8 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: getListLandChangesQueryKey() }),
         queryClient.invalidateQueries({ queryKey: getListPeriodsQueryKey() }),
+        queryClient.invalidateQueries({ queryKey: getGetEntriesQueryKey(periodId) }),
+        queryClient.invalidateQueries({ queryKey: getCheckPeriodQueryKey(periodId) }),
       ]);
       onClose();
     } catch (error) {

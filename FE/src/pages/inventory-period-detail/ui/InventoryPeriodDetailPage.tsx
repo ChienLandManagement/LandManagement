@@ -1,23 +1,33 @@
-import { Alert, Badge, Button, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Alert, Badge, Button, Group, List, Paper, ScrollArea, SimpleGrid, Stack, Tabs, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import { AlertTriangle, ArrowLeft, Lock, Pencil, Plus, Trash2, Unlock } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, Copy, FileSpreadsheet, Lock, Pencil, Plus, Trash2, Unlock } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { getUser } from '@/entities/session';
 import {
+  EntriesGrid,
   formatArea,
+  ImportWorkbookModal,
   LandChangeFormModal,
   PERIOD_STATUS_COLORS,
   PERIOD_STATUS_LABELS,
   PERIOD_TYPE_LABELS,
+  PeriodChecksPanel,
 } from '@/features/inventory';
 import {
+  getCheckPeriodQueryKey,
+  getGetEntriesQueryKey,
   getListLandChangesQueryKey,
   getListPeriodsQueryKey,
+  useCheckPeriod,
   useDeleteLandChange,
+  useGetEntries,
   useListLandChanges,
+  useListLandHolderTypes,
+  useListLandTypes,
   useListPeriods,
+  usePrefillPeriod,
   useSetPeriodStatus,
 } from '@/shared/api/generated/api';
 import { InventoryPeriodStatus, type LandChangeItem } from '@/shared/api/model';
@@ -37,10 +47,15 @@ export function InventoryPeriodDetailPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [modalOpen, setModalOpen] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<LandChangeItem | null>(null);
+  const [activeTab, setActiveTab] = useState<string>('changes');
+  const [b01Dirty, setB01Dirty] = useState(false);
+  const [b02Dirty, setB02Dirty] = useState(false);
 
   const setPeriodStatus = useSetPeriodStatus();
   const deleteLandChange = useDeleteLandChange();
+  const prefillPeriod = usePrefillPeriod();
 
   const { data: periodsData } = useListPeriods({ PageSize: 200 });
   const period = useMemo(
@@ -55,6 +70,94 @@ export function InventoryPeriodDetailPage() {
     CurrentPage: page,
     PageSize: pageSize,
   });
+
+  const { data: entriesData, isLoading: entriesLoading } = useGetEntries(periodId, {
+    query: { enabled: Boolean(periodId) },
+  });
+  const {
+    data: checksData,
+    isLoading: checksLoading,
+    isFetching: checksFetching,
+    refetch: refetchChecks,
+  } = useCheckPeriod(periodId, {
+    query: { enabled: Boolean(periodId) },
+  });
+  const { data: landTypesData } = useListLandTypes();
+  const { data: holderTypesData } = useListLandHolderTypes();
+
+  const entries = entriesData?.data;
+  const checks = checksData?.data;
+  const issueCount = checks?.issues?.length ?? 0;
+  const landTypes = landTypesData?.data ?? [];
+  const holderTypes = holderTypesData?.data ?? [];
+
+  const handleTabChange = (nextTab: string | null) => {
+    if (!nextTab || nextTab === activeTab) return;
+    const isCurrentDirty = (activeTab === 'b01' && b01Dirty) || (activeTab === 'b02' && b02Dirty);
+    if (!isCurrentDirty) {
+      setActiveTab(nextTab);
+      return;
+    }
+    modals.openConfirmModal({
+      title: 'Thay đổi chưa được lưu',
+      centered: true,
+      children: (
+        <Text size="sm">
+          Bạn có các ô số liệu chưa lưu trên lưới hiện tại. Nếu chuyển tab, các thay đổi chưa lưu sẽ bị hủy. Bạn có chắc
+          chắn muốn tiếp tục?
+        </Text>
+      ),
+      labels: { confirm: 'Chuyển tab', cancel: 'Ở lại' },
+      confirmProps: { color: 'orange' },
+      onConfirm: () => {
+        setActiveTab(nextTab);
+      },
+    });
+  };
+
+  const handlePrefill = () => {
+    modals.openConfirmModal({
+      title: 'Khởi tạo số liệu từ kỳ trước',
+      centered: true,
+      children: (
+        <Text size="sm">
+          Hệ thống sẽ sao chép số liệu của kỳ kiểm kê liền trước cùng xã và áp dụng các biến động đã ghi trong kỳ này.
+          Lưu ý: các biến động chưa chọn đối tượng sẽ chưa được áp dụng.
+        </Text>
+      ),
+      labels: { confirm: 'Khởi tạo', cancel: 'Hủy' },
+      onConfirm: async () => {
+        try {
+          const response = await prefillPeriod.mutateAsync({ periodId });
+          const warnings = response.data?.warnings ?? [];
+          showSuccess('Khởi tạo số liệu từ kỳ trước thành công');
+          if (warnings.length > 0) {
+            modals.open({
+              title: `Cảnh báo khi khởi tạo (${warnings.length})`,
+              centered: true,
+              children: (
+                <ScrollArea.Autosize mah={260}>
+                  <List size="sm" spacing={4}>
+                    {warnings.map((w) => (
+                      <List.Item key={w}>{w}</List.Item>
+                    ))}
+                  </List>
+                </ScrollArea.Autosize>
+              ),
+            });
+          }
+          await Promise.all([
+            queryClient.invalidateQueries({ queryKey: getGetEntriesQueryKey(periodId) }),
+            queryClient.invalidateQueries({ queryKey: getCheckPeriodQueryKey(periodId) }),
+            queryClient.invalidateQueries({ queryKey: getListLandChangesQueryKey() }),
+            queryClient.invalidateQueries({ queryKey: getListPeriodsQueryKey() }),
+          ]);
+        } catch (error) {
+          showError(error);
+        }
+      },
+    });
+  };
 
   const items = data?.data?.items ?? [];
   const totalCount = data?.data?.totalItems ?? 0;
@@ -107,6 +210,8 @@ export function InventoryPeriodDetailPage() {
           await Promise.all([
             queryClient.invalidateQueries({ queryKey: getListLandChangesQueryKey() }),
             queryClient.invalidateQueries({ queryKey: getListPeriodsQueryKey() }),
+            queryClient.invalidateQueries({ queryKey: getGetEntriesQueryKey(periodId) }),
+            queryClient.invalidateQueries({ queryKey: getCheckPeriodQueryKey(periodId) }),
           ]);
         } catch (error) {
           showError(error);
@@ -171,6 +276,21 @@ export function InventoryPeriodDetailPage() {
       render: (row) => <Text size="sm">{row.holderTypeName ?? '—'}</Text>,
     },
     {
+      key: 'source',
+      title: 'Nguồn',
+      width: 120,
+      render: (row) =>
+        row.source === 'Import' ? (
+          <Badge color="blue" variant="light">
+            Nhập Excel
+          </Badge>
+        ) : (
+          <Badge color="gray" variant="light">
+            Nhập tay
+          </Badge>
+        ),
+    },
+    {
       key: 'note',
       title: 'Ghi chú',
       render: (row) => (
@@ -223,10 +343,28 @@ export function InventoryPeriodDetailPage() {
               {isLocked ? 'Mở khóa kỳ' : 'Khóa kỳ'}
             </Button>
           )}
-          {canWrite && (
-            <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate} disabled={isLocked}>
-              Ghi biến động
-            </Button>
+          {canWrite && !isLocked && (
+            <>
+              <Button
+                variant="light"
+                leftSection={<FileSpreadsheet size={16} />}
+                onClick={() => setImportModalOpen(true)}
+              >
+                Nhập từ Excel
+              </Button>
+              <Button
+                variant="light"
+                color="teal"
+                leftSection={<Copy size={16} />}
+                onClick={handlePrefill}
+                loading={prefillPeriod.isPending}
+              >
+                Khởi tạo từ kỳ trước
+              </Button>
+              <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate}>
+                Ghi biến động
+              </Button>
+            </>
           )}
         </Group>
       }
@@ -282,23 +420,82 @@ export function InventoryPeriodDetailPage() {
           </Alert>
         )}
 
-        <DataTable
-          records={items}
-          columns={columns}
-          actions={actions}
-          isLoading={isLoading}
-          isError={isError}
-          onRetry={refetch}
-          page={page}
-          onPageChange={setPage}
-          pageSize={pageSize}
-          onPageSizeChange={(size) => {
-            setPageSize(size);
-            setPage(1);
-          }}
-          totalRecords={totalCount}
-          emptyText="Chưa có biến động đất đai nào trong kỳ này"
-        />
+        <Tabs value={activeTab} onChange={handleTabChange}>
+          <Tabs.List mb="md">
+            <Tabs.Tab value="changes">Biến động</Tabs.Tab>
+            <Tabs.Tab value="b01">Số liệu B01 (diện tích)</Tabs.Tab>
+            <Tabs.Tab value="b02">Số liệu B02 (số lượng)</Tabs.Tab>
+            <Tabs.Tab
+              value="checks"
+              rightSection={
+                issueCount > 0 ? (
+                  <Badge size="xs" circle color="orange">
+                    {issueCount}
+                  </Badge>
+                ) : null
+              }
+            >
+              Kiểm tra
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="changes">
+            <DataTable
+              records={items}
+              columns={columns}
+              actions={actions}
+              isLoading={isLoading}
+              isError={isError}
+              onRetry={refetch}
+              page={page}
+              onPageChange={setPage}
+              pageSize={pageSize}
+              onPageSizeChange={(size) => {
+                setPageSize(size);
+                setPage(1);
+              }}
+              totalRecords={totalCount}
+              emptyText="Chưa có biến động đất đai nào trong kỳ này"
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="b01">
+            <EntriesGrid
+              periodId={periodId}
+              mode="B01"
+              serverCells={entries?.areas ?? []}
+              landTypes={landTypes}
+              holderTypes={holderTypes}
+              readOnly={!canWrite || isLocked}
+              isLoading={entriesLoading}
+              onDirtyChange={setB01Dirty}
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="b02">
+            <EntriesGrid
+              periodId={periodId}
+              mode="B02"
+              serverCells={entries?.counts ?? []}
+              landTypes={landTypes}
+              holderTypes={holderTypes}
+              readOnly={!canWrite || isLocked}
+              isLoading={entriesLoading}
+              onDirtyChange={setB02Dirty}
+            />
+          </Tabs.Panel>
+
+          <Tabs.Panel value="checks">
+            <PeriodChecksPanel
+              hasAreas={checks?.hasAreas}
+              hasCounts={checks?.hasCounts}
+              issues={checks?.issues}
+              isLoading={checksLoading}
+              isFetching={checksFetching}
+              onRefetch={refetchChecks}
+            />
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
 
       <LandChangeFormModal
@@ -308,6 +505,8 @@ export function InventoryPeriodDetailPage() {
         cutoffDate={period?.cutoffDate}
         editingItem={editingItem}
       />
+
+      <ImportWorkbookModal opened={importModalOpen} onClose={() => setImportModalOpen(false)} periodId={periodId} />
     </DetailLayout>
   );
 }
