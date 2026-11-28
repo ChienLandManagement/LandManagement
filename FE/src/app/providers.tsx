@@ -40,7 +40,7 @@ export function AppProviders({ children }: AppProvidersProps) {
   return (
     <HelmetProvider>
       <MantineProvider theme={theme} defaultColorScheme="auto">
-        <Notifications position="top-right" />
+        <Notifications position="bottom-right" />
         <ModalsProvider>
           <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
         </ModalsProvider>
