@@ -1,0 +1,12 @@
+{
+  "name": "apm-p-fc7f291a",
+  "owner": {
+    "name": "APM"
+  },
+  "plugins": [
+    {
+      "name": "superpowers",
+      "source": "./superpowers"
+    }
+  ]
+}

@@ -25,3 +25,7 @@ Thumbs.db
 
 # MCP cục bộ: chứa token plain text, không commit
 .mcp.json
+
+
+# APM dependencies
+apm_modules/
