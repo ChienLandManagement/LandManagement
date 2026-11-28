@@ -24,6 +24,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ApiResultOfDashboardItem,
   ApiResultOfImportResultItem,
   ApiResultOfInventoryPeriodItem,
   ApiResultOfLandChangeItem,
@@ -34,9 +35,11 @@ import type {
   ApiResultOfLoginResponse,
   ApiResultOfPagedResponseOfInventoryPeriodItem,
   ApiResultOfPagedResponseOfLandChangeItem,
+  ApiResultOfPagedResponseOfParcelItem,
   ApiResultOfPagedResponseOfProvinceItem,
   ApiResultOfPagedResponseOfUserItem,
   ApiResultOfPagedResponseOfWardItem,
+  ApiResultOfParcelItem,
   ApiResultOfPeriodCheckItem,
   ApiResultOfPeriodEntriesItem,
   ApiResultOfPrefillResultItem,
@@ -48,6 +51,7 @@ import type {
   CreateLandChangeCommand,
   CreateLandHolderTypeCommand,
   CreateLandTypeCommand,
+  CreateParcelCommand,
   CreatePeriodCommand,
   CreateProvinceCommand,
   CreateUserCommand,
@@ -55,6 +59,7 @@ import type {
   ImportWorkbookCommand,
   ListLandChangesParams,
   ListLandHolderTypesParams,
+  ListParcelsParams,
   ListPeriodsParams,
   ListProvincesParams,
   ListUsersParams,
@@ -68,6 +73,7 @@ import type {
   UpdateLandChangeCommand,
   UpdateLandHolderTypeCommand,
   UpdateLandTypeCommand,
+  UpdateParcelCommand,
   UpdatePeriodCommand,
   UpdateProvinceCommand,
   UpdateUserCommand,
@@ -1351,6 +1357,297 @@ export const useUpdateProvince = <TError = void,
         TContext
       > => {
       return useMutation(getUpdateProvinceMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Thêm thửa đất
+ */
+export const createParcel = (
+    createParcelCommand: CreateParcelCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfParcelItem>(
+      {url: `/api/parcels`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createParcelCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateParcelMutationKey = () => ['createParcel'] as const;
+
+export const getCreateParcelMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createParcel>>, TError,CreateParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createParcel>>, TError,CreateParcelMutationVariables, TContext> => {
+
+const mutationKey = getCreateParcelMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createParcel>>, CreateParcelMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createParcel(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateParcelMutationResult = NonNullable<Awaited<ReturnType<typeof createParcel>>>
+    export type CreateParcelMutationBody = CreateParcelCommand
+    export type CreateParcelMutationError = void
+    export type CreateParcelMutationVariables = {data: CreateParcelCommand}
+
+    /** @summary Thêm thửa đất */
+export const useCreateParcel = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createParcel>>, TError,CreateParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createParcel>>,
+        TError,
+        CreateParcelMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateParcelMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách thửa đất
+ */
+export const listParcels = (
+    params?: ListParcelsParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfParcelItem>(
+      {url: `/api/parcels`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListParcelsQueryKey = (params?: ListParcelsParams,) => {
+    return [
+    `/api/parcels`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListParcelsQueryOptions = <TData = Awaited<ReturnType<typeof listParcels>>, TError = void>(params?: ListParcelsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListParcelsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listParcels>>> = ({ signal }) => listParcels(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListParcelsQueryResult = NonNullable<Awaited<ReturnType<typeof listParcels>>>
+export type ListParcelsQueryError = void
+
+
+/** @summary Danh sách thửa đất */
+export function useListParcels<TData = Awaited<ReturnType<typeof listParcels>>, TError = void>(
+ params: undefined |  ListParcelsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listParcels>>,
+          TError,
+          Awaited<ReturnType<typeof listParcels>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách thửa đất */
+export function useListParcels<TData = Awaited<ReturnType<typeof listParcels>>, TError = void>(
+ params?: ListParcelsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listParcels>>,
+          TError,
+          Awaited<ReturnType<typeof listParcels>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách thửa đất */
+export function useListParcels<TData = Awaited<ReturnType<typeof listParcels>>, TError = void>(
+ params?: ListParcelsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách thửa đất */
+export function useListParcels<TData = Awaited<ReturnType<typeof listParcels>>, TError = void>(
+ params?: ListParcelsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listParcels>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListParcelsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) thửa đất
+ */
+export const deleteParcel = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/parcels/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteParcelMutationKey = () => ['deleteParcel'] as const;
+
+export const getDeleteParcelMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteParcel>>, TError,DeleteParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteParcel>>, TError,DeleteParcelMutationVariables, TContext> => {
+
+const mutationKey = getDeleteParcelMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteParcel>>, DeleteParcelMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteParcel(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteParcelMutationResult = NonNullable<Awaited<ReturnType<typeof deleteParcel>>>
+
+    export type DeleteParcelMutationError = void
+    export type DeleteParcelMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) thửa đất */
+export const useDeleteParcel = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteParcel>>, TError,DeleteParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteParcel>>,
+        TError,
+        DeleteParcelMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteParcelMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Sửa thửa đất
+ */
+export const updateParcel = (
+    id: string,
+    updateParcelCommand: UpdateParcelCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfParcelItem>(
+      {url: `/api/parcels/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateParcelCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateParcelMutationKey = () => ['updateParcel'] as const;
+
+export const getUpdateParcelMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateParcel>>, TError,UpdateParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateParcel>>, TError,UpdateParcelMutationVariables, TContext> => {
+
+const mutationKey = getUpdateParcelMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateParcel>>, UpdateParcelMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateParcel(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateParcelMutationResult = NonNullable<Awaited<ReturnType<typeof updateParcel>>>
+    export type UpdateParcelMutationBody = UpdateParcelCommand
+    export type UpdateParcelMutationError = void
+    export type UpdateParcelMutationVariables = {id: string;data: UpdateParcelCommand}
+
+    /** @summary Sửa thửa đất */
+export const useUpdateParcel = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateParcel>>, TError,UpdateParcelMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateParcel>>,
+        TError,
+        UpdateParcelMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateParcelMutationOptions(options), queryClient);
     }
 
 /**
@@ -2664,6 +2961,193 @@ export function useCheckPeriod<TData = Awaited<ReturnType<typeof checkPeriod>>, 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getCheckPeriodQueryOptions(periodId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Tổng quan kỳ: tổng diện tích, cơ cấu đất, biến động
+ */
+export const getPeriodDashboard = (
+    periodId: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfDashboardItem>(
+      {url: `/api/inventory-periods/${periodId}/dashboard`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetPeriodDashboardQueryKey = (periodId: string,) => {
+    return [
+    `/api/inventory-periods/${periodId}/dashboard`
+    ] as const;
+    }
+
+
+export const getGetPeriodDashboardQueryOptions = <TData = Awaited<ReturnType<typeof getPeriodDashboard>>, TError = void>(periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPeriodDashboardQueryKey(periodId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPeriodDashboard>>> = ({ signal }) => getPeriodDashboard(periodId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: periodId !== null && periodId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPeriodDashboardQueryResult = NonNullable<Awaited<ReturnType<typeof getPeriodDashboard>>>
+export type GetPeriodDashboardQueryError = void
+
+
+/** @summary Tổng quan kỳ: tổng diện tích, cơ cấu đất, biến động */
+export function useGetPeriodDashboard<TData = Awaited<ReturnType<typeof getPeriodDashboard>>, TError = void>(
+ periodId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPeriodDashboard>>,
+          TError,
+          Awaited<ReturnType<typeof getPeriodDashboard>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan kỳ: tổng diện tích, cơ cấu đất, biến động */
+export function useGetPeriodDashboard<TData = Awaited<ReturnType<typeof getPeriodDashboard>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPeriodDashboard>>,
+          TError,
+          Awaited<ReturnType<typeof getPeriodDashboard>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan kỳ: tổng diện tích, cơ cấu đất, biến động */
+export function useGetPeriodDashboard<TData = Awaited<ReturnType<typeof getPeriodDashboard>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan kỳ: tổng diện tích, cơ cấu đất, biến động */
+export function useGetPeriodDashboard<TData = Awaited<ReturnType<typeof getPeriodDashboard>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPeriodDashboard>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPeriodDashboardQueryOptions(periodId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xuất Excel B01, B02, B04, B05 của kỳ
+ */
+export const exportPeriod = (
+    periodId: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Blob>(
+      {url: `/api/inventory-periods/${periodId}/export`, method: 'GET',
+        responseType: 'blob', signal
+    },
+      options);
+    }
+
+
+
+
+export const getExportPeriodQueryKey = (periodId: string,) => {
+    return [
+    `/api/inventory-periods/${periodId}/export`
+    ] as const;
+    }
+
+
+export const getExportPeriodQueryOptions = <TData = Awaited<ReturnType<typeof exportPeriod>>, TError = void>(periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getExportPeriodQueryKey(periodId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof exportPeriod>>> = ({ signal }) => exportPeriod(periodId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: periodId !== null && periodId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ExportPeriodQueryResult = NonNullable<Awaited<ReturnType<typeof exportPeriod>>>
+export type ExportPeriodQueryError = void
+
+
+/** @summary Xuất Excel B01, B02, B04, B05 của kỳ */
+export function useExportPeriod<TData = Awaited<ReturnType<typeof exportPeriod>>, TError = void>(
+ periodId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof exportPeriod>>,
+          TError,
+          Awaited<ReturnType<typeof exportPeriod>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Xuất Excel B01, B02, B04, B05 của kỳ */
+export function useExportPeriod<TData = Awaited<ReturnType<typeof exportPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof exportPeriod>>,
+          TError,
+          Awaited<ReturnType<typeof exportPeriod>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Xuất Excel B01, B02, B04, B05 của kỳ */
+export function useExportPeriod<TData = Awaited<ReturnType<typeof exportPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Xuất Excel B01, B02, B04, B05 của kỳ */
+export function useExportPeriod<TData = Awaited<ReturnType<typeof exportPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof exportPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getExportPeriodQueryOptions(periodId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

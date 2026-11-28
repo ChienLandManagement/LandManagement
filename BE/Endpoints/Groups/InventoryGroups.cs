@@ -11,3 +11,8 @@ public sealed class LandChangesGroup : Group
 {
     public LandChangesGroup() => Configure("land-changes", ep => ep.Description(d => d.WithTags("LandChanges")));
 }
+
+public sealed class ParcelsGroup : Group
+{
+    public ParcelsGroup() => Configure("parcels", ep => ep.Description(d => d.WithTags("Parcels")));
+}
