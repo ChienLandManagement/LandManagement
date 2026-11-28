@@ -5,6 +5,7 @@ export {
   PERIOD_TYPE_LABELS,
   PERIOD_TYPE_OPTIONS,
 } from './model/constants';
+export { LAND_CHANGE_REASON_LABELS } from './model/landChangeReasons';
 export { EntriesGrid } from './ui/EntriesGrid';
 export { ImportWorkbookModal } from './ui/ImportWorkbookModal';
 export { LandChangeFormModal } from './ui/LandChangeFormModal';

@@ -23,7 +23,8 @@ public class CreateLandChangeHandler(AppDbContext db, ICurrentUser currentUser) 
         var change = new LandChange
         {
             PeriodId = period.Id, ChangeDate = cmd.ChangeDate, FromLandTypeId = cmd.FromLandTypeId, ToLandTypeId = cmd.ToLandTypeId,
-            Area = cmd.Area, HolderTypeId = cmd.HolderTypeId, Note = cmd.Note?.Trim()
+            Area = cmd.Area, HolderTypeId = cmd.HolderTypeId, Note = cmd.Note?.Trim(),
+            Reason = LandChangeRules.ReasonFor(cmd.FromLandTypeId, cmd.ToLandTypeId, cmd.Reason), ReasonText = LandChangeRules.ReasonTextFor(LandChangeRules.ReasonFor(cmd.FromLandTypeId, cmd.ToLandTypeId, cmd.Reason), cmd.ReasonText)
         };
         db.LandChanges.Add(change);
         await db.SaveChangesAsync(ct);

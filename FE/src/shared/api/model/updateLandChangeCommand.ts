@@ -4,6 +4,7 @@
  * Api
  * OpenAPI spec version: v1
  */
+import type { LandChangeReason } from './landChangeReason';
 
 export interface UpdateLandChangeCommand {
   changeDate?: string;
@@ -16,4 +17,7 @@ export interface UpdateLandChangeCommand {
   holderTypeId?: string | null;
   /** @nullable */
   note?: string | null;
+  reason?: LandChangeReason | null;
+  /** @nullable */
+  reasonText?: string | null;
 }

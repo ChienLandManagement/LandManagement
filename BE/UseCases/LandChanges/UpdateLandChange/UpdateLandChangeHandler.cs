@@ -26,6 +26,8 @@ public class UpdateLandChangeHandler(AppDbContext db, ICurrentUser currentUser) 
         change.Area = cmd.Area;
         change.HolderTypeId = cmd.HolderTypeId;
         change.Note = cmd.Note?.Trim();
+        change.Reason = LandChangeRules.ReasonFor(cmd.FromLandTypeId, cmd.ToLandTypeId, cmd.Reason);
+        change.ReasonText = LandChangeRules.ReasonTextFor(LandChangeRules.ReasonFor(cmd.FromLandTypeId, cmd.ToLandTypeId, cmd.Reason), cmd.ReasonText);
         await db.SaveChangesAsync(ct);
         return await db.LandChanges.AsNoTracking().Include(x => x.FromLandType).Include(x => x.ToLandType).Include(x => x.HolderType)
             .Where(x => x.Id == change.Id).Select(x => LandChangeItem.From(x)).FirstAsync(ct);

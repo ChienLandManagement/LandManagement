@@ -22,6 +22,7 @@ public class LandChangeConfiguration : IEntityTypeConfiguration<LandChange>
         builder.ToTable("land_changes");
         builder.Property(x => x.Area).HasPrecision(18, 5);
         builder.Property(x => x.Note).HasMaxLength(500);
+        builder.Property(x => x.ReasonText).HasMaxLength(200);
         builder.HasIndex(x => x.PeriodId);
         builder.HasOne(x => x.Period).WithMany(x => x.Changes).HasForeignKey(x => x.PeriodId).OnDelete(DeleteBehavior.Restrict);
         builder.HasOne(x => x.FromLandType).WithMany().HasForeignKey(x => x.FromLandTypeId).OnDelete(DeleteBehavior.Restrict);

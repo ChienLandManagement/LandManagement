@@ -43,6 +43,8 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [ ] Import Excel thửa (chờ file mẫu)
 
 ### Phase 6 – Hồ sơ GCN và biến động
+- [x] Lý do cho tăng khác / giảm khác (đo đạc lại, sửa sai, lấn biển, sạt lở, địa giới, khác có nhập chữ); bắt buộc khi nhập tay, dòng nhập từ Excel B05 chưa có lý do. Sai thì sửa hoặc xóa khi kỳ chưa khóa (xóa mềm, giữ vết trong DB)
+- [ ] Nhật ký sửa ô lưới B01 (ai sửa, giá trị cũ và mới); địa giới (sáp nhập, chia tách xã) chưa có
 - [ ] Trạng thái hồ sơ, lịch sử biến động thửa, tìm kiếm và lọc
 
 ### Phase 7 – Báo cáo định kỳ và mở rộng
