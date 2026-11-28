@@ -44,6 +44,14 @@ public class CatalogTree
 
     public IEnumerable<LandType> CountLeavesUnder(LandType t) => LeavesUnder(t, IsCountLeaf);
 
+    /// <summary>Dòng Biểu 05 chứa loại đất này (chính nó hoặc tổ tiên gần nhất, vd LUC/LUK thuộc dòng LUA). Không có thì giữ nguyên.</summary>
+    public Guid B05RowOf(Guid id)
+    {
+        for (Guid? current = id; current is { } v; current = LandTypeById[v].ParentId)
+            if (LandTypeById[v] is { InB05: true, IsMemo: false }) return v;
+        return id;
+    }
+
     private IEnumerable<LandType> LeavesUnder(LandType t, Func<LandType, bool> isLeaf) =>
         isLeaf(t) ? [t] : Descendants(t).Where(d => !d.IsMemo && isLeaf(d));
 

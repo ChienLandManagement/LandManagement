@@ -88,6 +88,7 @@ public class ExportPeriodHandler(AppDbContext db, ICurrentUser currentUser) : IR
     private static void WriteTurnover(IXLWorksheet ws, CatalogTree tree, List<LandChange> changes)
     {
         var types = tree.LandTypes.Where(t => t.InB05 && !t.IsMemo).ToList();
+        Guid? RowOf(Guid? id) => id is { } v ? tree.B05RowOf(v) : null;
         ws.Cell(1, 1).Value = "Từ \\ Sang";
         for (var j = 0; j < types.Count; j++) ws.Cell(1, 2 + j).Value = types[j].Code;
         ws.Cell(1, 2 + types.Count).Value = "Giảm khác";
@@ -98,7 +99,7 @@ public class ExportPeriodHandler(AppDbContext db, ICurrentUser currentUser) : IR
             for (var j = 0; j <= types.Count; j++)
             {
                 var to = j < types.Count ? types[j] : null;
-                var sum = changes.Where(c => c.FromLandTypeId == from?.Id && c.ToLandTypeId == to?.Id).Sum(c => c.Area);
+                var sum = changes.Where(c => RowOf(c.FromLandTypeId) == from?.Id && RowOf(c.ToLandTypeId) == to?.Id).Sum(c => c.Area);
                 if (sum != 0) ws.Cell(2 + i, 2 + j).Value = sum;
             }
         }
