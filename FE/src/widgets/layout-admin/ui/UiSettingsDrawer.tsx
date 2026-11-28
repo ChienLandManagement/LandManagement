@@ -1,4 +1,16 @@
-import { Button, CheckIcon, ColorSwatch, Drawer, Group, SegmentedControl, Stack, Switch, Text, useMantineTheme } from '@mantine/core';
+// ds-guard-ignore-file: bảng màu nền cấu hình sẵn (dữ liệu, không phải style)
+import {
+  Button,
+  CheckIcon,
+  ColorSwatch,
+  Drawer,
+  Group,
+  SegmentedControl,
+  Stack,
+  Switch,
+  Text,
+  useMantineTheme,
+} from '@mantine/core';
 import { RotateCcw } from 'lucide-react';
 import { type UiMainBg, type UiPrimaryColor, type UiRadius, useUiSettingsStore } from '@/shared/model/uiSettingsStore';
 

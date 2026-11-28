@@ -4,20 +4,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Check, Minus, Pencil, Plus, RefreshCw, Search, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { getUser } from '@/entities/session';
-import {
-  getListLandTypesQueryKey,
-  useDeleteLandType,
-  useListLandTypes,
-} from '@/shared/api/generated/api';
+import { getListLandTypesQueryKey, useDeleteLandType, useListLandTypes } from '@/shared/api/generated/api';
 import type { LandTypeItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
 import { ListPageLayout } from '@/shared/ui/templates';
-import {
-  type TreeNode,
-  buildTreeList,
-  getDescendantIds,
-} from '../model/treeUtils';
+import { buildTreeList, getDescendantIds, type TreeNode } from '../model/treeUtils';
 import { CatalogTreeSidebar } from './CatalogTreeSidebar';
 import { LandTypeFormDialog } from './LandTypeFormDialog';
 
@@ -43,10 +35,7 @@ export function LandTypesTab() {
     }
     const q = search.trim().toLowerCase();
     if (q) {
-      list = list.filter(
-        (item) =>
-          item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q),
-      );
+      list = list.filter((item) => item.code?.toLowerCase().includes(q) || item.name?.toLowerCase().includes(q));
     }
     return list;
   }, [treeItems, selectedTreeId, search]);

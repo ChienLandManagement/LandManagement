@@ -1,6 +1,6 @@
-import { Suspense, lazy } from 'react';
-import { Outlet, createRootRoute, createRoute, redirect } from '@tanstack/react-router';
 import { Center, Loader } from '@mantine/core';
+import { createRootRoute, createRoute, Outlet, redirect } from '@tanstack/react-router';
+import { lazy, Suspense } from 'react';
 import { getUser } from '@/entities/session';
 import { NotFoundPage } from '@/pages/not-found';
 import { LayoutAdmin } from '@/widgets/layout-admin';
@@ -8,18 +8,12 @@ import { LayoutAdmin } from '@/widgets/layout-admin';
 const LandingPage = lazy(() => import('@/pages/landing').then((m) => ({ default: m.LandingPage })));
 const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.HomePage })));
 const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.UsersPage })));
-const LocationsPage = lazy(() =>
-  import('@/pages/locations').then((m) => ({ default: m.LocationsPage })),
-);
-const LandTypesPage = lazy(() =>
-  import('@/pages/land-types').then((m) => ({ default: m.LandTypesPage })),
-);
+const LocationsPage = lazy(() => import('@/pages/locations').then((m) => ({ default: m.LocationsPage })));
+const LandTypesPage = lazy(() => import('@/pages/land-types').then((m) => ({ default: m.LandTypesPage })));
 const LandHolderTypesPage = lazy(() =>
   import('@/pages/land-holder-types').then((m) => ({ default: m.LandHolderTypesPage })),
 );
-const ForbiddenPage = lazy(() =>
-  import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })),
-);
+const ForbiddenPage = lazy(() => import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })));
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -91,11 +85,5 @@ const landHolderTypesRoute = createRoute({
 
 export const routeTree = rootRoute.addChildren([
   landingRoute,
-  adminLayoutRoute.addChildren([
-    homeRoute,
-    landTypesRoute,
-    landHolderTypesRoute,
-    usersRoute,
-    locationsRoute,
-  ]),
+  adminLayoutRoute.addChildren([homeRoute, landTypesRoute, landHolderTypesRoute, usersRoute, locationsRoute]),
 ]);

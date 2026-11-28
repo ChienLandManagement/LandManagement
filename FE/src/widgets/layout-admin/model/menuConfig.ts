@@ -1,13 +1,4 @@
-import {
-  FolderTree,
-  Home,
-  Layers,
-  MapPin,
-  Settings,
-  Users,
-  UsersRound,
-  type LucideIcon,
-} from 'lucide-react';
+import { FolderTree, Home, Layers, type LucideIcon, MapPin, Settings, Users, UsersRound } from 'lucide-react';
 
 export interface MenuItem {
   path: string;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// ds-guard-ignore-file: bảng màu nền cấu hình sẵn (dữ liệu, không phải style)
 import {
   ActionIcon,
   AppShell,
@@ -15,17 +15,9 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  ChevronLeft,
-  ChevronRight,
-  KeyRound,
-  LogOut,
-  Map as MapIcon,
-  Moon,
-  Palette,
-  Sun,
-} from 'lucide-react';
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
+import { ChevronLeft, ChevronRight, KeyRound, LogOut, Map as MapIcon, Moon, Palette, Sun } from 'lucide-react';
+import { useState } from 'react';
 import { getUser } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
 import { type UiMainBg, useUiSettingsStore } from '@/shared/model/uiSettingsStore';
@@ -73,16 +65,12 @@ export function LayoutAdmin() {
     });
   };
 
-  const visibleMenu = MENU_CONFIG.filter(
-    (item) => !item.roles || (user?.role && item.roles.includes(user.role)),
-  );
+  const visibleMenu = MENU_CONFIG.filter((item) => !item.roles || (user?.role && item.roles.includes(user.role)));
 
   const currentMatch = (() => {
     for (const item of MENU_CONFIG) {
       if (item.children) {
-        const child = item.children.find(
-          (c) => pathname === c.path || pathname.startsWith(`${c.path}/`),
-        );
+        const child = item.children.find((c) => pathname === c.path || pathname.startsWith(`${c.path}/`));
         if (child) return { parent: item.label, current: child.label };
       } else if (pathname === item.path || pathname.startsWith(`${item.path}/`)) {
         return { parent: 'Hệ thống', current: item.label };
@@ -163,18 +151,11 @@ export function LayoutAdmin() {
 
                 <Menu.Dropdown>
                   <Menu.Label>Tài khoản</Menu.Label>
-                  <Menu.Item
-                    leftSection={<KeyRound size={14} />}
-                    onClick={() => setChangePasswordOpen(true)}
-                  >
+                  <Menu.Item leftSection={<KeyRound size={14} />} onClick={() => setChangePasswordOpen(true)}>
                     Đổi mật khẩu
                   </Menu.Item>
                   <Menu.Divider />
-                  <Menu.Item
-                    color="red"
-                    leftSection={<LogOut size={14} />}
-                    onClick={() => void logout()}
-                  >
+                  <Menu.Item color="red" leftSection={<LogOut size={14} />} onClick={() => void logout()}>
                     Đăng xuất
                   </Menu.Item>
                 </Menu.Dropdown>

@@ -1,5 +1,5 @@
-import type { AxiosError } from 'axios';
 import { notifications } from '@mantine/notifications';
+import type { AxiosError } from 'axios';
 
 export function extractError(error: AxiosError<{ message?: string }>): string {
   return error.response?.data?.message ?? error.message ?? 'Có lỗi xảy ra';

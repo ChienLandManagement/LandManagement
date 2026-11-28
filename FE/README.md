@@ -66,13 +66,13 @@ Output: `dist/`
 
 ## Scripts
 
-| Command | Mô tả |
-|---------|-------|
-| `pnpm dev` | Dev server |
-| `pnpm build` | Build production (type check + vite build) |
-| `pnpm preview` | Preview production build |
-| `pnpm lint` | Biome lint |
-| `pnpm format` | Biome format |
+| Command        | Mô tả                                      |
+| -------------- | ------------------------------------------ |
+| `pnpm dev`     | Dev server                                 |
+| `pnpm build`   | Build production (type check + vite build) |
+| `pnpm preview` | Preview production build                   |
+| `pnpm lint`    | Biome lint                                 |
+| `pnpm format`  | Biome format                               |
 
 ## Environment
 

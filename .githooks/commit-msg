@@ -1,0 +1,9 @@
+#!/bin/sh
+# Bắt buộc tiền tố Conventional Commits, ví dụ: "feat: thêm màn hình", "fix(fe): sửa lỗi".
+FIRST=$(head -n1 "$1")
+case "$FIRST" in Merge\ *|Revert\ *|merge:*) exit 0 ;; esac
+if ! echo "$FIRST" | grep -qE '^(feat|fix|chore|refactor|docs|style|test|perf|build|ci|revert)(\([^)]+\))?!?: .+'; then
+  echo "Commit message sai chuẩn: '$FIRST'"
+  echo "Dùng: <feat|fix|chore|refactor|docs|style|test|perf|build|ci>(scope tùy chọn): mô tả"
+  exit 1
+fi

@@ -2,16 +2,8 @@ import { z } from 'zod';
 import { LandHolderKind } from '@/shared/api/model';
 
 export const landTypeSchema = z.object({
-  code: z
-    .string()
-    .trim()
-    .min(1, 'Vui lòng nhập mã loại đất')
-    .max(10, 'Mã loại đất tối đa 10 ký tự'),
-  name: z
-    .string()
-    .trim()
-    .min(1, 'Vui lòng nhập tên loại đất')
-    .max(255, 'Tên loại đất tối đa 255 ký tự'),
+  code: z.string().trim().min(1, 'Vui lòng nhập mã loại đất').max(10, 'Mã loại đất tối đa 10 ký tự'),
+  name: z.string().trim().min(1, 'Vui lòng nhập tên loại đất').max(255, 'Tên loại đất tối đa 255 ký tự'),
   parentId: z.string().nullable().optional(),
   sortOrder: z
     .number({ message: 'Thứ tự phải là số nguyên' })
@@ -25,16 +17,8 @@ export const landTypeSchema = z.object({
 export type LandTypeFormValues = z.infer<typeof landTypeSchema>;
 
 export const landHolderTypeSchema = z.object({
-  code: z
-    .string()
-    .trim()
-    .min(1, 'Vui lòng nhập mã đối tượng')
-    .max(10, 'Mã đối tượng tối đa 10 ký tự'),
-  name: z
-    .string()
-    .trim()
-    .min(1, 'Vui lòng nhập tên đối tượng')
-    .max(255, 'Tên đối tượng tối đa 255 ký tự'),
+  code: z.string().trim().min(1, 'Vui lòng nhập mã đối tượng').max(10, 'Mã đối tượng tối đa 10 ký tự'),
+  name: z.string().trim().min(1, 'Vui lòng nhập tên đối tượng').max(255, 'Tên đối tượng tối đa 255 ký tự'),
   parentId: z.string().nullable().optional(),
   sortOrder: z
     .number({ message: 'Thứ tự phải là số nguyên' })

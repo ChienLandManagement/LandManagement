@@ -8,10 +8,10 @@ import {
   CreateUserDialog,
   EditUserDialog,
   ResetPasswordDialog,
-  UserFilters,
-  UserTable,
   type UserConfirmActionType,
+  UserFilters,
   type UserSortField,
+  UserTable,
 } from '@/features/users';
 import { useListUsers } from '@/shared/api/generated/api';
 import type { UserItem, UserRole } from '@/shared/api/model';
@@ -103,7 +103,6 @@ export function UsersPage() {
         }
       >
         <Stack gap="md">
-
           <UserTable
             items={items}
             currentUserId={currentUser?.id}

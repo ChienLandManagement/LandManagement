@@ -49,10 +49,7 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
   const watchedRole = watch('role');
   const isAdminRole = watchedRole === 'Admin';
 
-  const { data: provincesData } = useListProvinces(
-    { PageSize: 100 },
-    { query: { enabled: open && !isAdminRole } },
-  );
+  const { data: provincesData } = useListProvinces({ PageSize: 100 }, { query: { enabled: open && !isAdminRole } });
   const provinces = provincesData?.data?.items ?? [];
 
   const { data: wardsData } = useListWards(
@@ -144,12 +141,7 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
             name="fullName"
             control={control}
             render={({ field }) => (
-              <TextInput
-                {...field}
-                label="Họ và tên"
-                placeholder="Nguyễn Văn A"
-                error={errors.fullName?.message}
-              />
+              <TextInput {...field} label="Họ và tên" placeholder="Nguyễn Văn A" error={errors.fullName?.message} />
             )}
           />
 

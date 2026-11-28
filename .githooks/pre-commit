@@ -1,7 +1,15 @@
 #!/bin/sh
-# Chạy khi commit có đụng FE/: chặn import chưa khai trong package.json + lỗi typecheck.
-if git diff --cached --name-only | grep -q '^FE/'; then
-  echo "[pre-commit] FE: kiểm tra dependency + typecheck..."
-  pnpm -C FE check:deps || exit 1
-  pnpm -C FE typecheck || exit 1
+# Chạy khi commit có đụng FE/: biome (tự sửa + stage lại) -> ds-guard -> import chưa khai -> typecheck.
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR | grep '^FE/' | sed 's#^FE/##')
+[ -z "$STAGED" ] && exit 0
+echo "[pre-commit] FE: biome, ds-guard, check:deps, typecheck..."
+CODE=$(echo "$STAGED" | grep -E '\.(js|ts|jsx|tsx|json)$' | grep -vE '^(public|dist)/|^src/shared/api/(model|generated)/')
+if [ -n "$CODE" ]; then
+  # shellcheck disable=SC2086
+  pnpm -C FE exec biome check --write --no-errors-on-unmatched $CODE || exit 1
+  # shellcheck disable=SC2086
+  (cd FE && git add $CODE)
 fi
+(cd FE && node scripts/ds-guard.mjs $STAGED) || exit 1
+pnpm -C FE check:deps || exit 1
+pnpm -C FE typecheck || exit 1

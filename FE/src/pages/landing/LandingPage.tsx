@@ -15,7 +15,16 @@ import {
 } from '@mantine/core';
 import { useReducedMotion } from '@mantine/hooks';
 import { Link } from '@tanstack/react-router';
-import { ArrowRight, BarChart3, CheckCircle2, FileSpreadsheet, Landmark, Layers, MapPin, ShieldCheck } from 'lucide-react';
+import {
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  FileSpreadsheet,
+  Landmark,
+  Layers,
+  MapPin,
+  ShieldCheck,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
@@ -133,20 +142,11 @@ export default function LandingPage() {
 
                       <Group pt="xs">
                         {isAuthenticated ? (
-                          <Button
-                            component={Link}
-                            to={ROUTES.HOME}
-                            size="lg"
-                            rightSection={<ArrowRight size={18} />}
-                          >
+                          <Button component={Link} to={ROUTES.HOME} size="lg" rightSection={<ArrowRight size={18} />}>
                             Vào bảng điều khiển
                           </Button>
                         ) : (
-                          <Button
-                            size="lg"
-                            rightSection={<ArrowRight size={18} />}
-                            onClick={() => setLoginOpen(true)}
-                          >
+                          <Button size="lg" rightSection={<ArrowRight size={18} />} onClick={() => setLoginOpen(true)}>
                             Đăng nhập ngay
                           </Button>
                         )}

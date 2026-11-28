@@ -3,11 +3,7 @@ import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import {
-  getListProvincesQueryKey,
-  useDeleteProvince,
-  useListProvinces,
-} from '@/shared/api/generated/api';
+import { getListProvincesQueryKey, useDeleteProvince, useListProvinces } from '@/shared/api/generated/api';
 import type { ProvinceItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
@@ -144,7 +140,6 @@ export function ProvincesTab() {
         </Button>
       }
     >
-
       <DataTable
         columns={columns}
         records={items}
@@ -171,11 +166,7 @@ export function ProvincesTab() {
         actions={actions}
       />
 
-      <ProvinceFormDialog
-        opened={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        province={editingProvince}
-      />
+      <ProvinceFormDialog opened={dialogOpen} onClose={() => setDialogOpen(false)} province={editingProvince} />
     </ListPageLayout>
   );
 }

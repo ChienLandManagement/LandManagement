@@ -16,7 +16,7 @@ import {
   landHolderTypeSchema,
   toLandHolderKind,
 } from '../model/catalogSchemas';
-import { type TreeNode, getDescendantIds } from '../model/treeUtils';
+import { getDescendantIds, type TreeNode } from '../model/treeUtils';
 
 interface LandHolderTypeFormDialogProps {
   opened: boolean;
@@ -25,12 +25,7 @@ interface LandHolderTypeFormDialogProps {
   allItems: TreeNode<LandHolderTypeItem>[];
 }
 
-export function LandHolderTypeFormDialog({
-  opened,
-  onClose,
-  item,
-  allItems,
-}: LandHolderTypeFormDialogProps) {
+export function LandHolderTypeFormDialog({ opened, onClose, item, allItems }: LandHolderTypeFormDialogProps) {
   const queryClient = useQueryClient();
   const createLandHolderType = useCreateLandHolderType();
   const updateLandHolderType = useUpdateLandHolderType();
