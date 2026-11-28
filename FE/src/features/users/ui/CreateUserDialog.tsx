@@ -49,13 +49,13 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
   const isAdminRole = watchedRole === 'Admin';
 
   const { data: provincesData } = useListProvinces(
-    { PageSize: 200 },
+    { PageSize: 100 },
     { query: { enabled: open && !isAdminRole } },
   );
   const provinces = provincesData?.data?.items ?? [];
 
   const { data: wardsData } = useListWards(
-    { ProvinceId: provinceId ?? undefined, PageSize: 200 },
+    { ProvinceId: provinceId ?? undefined, PageSize: 100 },
     { query: { enabled: open && !isAdminRole && Boolean(provinceId) } },
   );
   const wards = wardsData?.data?.items ?? [];

@@ -24,6 +24,10 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ApiResultOfLandHolderTypeItem,
+  ApiResultOfLandTypeItem,
+  ApiResultOfListOfLandHolderTypeItem,
+  ApiResultOfListOfLandTypeItem,
   ApiResultOfLoginResponse,
   ApiResultOfPagedResponseOfProvinceItem,
   ApiResultOfPagedResponseOfUserItem,
@@ -33,9 +37,12 @@ import type {
   ApiResultOfUserProfile,
   ApiResultOfWardItem,
   ChangeMyPasswordCommand,
+  CreateLandHolderTypeCommand,
+  CreateLandTypeCommand,
   CreateProvinceCommand,
   CreateUserCommand,
   CreateWardCommand,
+  ListLandHolderTypesParams,
   ListProvincesParams,
   ListUsersParams,
   ListWardsParams,
@@ -43,6 +50,8 @@ import type {
   ResetUserPasswordCommand,
   Result,
   SetUserActiveCommand,
+  UpdateLandHolderTypeCommand,
+  UpdateLandTypeCommand,
   UpdateProvinceCommand,
   UpdateUserCommand,
   UpdateWardCommand
@@ -1325,6 +1334,587 @@ export const useUpdateProvince = <TError = void,
         TContext
       > => {
       return useMutation(getUpdateProvinceMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Tạo loại đất
+ */
+export const createLandType = (
+    createLandTypeCommand: CreateLandTypeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandTypeItem>(
+      {url: `/api/land-types`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createLandTypeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateLandTypeMutationKey = () => ['createLandType'] as const;
+
+export const getCreateLandTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandType>>, TError,CreateLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createLandType>>, TError,CreateLandTypeMutationVariables, TContext> => {
+
+const mutationKey = getCreateLandTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createLandType>>, CreateLandTypeMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createLandType(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateLandTypeMutationResult = NonNullable<Awaited<ReturnType<typeof createLandType>>>
+    export type CreateLandTypeMutationBody = CreateLandTypeCommand
+    export type CreateLandTypeMutationError = void
+    export type CreateLandTypeMutationVariables = {data: CreateLandTypeCommand}
+
+    /** @summary Tạo loại đất */
+export const useCreateLandType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandType>>, TError,CreateLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createLandType>>,
+        TError,
+        CreateLandTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateLandTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách loại đất (phẳng, theo thứ tự hiển thị)
+ */
+export const listLandTypes = (
+
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfListOfLandTypeItem>(
+      {url: `/api/land-types`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getListLandTypesQueryKey = () => {
+    return [
+    `/api/land-types`
+    ] as const;
+    }
+
+
+export const getListLandTypesQueryOptions = <TData = Awaited<ReturnType<typeof listLandTypes>>, TError = void>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListLandTypesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listLandTypes>>> = ({ signal }) => listLandTypes(requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListLandTypesQueryResult = NonNullable<Awaited<ReturnType<typeof listLandTypes>>>
+export type ListLandTypesQueryError = void
+
+
+/** @summary Danh sách loại đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandTypes<TData = Awaited<ReturnType<typeof listLandTypes>>, TError = void>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandTypes>>,
+          TError,
+          Awaited<ReturnType<typeof listLandTypes>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách loại đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandTypes<TData = Awaited<ReturnType<typeof listLandTypes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandTypes>>,
+          TError,
+          Awaited<ReturnType<typeof listLandTypes>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách loại đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandTypes<TData = Awaited<ReturnType<typeof listLandTypes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách loại đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandTypes<TData = Awaited<ReturnType<typeof listLandTypes>>, TError = void>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListLandTypesQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) loại đất
+ */
+export const deleteLandType = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/land-types/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteLandTypeMutationKey = () => ['deleteLandType'] as const;
+
+export const getDeleteLandTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandType>>, TError,DeleteLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteLandType>>, TError,DeleteLandTypeMutationVariables, TContext> => {
+
+const mutationKey = getDeleteLandTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteLandType>>, DeleteLandTypeMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteLandType(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteLandTypeMutationResult = NonNullable<Awaited<ReturnType<typeof deleteLandType>>>
+
+    export type DeleteLandTypeMutationError = void
+    export type DeleteLandTypeMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) loại đất */
+export const useDeleteLandType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandType>>, TError,DeleteLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteLandType>>,
+        TError,
+        DeleteLandTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteLandTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Cập nhật loại đất
+ */
+export const updateLandType = (
+    id: string,
+    updateLandTypeCommand: UpdateLandTypeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandTypeItem>(
+      {url: `/api/land-types/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateLandTypeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateLandTypeMutationKey = () => ['updateLandType'] as const;
+
+export const getUpdateLandTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandType>>, TError,UpdateLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateLandType>>, TError,UpdateLandTypeMutationVariables, TContext> => {
+
+const mutationKey = getUpdateLandTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateLandType>>, UpdateLandTypeMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateLandType(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateLandTypeMutationResult = NonNullable<Awaited<ReturnType<typeof updateLandType>>>
+    export type UpdateLandTypeMutationBody = UpdateLandTypeCommand
+    export type UpdateLandTypeMutationError = void
+    export type UpdateLandTypeMutationVariables = {id: string;data: UpdateLandTypeCommand}
+
+    /** @summary Cập nhật loại đất */
+export const useUpdateLandType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandType>>, TError,UpdateLandTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateLandType>>,
+        TError,
+        UpdateLandTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateLandTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Tạo đối tượng sử dụng/quản lý đất
+ */
+export const createLandHolderType = (
+    createLandHolderTypeCommand: CreateLandHolderTypeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandHolderTypeItem>(
+      {url: `/api/land-holder-types`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createLandHolderTypeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateLandHolderTypeMutationKey = () => ['createLandHolderType'] as const;
+
+export const getCreateLandHolderTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandHolderType>>, TError,CreateLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createLandHolderType>>, TError,CreateLandHolderTypeMutationVariables, TContext> => {
+
+const mutationKey = getCreateLandHolderTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createLandHolderType>>, CreateLandHolderTypeMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createLandHolderType(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateLandHolderTypeMutationResult = NonNullable<Awaited<ReturnType<typeof createLandHolderType>>>
+    export type CreateLandHolderTypeMutationBody = CreateLandHolderTypeCommand
+    export type CreateLandHolderTypeMutationError = void
+    export type CreateLandHolderTypeMutationVariables = {data: CreateLandHolderTypeCommand}
+
+    /** @summary Tạo đối tượng sử dụng/quản lý đất */
+export const useCreateLandHolderType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandHolderType>>, TError,CreateLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createLandHolderType>>,
+        TError,
+        CreateLandHolderTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateLandHolderTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách đối tượng sử dụng/quản lý đất (phẳng, theo thứ tự hiển thị)
+ */
+export const listLandHolderTypes = (
+    params?: ListLandHolderTypesParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfListOfLandHolderTypeItem>(
+      {url: `/api/land-holder-types`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListLandHolderTypesQueryKey = (params?: ListLandHolderTypesParams,) => {
+    return [
+    `/api/land-holder-types`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListLandHolderTypesQueryOptions = <TData = Awaited<ReturnType<typeof listLandHolderTypes>>, TError = void>(params?: ListLandHolderTypesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListLandHolderTypesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listLandHolderTypes>>> = ({ signal }) => listLandHolderTypes(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListLandHolderTypesQueryResult = NonNullable<Awaited<ReturnType<typeof listLandHolderTypes>>>
+export type ListLandHolderTypesQueryError = void
+
+
+/** @summary Danh sách đối tượng sử dụng/quản lý đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandHolderTypes<TData = Awaited<ReturnType<typeof listLandHolderTypes>>, TError = void>(
+ params: undefined |  ListLandHolderTypesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandHolderTypes>>,
+          TError,
+          Awaited<ReturnType<typeof listLandHolderTypes>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách đối tượng sử dụng/quản lý đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandHolderTypes<TData = Awaited<ReturnType<typeof listLandHolderTypes>>, TError = void>(
+ params?: ListLandHolderTypesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandHolderTypes>>,
+          TError,
+          Awaited<ReturnType<typeof listLandHolderTypes>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách đối tượng sử dụng/quản lý đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandHolderTypes<TData = Awaited<ReturnType<typeof listLandHolderTypes>>, TError = void>(
+ params?: ListLandHolderTypesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách đối tượng sử dụng/quản lý đất (phẳng, theo thứ tự hiển thị) */
+export function useListLandHolderTypes<TData = Awaited<ReturnType<typeof listLandHolderTypes>>, TError = void>(
+ params?: ListLandHolderTypesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandHolderTypes>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListLandHolderTypesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) đối tượng sử dụng/quản lý đất
+ */
+export const deleteLandHolderType = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/land-holder-types/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteLandHolderTypeMutationKey = () => ['deleteLandHolderType'] as const;
+
+export const getDeleteLandHolderTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandHolderType>>, TError,DeleteLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteLandHolderType>>, TError,DeleteLandHolderTypeMutationVariables, TContext> => {
+
+const mutationKey = getDeleteLandHolderTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteLandHolderType>>, DeleteLandHolderTypeMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteLandHolderType(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteLandHolderTypeMutationResult = NonNullable<Awaited<ReturnType<typeof deleteLandHolderType>>>
+
+    export type DeleteLandHolderTypeMutationError = void
+    export type DeleteLandHolderTypeMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) đối tượng sử dụng/quản lý đất */
+export const useDeleteLandHolderType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandHolderType>>, TError,DeleteLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteLandHolderType>>,
+        TError,
+        DeleteLandHolderTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteLandHolderTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Cập nhật đối tượng sử dụng/quản lý đất
+ */
+export const updateLandHolderType = (
+    id: string,
+    updateLandHolderTypeCommand: UpdateLandHolderTypeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandHolderTypeItem>(
+      {url: `/api/land-holder-types/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateLandHolderTypeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateLandHolderTypeMutationKey = () => ['updateLandHolderType'] as const;
+
+export const getUpdateLandHolderTypeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandHolderType>>, TError,UpdateLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateLandHolderType>>, TError,UpdateLandHolderTypeMutationVariables, TContext> => {
+
+const mutationKey = getUpdateLandHolderTypeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateLandHolderType>>, UpdateLandHolderTypeMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateLandHolderType(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateLandHolderTypeMutationResult = NonNullable<Awaited<ReturnType<typeof updateLandHolderType>>>
+    export type UpdateLandHolderTypeMutationBody = UpdateLandHolderTypeCommand
+    export type UpdateLandHolderTypeMutationError = void
+    export type UpdateLandHolderTypeMutationVariables = {id: string;data: UpdateLandHolderTypeCommand}
+
+    /** @summary Cập nhật đối tượng sử dụng/quản lý đất */
+export const useUpdateLandHolderType = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandHolderType>>, TError,UpdateLandHolderTypeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateLandHolderType>>,
+        TError,
+        UpdateLandHolderTypeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateLandHolderTypeMutationOptions(options), queryClient);
     }
 
 /**

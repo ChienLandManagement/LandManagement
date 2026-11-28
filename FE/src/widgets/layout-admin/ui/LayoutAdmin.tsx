@@ -22,17 +22,21 @@ import {
   LogOut,
   Map as MapIcon,
   Moon,
+  Palette,
   Sun,
 } from 'lucide-react';
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { getUser } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
+import { type UiMainBg, useUiSettingsStore } from '@/shared/model/uiSettingsStore';
 import { MENU_CONFIG } from '../model/menuConfig';
+import { UiSettingsDrawer } from './UiSettingsDrawer';
 
 const SIDEBAR_COLLAPSED_KEY = 'admin-sidebar-collapsed';
 
 export function LayoutAdmin() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] = useDisclosure();
+  const [settingsOpened, { open: openSettings, close: closeSettings }] = useDisclosure();
   const [collapsed, setCollapsed] = useState<boolean>(() => {
     try {
       return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
@@ -48,6 +52,14 @@ export function LayoutAdmin() {
 
   const user = getUser();
   const logout = useLogout();
+  const mainBg = useUiSettingsStore((s) => s.mainBg);
+
+  const MAIN_BG_MAP: Record<UiMainBg, string> = {
+    default: '#ffffff',
+    gray: '#f8f9fa',
+    cool: '#f1f5f9',
+    warm: '#fafaf9',
+  };
 
   const toggleCollapsed = () => {
     setCollapsed((prev) => {
@@ -65,11 +77,24 @@ export function LayoutAdmin() {
     (item) => !item.roles || (user?.role && item.roles.includes(user.role)),
   );
 
-  const currentItem = MENU_CONFIG.find((item) => pathname.startsWith(item.path));
+  const currentMatch = (() => {
+    for (const item of MENU_CONFIG) {
+      if (item.children) {
+        const child = item.children.find(
+          (c) => pathname === c.path || pathname.startsWith(`${c.path}/`),
+        );
+        if (child) return { parent: item.label, current: child.label };
+      } else if (pathname === item.path || pathname.startsWith(`${item.path}/`)) {
+        return { parent: 'Hệ thống', current: item.label };
+      }
+    }
+    return null;
+  })();
 
   return (
     <>
       <AppShell
+        layout="alt"
         header={{ height: 60 }}
         navbar={{
           width: collapsed ? 72 : 250,
@@ -82,28 +107,31 @@ export function LayoutAdmin() {
           <Group h="100%" px="md" justify="space-between">
             <Group gap="sm">
               <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-              <ActionIcon
-                variant="subtle"
-                color="gray"
-                onClick={toggleCollapsed}
-                visibleFrom="sm"
-                aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
-              >
-                {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-              </ActionIcon>
               <Breadcrumbs>
                 <Text size="sm" c="dimmed">
-                  Hệ thống
+                  {currentMatch?.parent ?? 'Hệ thống'}
                 </Text>
-                {currentItem && (
+                {currentMatch && (
                   <Text size="sm" fw={500}>
-                    {currentItem.label}
+                    {currentMatch.current}
                   </Text>
                 )}
               </Breadcrumbs>
             </Group>
 
             <Group gap="sm">
+              <Tooltip label="Tùy chỉnh giao diện">
+                <ActionIcon
+                  variant="subtle"
+                  color="gray"
+                  size="lg"
+                  onClick={openSettings}
+                  aria-label="Tùy chỉnh giao diện"
+                >
+                  <Palette size={18} />
+                </ActionIcon>
+              </Tooltip>
+
               <Tooltip label={computedColorScheme === 'dark' ? 'Chế độ sáng' : 'Chế độ tối'}>
                 <ActionIcon
                   variant="subtle"
@@ -160,7 +188,7 @@ export function LayoutAdmin() {
             <MapIcon size={24} color="var(--mantine-color-teal-6)" style={{ flexShrink: 0 }} />
             {!collapsed && (
               <Text fw={700} size="md" truncate>
-                LandManagement
+                Quản lý đất đai
               </Text>
             )}
           </Group>
@@ -168,6 +196,53 @@ export function LayoutAdmin() {
           <Stack gap={4}>
             {visibleMenu.map((item) => {
               const Icon = item.icon;
+              const visibleChildren = item.children?.filter(
+                (child) => !child.roles || (user?.role && child.roles.includes(user.role)),
+              );
+
+              if (visibleChildren && visibleChildren.length > 0) {
+                const hasActiveChild = visibleChildren.some(
+                  (child) => pathname === child.path || pathname.startsWith(`${child.path}/`),
+                );
+
+                const groupNav = (
+                  <NavLink
+                    key={item.path}
+                    label={collapsed ? undefined : item.label}
+                    leftSection={<Icon size={18} strokeWidth={1.7} />}
+                    defaultOpened={hasActiveChild}
+                    childrenOffset={collapsed ? 0 : 24}
+                    style={{ borderRadius: 'var(--mantine-radius-md)' }}
+                  >
+                    {!collapsed &&
+                      visibleChildren.map((child) => {
+                        const ChildIcon = child.icon;
+                        const childActive = pathname === child.path || pathname.startsWith(`${child.path}/`);
+                        return (
+                          <NavLink
+                            key={child.path}
+                            component={Link}
+                            to={child.path}
+                            label={child.label}
+                            leftSection={<ChildIcon size={16} strokeWidth={1.7} />}
+                            active={childActive}
+                            onClick={closeMobile}
+                            style={{ borderRadius: 'var(--mantine-radius-md)' }}
+                          />
+                        );
+                      })}
+                  </NavLink>
+                );
+
+                return collapsed ? (
+                  <Tooltip key={item.path} label={item.label} position="right" withArrow>
+                    {groupNav}
+                  </Tooltip>
+                ) : (
+                  groupNav
+                );
+              }
+
               const active = pathname === item.path || pathname.startsWith(`${item.path}/`);
               const navLink = (
                 <NavLink
@@ -191,14 +266,40 @@ export function LayoutAdmin() {
               );
             })}
           </Stack>
+
+          <Group
+            mt="auto"
+            pt="sm"
+            justify={collapsed ? 'center' : 'space-between'}
+            align="center"
+            style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}
+          >
+            {!collapsed && (
+              <Text size="xs" c="dimmed">
+                © 2026 Quản lý đất đai
+              </Text>
+            )}
+            <Tooltip label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'} position="right" withArrow>
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={toggleCollapsed}
+                visibleFrom="sm"
+                aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
+              >
+                {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+              </ActionIcon>
+            </Tooltip>
+          </Group>
         </AppShell.Navbar>
 
-        <AppShell.Main>
+        <AppShell.Main bg={computedColorScheme === 'dark' ? undefined : MAIN_BG_MAP[mainBg]}>
           <Outlet />
         </AppShell.Main>
       </AppShell>
 
       <ChangePasswordDialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
+      <UiSettingsDrawer opened={settingsOpened} onClose={closeSettings} />
     </>
   );
 }

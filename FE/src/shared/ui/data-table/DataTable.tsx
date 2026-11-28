@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Group,
-  Menu,
   Pagination,
   Paper,
   Select,
@@ -11,10 +10,12 @@ import {
   Stack,
   Table,
   Text,
+  Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { AlertCircle, ArrowDown, ArrowUp, ArrowUpDown, Inbox, MoreVertical, RefreshCw } from 'lucide-react';
+import { AlertCircle, ArrowDown, ArrowUp, ArrowUpDown, Inbox, RefreshCw } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { useUiSettingsStore } from '@/shared/model/uiSettingsStore';
 
 export interface DataTableColumn<T> {
   key: string;
@@ -139,14 +140,31 @@ export function DataTable<T>({
   return (
     <Paper withBorder radius="md" style={{ overflow: 'hidden' }}>
       <Table.ScrollContainer minWidth={minWidth}>
-        <Table striped highlightOnHover stickyHeader={stickyHeader} verticalSpacing="sm" horizontalSpacing="md">
+        <Table
+          striped
+          highlightOnHover
+          withColumnBorders={useUiSettingsStore((s) => s.tableColumnBorders)}
+          stickyHeader={stickyHeader}
+          verticalSpacing="sm"
+          horizontalSpacing="md"
+          styles={{
+            thead: {
+              backgroundColor: 'var(--mantine-primary-color-filled)',
+            },
+            th: {
+              backgroundColor: 'transparent',
+              color: 'var(--mantine-primary-color-contrast)',
+            },
+          }}
+        >
           <Table.Thead>
             <Table.Tr>
               {columns.map((column) => (
-                <Table.Th key={column.key} style={{ width: column.width, textAlign: column.align ?? 'left' }}>
+                <Table.Th key={column.key} style={{ width: column.width, textAlign: column.align ?? 'left', whiteSpace: 'nowrap' }}>
                   {column.sortable && onSortChange ? (
                     <UnstyledButton
                       onClick={() => handleSort(column.key)}
+                      c="white"
                       style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontWeight: 600 }}
                     >
                       <span>{column.title}</span>
@@ -158,7 +176,7 @@ export function DataTable<T>({
                 </Table.Th>
               ))}
               {hasActions && (
-                <Table.Th style={{ width: 64, textAlign: 'right' }}>
+                <Table.Th style={{ width: 1, whiteSpace: 'nowrap' }}>
                   <Text size="sm" fw={600}>
                     Thao tác
                   </Text>
@@ -233,28 +251,22 @@ export function DataTable<T>({
                     ))}
                     {hasActions && (
                       <Table.Td style={{ textAlign: 'right' }}>
-                        {visibleActions.length > 0 && (
-                          <Menu shadow="md" width={180} position="bottom-end" withinPortal>
-                            <Menu.Target>
-                              <ActionIcon variant="subtle" color="gray" aria-label="Mở menu thao tác">
-                                <MoreVertical size={16} />
+                        <Group gap={4} justify="flex-end" wrap="nowrap">
+                          {visibleActions.map((action) => (
+                            <Tooltip key={action.label} label={action.label} withArrow>
+                              <ActionIcon
+                                variant="subtle"
+                                color={action.color ?? 'gray'}
+                                radius="xl"
+                                aria-label={action.label}
+                                disabled={action.disabled?.(record)}
+                                onClick={() => action.onClick(record)}
+                              >
+                                {action.icon}
                               </ActionIcon>
-                            </Menu.Target>
-                            <Menu.Dropdown>
-                              {visibleActions.map((action) => (
-                                <Menu.Item
-                                  key={action.label}
-                                  leftSection={action.icon}
-                                  color={action.color}
-                                  disabled={action.disabled?.(record)}
-                                  onClick={() => action.onClick(record)}
-                                >
-                                  {action.label}
-                                </Menu.Item>
-                              ))}
-                            </Menu.Dropdown>
-                          </Menu>
-                        )}
+                            </Tooltip>
+                          ))}
+                        </Group>
                       </Table.Td>
                     )}
                   </Table.Tr>
@@ -271,7 +283,13 @@ export function DataTable<T>({
           align="center"
           px="md"
           py="sm"
-          style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}
+          style={{
+            position: 'sticky',
+            bottom: 0,
+            zIndex: 10,
+            backgroundColor: 'var(--mantine-color-body)',
+            borderTop: '1px solid var(--mantine-color-default-border)',
+          }}
         >
           <Group gap="sm" align="center">
             <Text size="sm" c="dimmed">

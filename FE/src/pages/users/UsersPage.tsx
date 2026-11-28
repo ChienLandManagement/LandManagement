@@ -1,7 +1,6 @@
-import { Button, Container, Group, Stack, Text, Title } from '@mantine/core';
-import { Link } from '@tanstack/react-router';
-import { ArrowLeft, Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Button, Stack } from '@mantine/core';
+import { Plus, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
 import {
@@ -17,12 +16,12 @@ import {
 import { useListUsers } from '@/shared/api/generated/api';
 import type { UserItem, UserRole } from '@/shared/api/model';
 import { APP_NAME } from '@/shared/config/constants';
+import { ListPageLayout } from '@/shared/ui/templates';
 
 export function UsersPage() {
   const currentUser = useAuthStore((s) => s.user);
 
-  const [searchInput, setSearchInput] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | undefined>(undefined);
   const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(undefined);
   const [sortBy, setSortBy] = useState<UserSortField>('createdAt');
@@ -38,16 +37,8 @@ export function UsersPage() {
     action: UserConfirmActionType;
   } | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchInput.trim());
-      setCurrentPage(1);
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [searchInput]);
-
   const { data, isLoading, isError, refetch, isFetching } = useListUsers({
-    Query: debouncedQuery || undefined,
+    Query: keyword || undefined,
     Role: roleFilter ?? undefined,
     IsActive: isActiveFilter ?? undefined,
     CurrentPage: currentPage,
@@ -76,42 +67,42 @@ export function UsersPage() {
         <title>Quản lý người dùng - {APP_NAME}</title>
       </Helmet>
 
-      <Container size="xl" py="lg">
-        <Stack gap="lg">
-          <Group justify="space-between" align="center" wrap="wrap">
-            <Group gap="md">
-              <Button component={Link} to="/home" variant="default" size="sm" leftSection={<ArrowLeft size={16} />}>
-                Trang chủ
-              </Button>
-              <div>
-                <Title order={1} size="h2">
-                  Quản lý người dùng
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Quản lý tài khoản, phân quyền và trạng thái hoạt động
-                </Text>
-              </div>
-            </Group>
-
+      <ListPageLayout
+        title="Quản lý người dùng"
+        actions={
+          <>
+            <UserFilters
+              keyword={keyword}
+              onSearch={(val) => {
+                setKeyword(val);
+                setCurrentPage(1);
+              }}
+              roleFilter={roleFilter}
+              onRoleFilterChange={(role) => {
+                setRoleFilter(role);
+                setCurrentPage(1);
+              }}
+              isActiveFilter={isActiveFilter}
+              onIsActiveFilterChange={(isActive) => {
+                setIsActiveFilter(isActive);
+                setCurrentPage(1);
+              }}
+            />
+            <Button
+              variant="default"
+              leftSection={<RefreshCw size={16} />}
+              onClick={() => void refetch()}
+              loading={isFetching && !isLoading}
+            >
+              Làm mới
+            </Button>
             <Button leftSection={<Plus size={16} />} onClick={() => setCreateOpen(true)}>
               Thêm người dùng
             </Button>
-          </Group>
-
-          <UserFilters
-            searchInput={searchInput}
-            onSearchChange={setSearchInput}
-            roleFilter={roleFilter}
-            onRoleFilterChange={(role) => {
-              setRoleFilter(role);
-              setCurrentPage(1);
-            }}
-            isActiveFilter={isActiveFilter}
-            onIsActiveFilterChange={(isActive) => {
-              setIsActiveFilter(isActive);
-              setCurrentPage(1);
-            }}
-          />
+          </>
+        }
+      >
+        <Stack gap="md">
 
           <UserTable
             items={items}
@@ -132,7 +123,7 @@ export function UsersPage() {
             onConfirmAction={(user, action) => setConfirmAction({ user, action })}
           />
         </Stack>
-      </Container>
+      </ListPageLayout>
 
       <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} />
       <EditUserDialog

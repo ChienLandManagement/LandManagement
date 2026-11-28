@@ -1,17 +1,13 @@
-import { Badge, Box, Button, Card, Container, Group, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core';
+import { Badge, Box, Button, Card, Container, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { Link } from '@tanstack/react-router';
-import { KeyRound, Landmark, LogOut, MapPin, Users } from 'lucide-react';
-import { useState } from 'react';
+import { MapPin, Users } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
-import { ChangePasswordDialog, useLogout } from '@/features/auth';
 import { USER_ROLE_LABELS } from '@/features/users';
 import { APP_NAME } from '@/shared/config/constants';
 
 export default function HomePage() {
   const user = useAuthStore((s) => s.user);
-  const logout = useLogout();
-  const [changePasswordOpen, setChangePasswordOpen] = useState(false);
 
   const isAdmin = user?.role === 'Admin';
   const roleLabel =
@@ -25,52 +21,7 @@ export default function HomePage() {
         <title>Trang chủ - {APP_NAME}</title>
       </Helmet>
 
-      <Box mih="100vh" bg="var(--mantine-color-default-hover)">
-        <Box
-          component="header"
-          bg="var(--mantine-color-body)"
-          style={{ borderBottom: '1px solid var(--mantine-color-default-border)' }}
-        >
-          <Container size="lg" h={64}>
-            <Group justify="space-between" h="100%">
-              <Group gap="xs">
-                <ThemeIcon size={36} radius="md">
-                  <Landmark size={18} />
-                </ThemeIcon>
-                <Text size="lg" fw={700}>
-                  {APP_NAME}
-                </Text>
-              </Group>
-
-              <Group gap="xs">
-                {isAdmin && (
-                  <Button
-                    component={Link}
-                    to="/users"
-                    variant="default"
-                    size="sm"
-                    leftSection={<Users size={16} />}
-                  >
-                    Quản lý người dùng
-                  </Button>
-                )}
-                <Button
-                  variant="default"
-                  size="sm"
-                  leftSection={<KeyRound size={16} />}
-                  onClick={() => setChangePasswordOpen(true)}
-                >
-                  Đổi mật khẩu
-                </Button>
-                <Button variant="subtle" color="gray" size="sm" leftSection={<LogOut size={16} />} onClick={logout}>
-                  Đăng xuất
-                </Button>
-              </Group>
-            </Group>
-          </Container>
-        </Box>
-
-        <Container size="lg" py="xl">
+      <Container size="lg" py="md">
           <Stack gap="lg">
             <Card withBorder radius="md" padding="lg">
               <Group justify="space-between" align="flex-start" mb="xs">
@@ -141,9 +92,6 @@ export default function HomePage() {
             )}
           </Stack>
         </Container>
-      </Box>
-
-      <ChangePasswordDialog open={changePasswordOpen} onOpenChange={setChangePasswordOpen} />
     </>
   );
 }

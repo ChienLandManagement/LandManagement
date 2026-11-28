@@ -19,6 +19,7 @@ import { ArrowRight, BarChart3, CheckCircle2, FileSpreadsheet, Landmark, Layers,
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
+import { LoginDialog } from '@/features/auth';
 import { APP_NAME, ROUTES } from '@/shared/config/constants';
 
 const FEATURES = [
@@ -54,6 +55,7 @@ export default function LandingPage() {
   const isAuthenticated = useAuthStore((s) => Boolean(s.accessToken));
   const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -87,14 +89,15 @@ export default function LandingPage() {
                 </Text>
               </Group>
 
-              <Button
-                component={Link}
-                to={isAuthenticated ? ROUTES.HOME : ROUTES.LOGIN}
-                size="sm"
-                rightSection={<ArrowRight size={16} />}
-              >
-                {isAuthenticated ? 'Vào hệ thống' : 'Đăng nhập'}
-              </Button>
+              {isAuthenticated ? (
+                <Button component={Link} to={ROUTES.HOME} size="sm" rightSection={<ArrowRight size={16} />}>
+                  Vào hệ thống
+                </Button>
+              ) : (
+                <Button size="sm" rightSection={<ArrowRight size={16} />} onClick={() => setLoginOpen(true)}>
+                  Đăng nhập
+                </Button>
+              )}
             </Group>
           </Container>
         </Box>
@@ -129,14 +132,24 @@ export default function LandingPage() {
                       </Text>
 
                       <Group pt="xs">
-                        <Button
-                          component={Link}
-                          to={isAuthenticated ? ROUTES.HOME : ROUTES.LOGIN}
-                          size="lg"
-                          rightSection={<ArrowRight size={18} />}
-                        >
-                          {isAuthenticated ? 'Vào bảng điều khiển' : 'Đăng nhập ngay'}
-                        </Button>
+                        {isAuthenticated ? (
+                          <Button
+                            component={Link}
+                            to={ROUTES.HOME}
+                            size="lg"
+                            rightSection={<ArrowRight size={18} />}
+                          >
+                            Vào bảng điều khiển
+                          </Button>
+                        ) : (
+                          <Button
+                            size="lg"
+                            rightSection={<ArrowRight size={18} />}
+                            onClick={() => setLoginOpen(true)}
+                          >
+                            Đăng nhập ngay
+                          </Button>
+                        )}
                       </Group>
 
                       <SimpleGrid
@@ -262,6 +275,8 @@ export default function LandingPage() {
           </Text>
         </Box>
       </Box>
+
+      <LoginDialog open={loginOpen} onOpenChange={setLoginOpen} />
     </>
   );
 }

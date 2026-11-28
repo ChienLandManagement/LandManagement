@@ -1,4 +1,4 @@
-export const APP_NAME = 'LandManagement';
+export const APP_NAME = 'Quản lý đất đai';
 
 export const ROUTES = {
   LOGIN: '/login' as const,

@@ -50,13 +50,13 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
   const isAdminRole = watchedRole === 'Admin';
 
   const { data: provincesData } = useListProvinces(
-    { PageSize: 200 },
+    { PageSize: 100 },
     { query: { enabled: open && !isAdminRole } },
   );
   const provinces = provincesData?.data?.items ?? [];
 
   const { data: wardsData } = useListWards(
-    { ProvinceId: provinceId ?? undefined, PageSize: 200 },
+    { ProvinceId: provinceId ?? undefined, PageSize: 100 },
     { query: { enabled: open && !isAdminRole } },
   );
   const wards = wardsData?.data?.items ?? [];
@@ -70,7 +70,7 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
 
   useEffect(() => {
     if (user && open) {
-      setProvinceId(null);
+      setProvinceId(user.provinceId ?? null);
       reset({
         fullName: user.fullName ?? '',
         email: user.email ?? '',
@@ -79,15 +79,6 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
       });
     }
   }, [user, open, reset]);
-
-  useEffect(() => {
-    if (open && user?.wardId && !provinceId && wards.length > 0) {
-      const matched = wards.find((w) => w.id === user.wardId);
-      if (matched?.provinceId) {
-        setProvinceId(matched.provinceId);
-      }
-    }
-  }, [open, user?.wardId, provinceId, wards]);
 
   const onSubmit = (values: EditUserSubmitValues) => {
     if (!user?.id) {

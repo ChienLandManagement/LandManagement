@@ -1,8 +1,8 @@
-import { Button, Group, Paper, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
-import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import {
   getListProvincesQueryKey,
   useDeleteProvince,
@@ -11,14 +11,14 @@ import {
 import type { ProvinceItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
+import { AdminSearch, ListPageLayout } from '@/shared/ui/templates';
 import { ProvinceFormDialog } from './ProvinceFormDialog';
 
 export function ProvincesTab() {
   const queryClient = useQueryClient();
   const deleteProvince = useDeleteProvince();
 
-  const [searchInput, setSearchInput] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [sortBy, setSortBy] = useState<string>('provinceCode');
@@ -27,16 +27,8 @@ export function ProvincesTab() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProvince, setEditingProvince] = useState<ProvinceItem | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchInput.trim());
-      setPage(1);
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [searchInput]);
-
   const { data, isLoading, isError, refetch } = useListProvinces({
-    Query: debouncedQuery || undefined,
+    Query: keyword || undefined,
     CurrentPage: page,
     PageSize: pageSize,
     SortBy: sortBy,
@@ -133,21 +125,25 @@ export function ProvincesTab() {
   ];
 
   return (
-    <Stack gap="md">
-      <Paper withBorder p="md" radius="md">
-        <Group justify="space-between" wrap="wrap" gap="sm">
-          <TextInput
-            placeholder="Tìm theo mã hoặc tên tỉnh/thành phố..."
-            leftSection={<Search size={16} />}
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 240, maxWidth: 400 }}
-          />
-          <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate}>
-            Thêm tỉnh/thành phố
-          </Button>
-        </Group>
-      </Paper>
+    <ListPageLayout
+      title="Tỉnh/Thành phố"
+      filters={
+        <AdminSearch
+          testId="provinces"
+          placeholder="Tìm theo mã hoặc tên tỉnh/thành phố..."
+          value={keyword}
+          onSearch={(val) => {
+            setKeyword(val);
+            setPage(1);
+          }}
+        />
+      }
+      actions={
+        <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate}>
+          Thêm tỉnh/thành phố
+        </Button>
+      }
+    >
 
       <DataTable
         columns={columns}
@@ -180,6 +176,6 @@ export function ProvincesTab() {
         onClose={() => setDialogOpen(false)}
         province={editingProvince}
       />
-    </Stack>
+    </ListPageLayout>
   );
 }

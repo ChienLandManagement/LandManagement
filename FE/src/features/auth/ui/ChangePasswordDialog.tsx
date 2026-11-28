@@ -5,7 +5,6 @@ import { useNavigate } from '@tanstack/react-router';
 import { Controller, useForm } from 'react-hook-form';
 import { clearAuth } from '@/entities/session';
 import { useChangeMyPassword } from '@/shared/api/generated/api';
-import { ROUTES } from '@/shared/config/constants';
 import { type ChangePasswordFormValues, changePasswordSchema } from '../model/changePasswordSchema';
 
 interface ChangePasswordDialogProps {
@@ -50,7 +49,7 @@ export function ChangePasswordDialog({ open, onOpenChange }: ChangePasswordDialo
       });
       handleClose();
       clearAuth();
-      navigate({ to: ROUTES.LOGIN });
+      navigate({ to: '/' });
     } catch (error) {
       notifications.show({
         color: 'red',

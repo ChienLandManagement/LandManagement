@@ -6,11 +6,16 @@ import { NotFoundPage } from '@/pages/not-found';
 import { LayoutAdmin } from '@/widgets/layout-admin';
 
 const LandingPage = lazy(() => import('@/pages/landing').then((m) => ({ default: m.LandingPage })));
-const LoginPage = lazy(() => import('@/pages/login').then((m) => ({ default: m.LoginPage })));
 const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.HomePage })));
 const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.UsersPage })));
 const LocationsPage = lazy(() =>
   import('@/pages/locations').then((m) => ({ default: m.LocationsPage })),
+);
+const LandTypesPage = lazy(() =>
+  import('@/pages/land-types').then((m) => ({ default: m.LandTypesPage })),
+);
+const LandHolderTypesPage = lazy(() =>
+  import('@/pages/land-holder-types').then((m) => ({ default: m.LandHolderTypesPage })),
 );
 const ForbiddenPage = lazy(() =>
   import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })),
@@ -37,17 +42,11 @@ const landingRoute = createRoute({
   component: LandingPage,
 });
 
-const loginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/login',
-  component: LoginPage,
-});
-
 const adminLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'admin-layout',
   beforeLoad: () => {
-    if (!getUser()) throw redirect({ to: '/login' });
+    if (!getUser()) throw redirect({ to: '/' });
   },
   component: LayoutAdmin,
 });
@@ -78,8 +77,25 @@ const locationsRoute = createRoute({
   },
 });
 
+const landTypesRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/land-types',
+  component: LandTypesPage,
+});
+
+const landHolderTypesRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/land-holder-types',
+  component: LandHolderTypesPage,
+});
+
 export const routeTree = rootRoute.addChildren([
   landingRoute,
-  loginRoute,
-  adminLayoutRoute.addChildren([homeRoute, usersRoute, locationsRoute]),
+  adminLayoutRoute.addChildren([
+    homeRoute,
+    landTypesRoute,
+    landHolderTypesRoute,
+    usersRoute,
+    locationsRoute,
+  ]),
 ]);
