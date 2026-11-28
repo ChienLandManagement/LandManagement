@@ -22,3 +22,6 @@
 # OS
 .DS_Store
 Thumbs.db
+
+# MCP cục bộ: chứa token plain text, không commit
+.mcp.json
