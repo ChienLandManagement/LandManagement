@@ -23,15 +23,9 @@ public static class AuthEndpointExtensions
             ctx.Response.Cookies.Delete(RefreshCookieName, new CookieOptions { Path = RefreshCookiePath });
 
         // Refresh token chỉ nằm trong cookie HttpOnly, không trả ra body.
-        public async Task SendAuthResultAsync(ErrorOr<AuthResult> result, CancellationToken ct)
+        public Result ToLoginResult(ErrorOr<AuthResult> result)
         {
-            if (result.IsError)
-            {
-                var error = result.ToResult();
-                ctx.Response.StatusCode = error.StatusCode;
-                await ctx.Response.WriteAsJsonAsync(error, ct);
-                return;
-            }
+            if (result.IsError) return result.ToResult();
 
             var auth = result.Value;
             ctx.Response.Cookies.Append(RefreshCookieName, auth.RefreshToken, new CookieOptions
@@ -42,7 +36,7 @@ public static class AuthEndpointExtensions
                 Expires = auth.RefreshExpiresAt,
                 Path = RefreshCookiePath
             });
-            await ctx.Response.WriteAsJsonAsync(Result.Ok(new LoginResponse(auth.AccessToken, auth.AccessExpiresAt, auth.User)), ct);
+            return Result.Ok(new LoginResponse(auth.AccessToken, auth.AccessExpiresAt, auth.User));
         }
     }
 }

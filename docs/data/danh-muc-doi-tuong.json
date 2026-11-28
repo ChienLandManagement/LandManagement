@@ -1,0 +1,110 @@
+[
+ {
+  "ma": "CNC",
+  "ten": "Cá nhân trong nước, người Việt Nam định cư ở nước ngoài",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "CNV",
+  "ten": "Cá nhân trong nước",
+  "nhom": "SD",
+  "cha": "CNC"
+ },
+ {
+  "ma": "CNN",
+  "ten": "Người Việt Nam định cư ở nước ngoài",
+  "nhom": "SD",
+  "cha": "CNC"
+ },
+ {
+  "ma": "TCC",
+  "ten": "Tổ chức trong nước",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "TCN",
+  "ten": "Cơ quan nhà nước, cơ quan đảng và đơn vị vũ trang nhân dân",
+  "nhom": "SD",
+  "cha": "TCC"
+ },
+ {
+  "ma": "TSN",
+  "ten": "Đơn vị sự nghiệp công lập",
+  "nhom": "SD",
+  "cha": "TCC"
+ },
+ {
+  "ma": "TXH",
+  "ten": "Tổ chức xã hội, tổ chức xã hội - nghề nghiệp",
+  "nhom": "SD",
+  "cha": "TCC"
+ },
+ {
+  "ma": "TKT",
+  "ten": "Tổ chức kinh tế",
+  "nhom": "SD",
+  "cha": "TCC"
+ },
+ {
+  "ma": "TKH",
+  "ten": "Tổ chức khác",
+  "nhom": "SD",
+  "cha": "TCC"
+ },
+ {
+  "ma": "TTG",
+  "ten": "Tổ chức tôn giáo, tổ chức tôn giáo trực thuộc",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "CDS",
+  "ten": "Cộng đồng dân cư",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "TNG",
+  "ten": "Tổ chức nước ngoài có chức năng ngoại giao",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "NGV",
+  "ten": "Người gốc Việt Nam định cư ở nước ngoài",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "TVN",
+  "ten": "Tổ chức kinh tế có vốn đầu tư nước ngoài",
+  "nhom": "SD",
+  "cha": null
+ },
+ {
+  "ma": "TCQ",
+  "ten": "Cơ quan nhà nước, cơ quan đảng và đơn vị vũ trang nhân dân",
+  "nhom": "QL",
+  "cha": null
+ },
+ {
+  "ma": "TSQ",
+  "ten": "Đơn vị sự nghiệp công lập",
+  "nhom": "QL",
+  "cha": null
+ },
+ {
+  "ma": "KTQ",
+  "ten": "Tổ chức kinh tế",
+  "nhom": "QL",
+  "cha": null
+ },
+ {
+  "ma": "CDQ",
+  "ten": "Cộng đồng dân cư",
+  "nhom": "QL",
+  "cha": null
+ }
+]

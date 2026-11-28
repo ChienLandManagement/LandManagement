@@ -168,3 +168,15 @@ Trước khi thêm: tiêu chí này có trùng hoặc đá với B1–B16 không
 - **Ca gốc:** `LoginLog.Id` kiểu `long` (tự tăng) trong khi `User`, `RefreshToken` dùng `Guid.CreateVersion7()`.
 - **Cách đúng:** `LoginLog : Entity<Guid>` với `Id = Guid.CreateVersion7()` trong constructor, kèm migration đổi kiểu cột.
 - **Vì sao:** v7 sắp theo thời gian nên chỉ mục B-tree ít phân mảnh hơn v4, và id không đoán được như số tự tăng. Chiến chốt (2026-11-27). Đổi kiểu cột đang có dữ liệu cần migration, hỏi Chiến trước khi sửa.
+
+### S71 · Handler trả `ErrorOr`, endpoint trả `Result`
+- **Luật:** handler/service luôn trả `ErrorOr<T>`; không có dữ liệu thì `ErrorOr<Success>` và `return Result.Success;`, không dùng `Unit` (`ICommand` không kèm kiểu là `IRequest<ErrorOr<Success>>`). Endpoint khai `Endpoint<TRequest, Result>` và trả `Result` qua `.ToResult()`: `var result = (await sender.Send(req, ct)).ToResult(); await Send.ResponseAsync(result, result.StatusCode, ct);`. Không tự viết hàm bọc ghi response, không tự dựng JSON lỗi trong endpoint.
+- **Ca gốc:** `ResetUserPasswordHandler : IRequestHandler<…, ErrorOr<Unit>>` trả `Unit.Value`; endpoint gọi `HttpContext.SendResultAsync(...)` (extension tự viết) với `Endpoint<TRequest>` không có kiểu trả.
+- **Cách đúng:** handler `ErrorOr<Success>` trả `Result.Success`; endpoint `Endpoint<ResetUserPasswordCommand, Result>` dùng `ToResult()` như `D:\Project\ScheduleManagement` (controller trả `Task<Result>`, service trả `ErrorOr<T>` / `ErrorOr<Success>`).
+- **Vì sao:** cùng một chuẩn với ScheduleManagement ("copy trước, tự chế sau"), lỗi và mã HTTP đi qua đúng một đường của ResultLib. Chiến chốt (2026-11-28).
+
+### S72 · Request không khai trong file endpoint
+- **Luật:** không khai `record`/`class` request trong file endpoint. Command/Query của use case chính là request của endpoint (`Endpoint<CreateUserCommand, Result>`), route `{id}` bind thẳng vào thuộc tính `Id` của command. Chỉ tách DTO request riêng khi command chứa trường server điền (`Ip`, `UserAgent`, `UserId` lấy từ claim, B11); khi đó DTO đặt file riêng cạnh command trong thư mục use case, không nằm trong file endpoint.
+- **Ca gốc:** `CreateUserEndpoint.cs` khai thêm `record CreateUserRequest(...)` giống hệt `CreateUserCommand`, rồi copy từng trường sang command (`LoginRequest` trong `LoginEndpoint.cs` là code cũ, có lý do tách vì `Ip`/`UserAgent`, nhưng vẫn nằm sai chỗ).
+- **Cách đúng:** xoá `CreateUserRequest`; endpoint nhận `CreateUserCommand` và gửi thẳng `sender.Send(req, ct)`. Request mặc định (phân trang) khai giá trị mặc định ngay trên record: `int Page = 1, int PageSize = 20`.
+- **Vì sao:** hai kiểu trùng nhau là rác (B2), sửa trường phải sửa hai nơi; Chiến chốt (2026-11-28). Chưa kiểm bằng chạy thật việc bind route + body vào record positional: kiểm khi nghiệm thu endpoint.

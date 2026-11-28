@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "apm-p-fc7f291a": {
+      "source": {
+        "source": "directory",
+        "path": "./.agents/plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@apm-p-fc7f291a": true
+  }
+}

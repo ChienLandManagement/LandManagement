@@ -1,20 +1,22 @@
 using FastEndpoints;
+using LandManagement.Common.Models;
 using LandManagement.Groups;
 using LandManagement.UseCases.Auth;
-using LandManagement.Common.Models;
+using LandManagement.UseCases.Auth.Me;
 using MediatR;
-using ResultLib.Extensions;
 using ResultLib.Core;
+using ResultLib.Extensions.FastEndpoints;
+using ResultLib.Extensions;
 
 namespace LandManagement.Endpoints.Auth;
 
-public class MeEndpoint(ISender sender) : EndpointWithoutRequest
+public class MeEndpoint(ISender sender) : EndpointWithoutRequest<Result>
 {
     public override void Configure()
     {
         Get("me");
         Group<AuthGroup>();
-        Description(d => d.WithName("Me").Produces<ApiResult<UserProfile>>(200));
+        Description(d => d.WithName("Me").Produces<ApiResult<UserProfile>>());
         Summary(s => s.Summary = "Thông tin tài khoản đang đăng nhập");
     }
 
@@ -22,18 +24,11 @@ public class MeEndpoint(ISender sender) : EndpointWithoutRequest
     {
         if (!Guid.TryParse(User.FindFirst("sub")?.Value, out var userId))
         {
-            await Send.ResponseAsync(Result.Unauthorized("Token không hợp lệ"), 401, ct);
+            await this.SendResultAsync(Result.Unauthorized("Token không hợp lệ"), ct);
             return;
         }
 
-        var result = await sender.Send(new MeQuery(userId), ct);
-        if (result.IsError)
-        {
-            var error = result.ToResult();
-            await Send.ResponseAsync(error, error.StatusCode, ct);
-            return;
-        }
-
-        await Send.OkAsync(Result.Ok(result.Value), ct);
+        var result = (await sender.Send(new MeQuery(userId), ct)).ToResult();
+        await this.SendResultAsync(result, ct);
     }
 }

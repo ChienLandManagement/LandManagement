@@ -1,0 +1,741 @@
+{
+ "bieu": "05/TKKK",
+ "tieuDe": "Chu chuyển diện tích của các loại đất",
+ "kyTruoc": "2019-12-31",
+ "kySau": "2024-12-31",
+ "donVi": "ha",
+ "ghiChu": "Hàng = loại đất kỳ trước, cột = loại đất kỳ sau. Đường chéo = giữ nguyên loại. giamKhac / tangKhac = ngoài 52 loại.",
+ "rows": [
+  {
+   "stt": "1",
+   "ten": "Đất trồng lúa",
+   "ma": "LUA",
+   "dienTich2019": 421.26176,
+   "chuyenSang": {
+    "LUA": 406.13777999999996,
+    "HNK": 1.4245699999999994,
+    "CLN": 1.6578799999999998,
+    "RSX": 1.78086,
+    "NTS": 0.61672,
+    "ONT": 0.30356,
+    "DGT": 3.5471199999999996,
+    "DTL": 0.4092100000000001,
+    "BCS": 5.362759999999998,
+    "DCS": 0.0213
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "2",
+   "ten": "Đất trồng cây hằng năm khác",
+   "ma": "HNK",
+   "dienTich2019": 557.26049,
+   "chuyenSang": {
+    "LUA": 1.5184399999999998,
+    "HNK": 502.41918,
+    "CLN": 1.7136700000000005,
+    "RDD": 8.826130000000001,
+    "RSX": 5.67544,
+    "NTS": 0.24491999999999994,
+    "ONT": 0.50285,
+    "DVH": 0.01369,
+    "SKC": 0.00183,
+    "SKS": 22.53838,
+    "DGT": 2.588640000000001,
+    "DTL": 0.52643,
+    "DNL": 0.16718,
+    "NTD": 0.07304000000000001,
+    "SON": 0.04431,
+    "BCS": 9.42026,
+    "DCS": 0.9861
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "3",
+   "ten": "Đất trồng cây lâu năm",
+   "ma": "CLN",
+   "dienTich2019": 171.32741,
+   "chuyenSang": {
+    "LUA": 0.08688,
+    "HNK": 4.249600000000001,
+    "CLN": 143.69926999999996,
+    "RSX": 1.91014,
+    "NTS": 0.04102,
+    "ONT": 20.890490000000025,
+    "TSC": 0.00774,
+    "SKC": 0.0402,
+    "DGT": 0.13146,
+    "DTL": 0.10419,
+    "NTD": 0.00735,
+    "BCS": 0.15907000000000002
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "4",
+   "ten": "Đất rừng đặc dụng",
+   "ma": "RDD",
+   "dienTich2019": 6165.12659,
+   "chuyenSang": {
+    "HNK": 7.7342900000000006,
+    "CLN": 0.00698,
+    "RDD": 6095.181739999999,
+    "RSX": 62.129149999999996,
+    "ONT": 0.00465,
+    "BCS": 0.06978
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "5",
+   "ten": "Đất rừng phòng hộ",
+   "ma": "RPH",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "RPH": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "6",
+   "ten": "Đất rừng sản xuất",
+   "ma": "RSX",
+   "dienTich2019": 9187.94077,
+   "chuyenSang": {
+    "LUA": 0.027020000000000002,
+    "HNK": 22.219669999999997,
+    "CLN": 0.20778,
+    "RDD": 40.46879,
+    "RSX": 9088.17006,
+    "NTS": 0.30162,
+    "DGT": 23.07436,
+    "DNL": 7.2771,
+    "SON": 0.96018,
+    "BCS": 2.56316,
+    "DCS": 1.2839
+   },
+   "giamKhac": 1.38713
+  },
+  {
+   "stt": "7",
+   "ten": "Đất nuôi trồng thủy sản",
+   "ma": "NTS",
+   "dienTich2019": 84.72926,
+   "chuyenSang": {
+    "LUA": 0.25443000000000005,
+    "HNK": 0.26920999999999995,
+    "CLN": 0.09466999999999999,
+    "RSX": 1.32135,
+    "NTS": 80.13705999999999,
+    "ONT": 0.08284,
+    "DGT": 1.80968,
+    "DTL": 0.28198,
+    "BCS": 0.47803999999999996
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "8",
+   "ten": "Đất chăn nuôi tập trung",
+   "ma": "CNT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "CNT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "9",
+   "ten": "Đất làm muối",
+   "ma": "LMU",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "LMU": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "10",
+   "ten": "Đất nông nghiệp khác",
+   "ma": "NKH",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "NKH": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "11",
+   "ten": "Đất ở tại nông thôn",
+   "ma": "ONT",
+   "dienTich2019": 52.6346,
+   "chuyenSang": {
+    "LUA": 0.1026,
+    "HNK": 1.6504700000000003,
+    "CLN": 16.807340000000003,
+    "RSX": 0.38427,
+    "NTS": 0.07101,
+    "ONT": 32.43793999999999,
+    "SKC": 0.042359999999999995,
+    "DGT": 0.03776,
+    "DTL": 0.02459,
+    "BCS": 0.05485
+   },
+   "giamKhac": 1.02141
+  },
+  {
+   "stt": "12",
+   "ten": "Đất ở tại đô thị",
+   "ma": "ODT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "ODT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "13",
+   "ten": "Đất xây dựng trụ sở cơ quan",
+   "ma": "TSC",
+   "dienTich2019": 2.20567,
+   "chuyenSang": {
+    "TSC": 2.02759,
+    "CAN": 0.17808
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "14",
+   "ten": "Đất quốc phòng",
+   "ma": "CQP",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "CQP": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "15",
+   "ten": "Đất an ninh",
+   "ma": "CAN",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "CAN": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "16",
+   "ten": "Đất xây dựng cơ sở văn hóa",
+   "ma": "DVH",
+   "dienTich2019": 0.62402,
+   "chuyenSang": {
+    "DVH": 0.42382000000000003,
+    "DKV": 0.20018999999999998
+   },
+   "giamKhac": 1e-05
+  },
+  {
+   "stt": "17",
+   "ten": "Đất xây dựng cơ sở xã hội",
+   "ma": "DXH",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DXH": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "18",
+   "ten": "Đất xây dựng cơ sở y tế",
+   "ma": "DYT",
+   "dienTich2019": 0.8833,
+   "chuyenSang": {
+    "DYT": 0.8833
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "19",
+   "ten": "Đất xây dựng cơ sở giáo dục và đào tạo",
+   "ma": "DGD",
+   "dienTich2019": 7.32183,
+   "chuyenSang": {
+    "CLN": 0.95782,
+    "ONT": 0.04,
+    "CAN": 0.19068,
+    "DGD": 6.13332
+   },
+   "giamKhac": 1e-05
+  },
+  {
+   "stt": "20",
+   "ten": "Đất xây dựng cơ sở thể dục, thể thao",
+   "ma": "DTT",
+   "dienTich2019": 0.888,
+   "chuyenSang": {
+    "DTT": 0.86598,
+    "BCS": 0.02202
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "21",
+   "ten": "Đất xây dựng cơ sở khoa học và công nghệ",
+   "ma": "DKH",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DKH": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "22",
+   "ten": "Đất xây dựng cơ sở môi trường",
+   "ma": "DMT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DMT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "23",
+   "ten": "Đất xây dựng cơ sở khí tượng thủy văn",
+   "ma": "DKT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DKT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "24",
+   "ten": "Đất xây dựng cơ sở ngoại giao",
+   "ma": "DNG",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DNG": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "25",
+   "ten": "Đất xây dựng công trình sự nghiệp khác",
+   "ma": "DSK",
+   "dienTich2019": 0.35723,
+   "chuyenSang": {
+    "CLN": 0.09140000000000001,
+    "ONT": 0.07389000000000001,
+    "TSC": 0.14133,
+    "DSK": 0.04979
+   },
+   "giamKhac": 0.00082
+  },
+  {
+   "stt": "26",
+   "ten": "Đất khu công nghiệp",
+   "ma": "SKK",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "SKK": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "27",
+   "ten": "Đất cụm công nghiệp",
+   "ma": "SKN",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "SKN": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "28",
+   "ten": "Đất khu công nghệ thông tin tập trung",
+   "ma": "SCT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "SCT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "29",
+   "ten": "Đất thương mại, dịch vụ",
+   "ma": "TMD",
+   "dienTich2019": 0.17445,
+   "chuyenSang": {
+    "TMD": 0.10683,
+    "DDD": 0.02901,
+    "DNL": 0.03725
+   },
+   "giamKhac": 0.00136
+  },
+  {
+   "stt": "30",
+   "ten": "Đất cơ sở sản xuất phi nông nghiệp",
+   "ma": "SKC",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "SKC": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "31",
+   "ten": "Đất sử dụng cho hoạt động khoáng sản",
+   "ma": "SKS",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "SKS": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "32",
+   "ten": "Đất công trình giao thông",
+   "ma": "DGT",
+   "dienTich2019": 123.97488,
+   "chuyenSang": {
+    "LUA": 4.495959999999998,
+    "HNK": 2.8851500000000003,
+    "CLN": 0.9127299999999998,
+    "RDD": 0.46657,
+    "RSX": 21.8074,
+    "NTS": 1.6791100000000003,
+    "ONT": 0.25903,
+    "SKS": 0.01794,
+    "DGT": 89.52801999999998,
+    "DTL": 0.22191999999999998,
+    "NTD": 0.00721,
+    "SON": 0.04879,
+    "BCS": 0.35486999999999996
+   },
+   "giamKhac": 1.29018
+  },
+  {
+   "stt": "33",
+   "ten": "Đất công trình thủy lợi",
+   "ma": "DTL",
+   "dienTich2019": 10.60939,
+   "chuyenSang": {
+    "LUA": 0.20634,
+    "HNK": 0.39511999999999997,
+    "CLN": 0.0783,
+    "RSX": 0.25207,
+    "NTS": 0.25132000000000004,
+    "ONT": 0.014839999999999999,
+    "SKS": 0.09372,
+    "DGT": 0.035590000000000004,
+    "DTL": 8.64347,
+    "SON": 0.45109,
+    "BCS": 0.01324
+   },
+   "giamKhac": 0.17429
+  },
+  {
+   "stt": "34",
+   "ten": "Đất công trình cấp nước, thoát nước",
+   "ma": "DCT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DCT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "35",
+   "ten": "Đất công trình phòng, chống thiên tai",
+   "ma": "DPC",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DPC": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "36",
+   "ten": "Đất có di tích lịch sử - văn hóa danh lam thắng cảnh, di sản thiên nhiên",
+   "ma": "DDD",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DDD": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "37",
+   "ten": "Đất công trình xử lý chất thải",
+   "ma": "DRA",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DRA": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "38",
+   "ten": "Đất công trình năng lượng, chiếu sáng công cộng",
+   "ma": "DNL",
+   "dienTich2019": 0.18813,
+   "chuyenSang": {
+    "RSX": 0.01523,
+    "TSC": 0.02033,
+    "DNL": 0.14739
+   },
+   "giamKhac": 0.00518
+  },
+  {
+   "stt": "39",
+   "ten": "Đất công trình hạ tầng bưu chính, viễn thông, công nghệ thông tin",
+   "ma": "DBV",
+   "dienTich2019": 0.97085,
+   "chuyenSang": {
+    "RSX": 0.08537,
+    "DBV": 0.8835599999999999
+   },
+   "giamKhac": 0.00192
+  },
+  {
+   "stt": "40",
+   "ten": "Đất chợ dân sinh, chợ đầu mối",
+   "ma": "DCH",
+   "dienTich2019": 0.25059,
+   "chuyenSang": {
+    "DCH": 0.25059
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "41",
+   "ten": "Đất khu vui chơi, giải trí công cộng, sinh hoạt cộng đồng",
+   "ma": "DKV",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "DKV": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "42",
+   "ten": "Đất tôn giáo",
+   "ma": "TON",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "TON": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "43",
+   "ten": "Đất tín ngưỡng",
+   "ma": "TIN",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "TIN": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "44",
+   "ten": "Đất nghĩa trang, nhà tang lễ, cơ sở hỏa táng; đất cơ sở lưu trữ tro cốt",
+   "ma": "NTD",
+   "dienTich2019": 14.91159,
+   "chuyenSang": {
+    "HNK": 0.07472999999999999,
+    "CLN": 0.00734,
+    "RSX": 8.77755,
+    "TIN": 0.02256,
+    "NTD": 6.01361
+   },
+   "giamKhac": 0.0158
+  },
+  {
+   "stt": "45",
+   "ten": "Đất có mặt nước chuyên dùng dạng ao, hồ, đầm, phá",
+   "ma": "MNC",
+   "dienTich2019": 8.68665,
+   "chuyenSang": {
+    "NTS": 0.59192,
+    "MNC": 8.08696,
+    "BCS": 0.00777
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "46",
+   "ten": "Đất có mặt nước dạng sông, ngòi, kênh, rạch, suối",
+   "ma": "SON",
+   "dienTich2019": 116.60832,
+   "chuyenSang": {
+    "LUA": 0.14837,
+    "HNK": 0.9432200000000001,
+    "CLN": 0.04458,
+    "RDD": 0.31637,
+    "RSX": 20.02409,
+    "NTS": 0.02524,
+    "ONT": 0.01139,
+    "DVH": 0.00951,
+    "SKS": 2.70641,
+    "DGT": 0.17143,
+    "DTL": 1.3972499999999999,
+    "DNL": 0.77804,
+    "SON": 89.11424,
+    "BCS": 0.91818
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "47",
+   "ten": "Đất phi nông nghiệp khác",
+   "ma": "PNK",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "PNK": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "48",
+   "ten": "Đất do Nhà nước thu hồi theo quy định của pháp luật đất đai chưa giao, chưa cho thuê",
+   "ma": "CGT",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "CGT": 0.0
+   },
+   "giamKhac": null
+  },
+  {
+   "stt": "49",
+   "ten": "Đất bằng chưa sử dụng",
+   "ma": "BCS",
+   "dienTich2019": 94.65405,
+   "chuyenSang": {
+    "LUA": 4.090620000000002,
+    "HNK": 3.78699,
+    "CLN": 1.18518,
+    "RDD": 8.290189999999999,
+    "RSX": 0.29295000000000004,
+    "NTS": 0.40264999999999995,
+    "ONT": 0.07004,
+    "DVH": 0.14752,
+    "DTT": 0.05106,
+    "DGT": 0.07710000000000002,
+    "DTL": 0.02722,
+    "MNC": 0.00772,
+    "BCS": 76.13410999999999
+   },
+   "giamKhac": 0.0907
+  },
+  {
+   "stt": "50",
+   "ten": "Đất đồi núi chưa sử dụng",
+   "ma": "DCS",
+   "dienTich2019": 6.66205,
+   "chuyenSang": {
+    "LUA": 0.01578,
+    "HNK": 0.00618,
+    "DCS": 6.63692
+   },
+   "giamKhac": 0.00317
+  },
+  {
+   "stt": "51",
+   "ten": "Núi đá không có rừng cây",
+   "ma": "NCS",
+   "dienTich2019": 98.9693,
+   "chuyenSang": {
+    "RSX": 98.96924000000001,
+    "NCS": 0.0
+   },
+   "giamKhac": 6e-05
+  },
+  {
+   "stt": "52",
+   "ten": "Đất có mặt nước chưa sử dụng",
+   "ma": "MCS",
+   "dienTich2019": null,
+   "chuyenSang": {
+    "MCS": 0.0
+   },
+   "giamKhac": null
+  }
+ ],
+ "tangKhac": {
+  "cot2": 17129.230000000003,
+  "cot3": "",
+  "theoMa": {
+   "LUA": 0.70646,
+   "HNK": 0.76859,
+   "CLN": 0.59017,
+   "RDD": 25.00797,
+   "NTS": 0.22506,
+   "TSC": 0.00405,
+   "CAN": 0.00091,
+   "SKS": 0.00487,
+   "SON": 6.79732
+  }
+ },
+ "dienTich2024": {
+  "cot2": 17159.33,
+  "cot3": "",
+  "theoMa": {
+   "LUA": 417.79068,
+   "HNK": 548.82697,
+   "CLN": 168.05511,
+   "RDD": 6178.557759999998,
+   "RPH": 0.0,
+   "RSX": 9311.595170000004,
+   "NTS": 84.58764999999998,
+   "CNT": 0.0,
+   "LMU": 0.0,
+   "NKH": 0.0,
+   "ONT": 54.69152000000001,
+   "ODT": 0.0,
+   "TSC": 2.20104,
+   "CQP": 0.0,
+   "CAN": 0.36967,
+   "DVH": 0.5945400000000001,
+   "DXH": 0.0,
+   "DYT": 0.8833,
+   "DGD": 6.13332,
+   "DTT": 0.91704,
+   "DKH": 0.0,
+   "DMT": 0.0,
+   "DKT": 0.0,
+   "DNG": 0.0,
+   "DSK": 0.04979,
+   "SKK": 0.0,
+   "SKN": 0.0,
+   "SCT": 0.0,
+   "TMD": 0.10683,
+   "SKC": 0.08438999999999999,
+   "SKS": 25.361320000000003,
+   "DGT": 121.00115999999998,
+   "DTL": 11.63626,
+   "DCT": 0.0,
+   "DPC": 0.0,
+   "DDD": 0.02901,
+   "DRA": 0.0,
+   "DNL": 8.40696,
+   "DBV": 0.8835599999999999,
+   "DCH": 0.25059,
+   "DKV": 0.20018999999999998,
+   "TON": 0.0,
+   "TIN": 0.02256,
+   "NTD": 6.10121,
+   "MNC": 8.09468,
+   "SON": 97.41592999999999,
+   "PNK": 0.0,
+   "CGT": 0.0,
+   "BCS": 95.55810999999999,
+   "DCS": 8.92822,
+   "NCS": 0.0,
+   "MCS": 0.0
+  }
+ }
+}

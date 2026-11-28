@@ -10,9 +10,15 @@ targets:
 includes: auto
 
 dependencies:
+  apm:
+    # superpowers có hook, chỉ cho chạy ở Claude Code (APM từ chối hook lan sang codex/antigravity)
+    - git: obra/superpowers
+      targets: [claude]
   mcp:
     # KHONG khai khoa o day. Do 2026-09-08: `${VAR}` trong `headers` bi APM NUONG
     # gia tri that vao `.mcp.json`, `.agents/mcp_config.json` - ma ca hai deu commit.
+    # MCP có token (heroku, vercel, gitlab, github, postgres-heroku) viết tay trong .mcp.json ở gốc repo,
+    # plain text, đã gitignore. `apm compile` có thể ghi đè file đó: sao lưu trước khi compile.
     - name: codegraphcontext
       registry: false
       transport: stdio

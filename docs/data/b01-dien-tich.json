@@ -1,0 +1,1914 @@
+{
+ "bieu": "01/TKKK",
+ "tieuDe": "Thống kê, kiểm kê diện tích đất đai",
+ "donVi": "ha",
+ "xa": "Văn Lang",
+ "tinh": "Thái Nguyên",
+ "denNgay": "2024-12-31",
+ "rows": [
+  {
+   "stt": "",
+   "ten": "Tổng diện tích",
+   "ma": "",
+   "total": 17159.33,
+   "suDung": 13599.6309,
+   "quanLy": 3559.703449999998,
+   "dt": {
+    "CNV": 7822.83409,
+    "CNN": 0.0,
+    "TCN": 5.37932,
+    "TSN": 5736.64719,
+    "TXH": 0.0,
+    "TKT": 34.74774,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.02256,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 3559.703449999998,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "I",
+   "ten": "Nhóm đất nông nghiệp",
+   "ma": "NNP",
+   "total": 16709.41,
+   "suDung": 13496.75082,
+   "quanLy": 3212.6624099999985,
+   "dt": {
+    "CNV": 7767.1657,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 5729.58512,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 3212.6624099999985,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1",
+   "ten": "Đất trồng cây hằng năm",
+   "ma": "CHN",
+   "total": 966.6176300000002,
+   "suDung": 918.5061400000002,
+   "quanLy": 48.11149,
+   "dt": {
+    "CNV": 918.5061400000002,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 48.11149,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1.1",
+   "ten": "Đất trồng lúa",
+   "ma": "LUA",
+   "total": 417.79068000000046,
+   "suDung": 417.1390800000005,
+   "quanLy": 0.6516,
+   "dt": {
+    "CNV": 417.1390800000005,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.6516,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1.1.1",
+   "ten": "Đất chuyên trồng lúa",
+   "ma": "LUC",
+   "total": 323.20372000000054,
+   "suDung": 322.6165300000005,
+   "quanLy": 0.58719,
+   "dt": {
+    "CNV": 322.6165300000005,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.58719,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "1.1.2",
+   "ten": "Đất trồng lúa còn lại",
+   "ma": "LUK",
+   "total": 94.58695999999995,
+   "suDung": 94.52254999999995,
+   "quanLy": 0.06441,
+   "dt": {
+    "CNV": 94.52254999999995,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.06441,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "1.2",
+   "ten": "Đất trồng cây hằng năm khác",
+   "ma": "HNK",
+   "total": 548.8269499999997,
+   "suDung": 501.3670599999997,
+   "quanLy": 47.45989,
+   "dt": {
+    "CNV": 501.3670599999997,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 47.45989,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "2",
+   "ten": "Đất trồng cây lâu năm",
+   "ma": "CLN",
+   "total": 168.05502000000007,
+   "suDung": 160.48719000000006,
+   "quanLy": 7.567830000000001,
+   "dt": {
+    "CNV": 160.48719000000006,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 7.567830000000001,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3",
+   "ten": "Đất lâm nghiệp",
+   "ma": "LNP",
+   "total": 15490.152929999997,
+   "suDung": 12336.168569999998,
+   "quanLy": 3153.9843599999986,
+   "dt": {
+    "CNV": 6606.583449999999,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 5729.58512,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 3153.9843599999986,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "3.1",
+   "ten": "Đất rừng đặc dụng",
+   "ma": "RDD",
+   "total": 6178.557760000001,
+   "suDung": 5736.04632,
+   "quanLy": 442.51143999999994,
+   "dt": {
+    "CNV": 6.46262,
+    "CNN": null,
+    "TCN": null,
+    "TSN": 5729.5837,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 442.51143999999994,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3.2",
+   "ten": "Đất rừng phòng hộ",
+   "ma": "RPH",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3.3",
+   "ten": "Đất rừng sản xuất",
+   "ma": "RSX",
+   "total": 9311.595169999997,
+   "suDung": 6600.1222499999985,
+   "quanLy": 2711.472919999999,
+   "dt": {
+    "CNV": 6600.120829999999,
+    "CNN": null,
+    "TCN": null,
+    "TSN": 0.00142,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 2711.472919999999,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "",
+   "ten": "Trong đó: Đất rừng sản xuất là rừng tự nhiên",
+   "ma": "RSN",
+   "total": 6224.387529999999,
+   "suDung": 4224.16816,
+   "quanLy": 2000.2193699999991,
+   "dt": {
+    "CNV": 4224.16816,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 2000.2193699999991,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4",
+   "ten": "Đất nuôi trồng thủy sản",
+   "ma": "NTS",
+   "total": 84.58765000000005,
+   "suDung": 81.58892000000006,
+   "quanLy": 2.9987299999999997,
+   "dt": {
+    "CNV": 81.58892000000006,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 2.9987299999999997,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5",
+   "ten": "Đất chăn nuôi tập trung",
+   "ma": "CNT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6",
+   "ten": "Đất làm muối",
+   "ma": "LMU",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "7",
+   "ten": "Đất nông nghiệp khác",
+   "ma": "NKH",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "II",
+   "ten": "Nhóm đất phi nông nghiệp",
+   "ma": "PNN",
+   "total": 345.43,
+   "suDung": 102.61187999999987,
+   "quanLy": 242.82291,
+   "dt": {
+    "CNV": 55.40018999999988,
+    "CNN": 0.0,
+    "TCN": 5.37932,
+    "TSN": 7.0620699999999985,
+    "TXH": 0.0,
+    "TKT": 34.74774,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.02256,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 242.82291,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1",
+   "ten": "Đất ở",
+   "ma": "OTC",
+   "total": 54.69144999999988,
+   "suDung": 54.69144999999988,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 54.69144999999988,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.0,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1.1",
+   "ten": "Đất ở tại nông thôn",
+   "ma": "ONT",
+   "total": 54.69144999999988,
+   "suDung": 54.69144999999988,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 54.69144999999988,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "1.2",
+   "ten": "Đất ở tại đô thị",
+   "ma": "ODT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "2",
+   "ten": "Đất xây dựng trụ sở cơ quan",
+   "ma": "TSC",
+   "total": 2.20104,
+   "suDung": 2.20104,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": 2.20104,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3",
+   "ten": "Đất quốc phòng, an ninh",
+   "ma": "CQA",
+   "total": 0.36967,
+   "suDung": 0.36967,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 0.0,
+    "CNN": 0.0,
+    "TCN": 0.36967,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.0,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "3.1",
+   "ten": "Đất quốc phòng",
+   "ma": "CQP",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3.2",
+   "ten": "Đất an ninh",
+   "ma": "CAN",
+   "total": 0.36967,
+   "suDung": 0.36967,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": 0.36967,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4",
+   "ten": "Đất xây dựng công trình sự nghiệp",
+   "ma": "DSN",
+   "total": 8.577989999999998,
+   "suDung": 8.069669999999999,
+   "quanLy": 0.5083200000000001,
+   "dt": {
+    "CNV": 0.0,
+    "CNN": 0.0,
+    "TCN": 1.0076,
+    "TSN": 7.0620699999999985,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.5083200000000001,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "4.1",
+   "ten": "Đất xây dựng cơ sở văn hóa",
+   "ma": "DVH",
+   "total": 0.5945400000000001,
+   "suDung": 0.09055999999999999,
+   "quanLy": 0.5039800000000001,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": 0.09055999999999999,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.5039800000000001,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.2",
+   "ten": "Đất xây dựng cơ sở xã hội",
+   "ma": "DXH",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.3",
+   "ten": "Đất xây dựng cơ sở y tế",
+   "ma": "DYT",
+   "total": 0.8833,
+   "suDung": 0.8833,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": 0.8833,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.4",
+   "ten": "Đất xây dựng cơ sở giáo dục và đào tạo",
+   "ma": "DGD",
+   "total": 6.1333199999999986,
+   "suDung": 6.1333199999999986,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": 6.1333199999999986,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.5",
+   "ten": "Đất xây dựng cơ sở thể dục, thể thao",
+   "ma": "DTT",
+   "total": 0.9170400000000001,
+   "suDung": 0.9170400000000001,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": 0.9170400000000001,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.6",
+   "ten": "Đất xây dựng cơ sở khoa học và công nghệ",
+   "ma": "DKH",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.7",
+   "ten": "Đất xây dựng cơ sở môi trường",
+   "ma": "DMT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.8",
+   "ten": "Đất xây dựng cơ sở khí tượng thủy văn",
+   "ma": "DKT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.9",
+   "ten": "Đất xây dựng cơ sở ngoại giao",
+   "ma": "DNG",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4.10",
+   "ten": "Đất xây dựng công trình sự nghiệp khác",
+   "ma": "DSK",
+   "total": 0.04979,
+   "suDung": 0.04545,
+   "quanLy": 0.00434,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": 0.04545,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.00434,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5",
+   "ten": "Đất sản xuất, kinh doanh phi nông nghiệp",
+   "ma": "CSK",
+   "total": 25.552529999999997,
+   "suDung": 25.552529999999997,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 0.06,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 25.49253,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.0,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "5.1",
+   "ten": "Đất khu công nghiệp, cụm công nghiệp",
+   "ma": "SCC",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 0.0,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 0.0,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "5.1.1",
+   "ten": "Đất khu công nghiệp",
+   "ma": "SKK",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5.1.2",
+   "ten": "Đất cụm công nghiệp",
+   "ma": "SKN",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5.1.3",
+   "ten": "Đất khu công nghệ thông tin tập trung",
+   "ma": "SCT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5.2",
+   "ten": "Đất thương mại, dịch vụ",
+   "ma": "TMD",
+   "total": 0.10683,
+   "suDung": 0.10683,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": 0.10683,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5.3",
+   "ten": "Đất cơ sở sản xuất phi nông nghiệp",
+   "ma": "SKC",
+   "total": 0.08438,
+   "suDung": 0.08438,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": 0.06,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": 0.02438,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5.4",
+   "ten": "Đất sử dụng cho hoạt động khoáng sản",
+   "ma": "SKS",
+   "total": 25.36132,
+   "suDung": 25.36132,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": 25.36132,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6",
+   "ten": "Đất sử dụng vào mục đích công cộng",
+   "ma": "CCC",
+   "total": 142.40773,
+   "suDung": 9.794160000000002,
+   "quanLy": 132.61356999999998,
+   "dt": {
+    "CNV": 0.28836,
+    "CNN": 0.0,
+    "TCN": 0.25059,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 9.255210000000002,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 132.61356999999998,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "6.1",
+   "ten": "Đất công trình giao thông",
+   "ma": "DGT",
+   "total": 121.00115999999998,
+   "suDung": 0.28836,
+   "quanLy": 120.71279999999999,
+   "dt": {
+    "CNV": 0.28836,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 120.71279999999999,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.2",
+   "ten": "Đất công trình thủy lợi",
+   "ma": "DTL",
+   "total": 11.63626,
+   "suDung": 0.0,
+   "quanLy": 11.63626,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 11.63626,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.3",
+   "ten": "Đất công trình cấp nước, thoát nước",
+   "ma": "DCT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.4",
+   "ten": "Đất công trình phòng, chống thiên tai",
+   "ma": "DPC",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.5",
+   "ten": "Đất có di tích lịch sử - văn hóa danh lam thắng cảnh, di sản thiên nhiên",
+   "ma": "DDD",
+   "total": 0.02901,
+   "suDung": 0.0,
+   "quanLy": 0.02901,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.02901,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.6",
+   "ten": "Đất công trình xử lý chất thải",
+   "ma": "DRA",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.7",
+   "ten": "Đất công trình năng lượng, chiếu sáng công cộng",
+   "ma": "DNL",
+   "total": 8.406960000000002,
+   "suDung": 8.406960000000002,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": 8.406960000000002,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.8",
+   "ten": "Đất công trình hạ tầng bưu chính, viễn thông, công nghệ thông tin",
+   "ma": "DBV",
+   "total": 0.8835599999999999,
+   "suDung": 0.84825,
+   "quanLy": 0.03531,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": 0.84825,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.03531,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.9",
+   "ten": "Đất chợ dân sinh, chợ đầu mối",
+   "ma": "DCH",
+   "total": 0.25059,
+   "suDung": 0.25059,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": 0.25059,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "6.10",
+   "ten": "Đất khu vui chơi, giải trí công cộng, sinh hoạt cộng đồng",
+   "ma": "DKV",
+   "total": 0.20018999999999998,
+   "suDung": 0.0,
+   "quanLy": 0.20018999999999998,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 0.20018999999999998,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "7",
+   "ten": "Đất tôn giáo",
+   "ma": "TON",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "8",
+   "ten": "Đất tín ngưỡng",
+   "ma": "TIN",
+   "total": 0.02256,
+   "suDung": 0.02256,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": 0.02256,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "9",
+   "ten": "Đất nghĩa trang, nhà tang lễ, cơ sở hỏa táng; đất cơ sở lưu trữ tro cốt",
+   "ma": "NTD",
+   "total": 6.101210000000001,
+   "suDung": 1.9108,
+   "quanLy": 4.190410000000001,
+   "dt": {
+    "CNV": 0.36038,
+    "CNN": null,
+    "TCN": 1.5504200000000001,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 4.190410000000001,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "10",
+   "ten": "Đất có mặt nước chuyên dùng",
+   "ma": "TVC",
+   "total": 105.51061000000001,
+   "suDung": 0.0,
+   "quanLy": 105.51061000000001,
+   "dt": {
+    "CNV": 0.0,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 105.51061000000001,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "10.1",
+   "ten": "Đất có mặt nước chuyên dùng dạng ao, hồ, đầm, phá",
+   "ma": "MNC",
+   "total": 8.09468,
+   "suDung": 0.0,
+   "quanLy": 8.09468,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 8.09468,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "10.2",
+   "ten": "Đất có mặt nước dạng sông, ngòi, kênh, rạch, suối",
+   "ma": "SON",
+   "total": 97.41593000000002,
+   "suDung": 0.0,
+   "quanLy": 97.41593000000002,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 97.41593000000002,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "11",
+   "ten": "Đất phi nông nghiệp khác",
+   "ma": "PNK",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "III",
+   "ten": "Nhóm đất chưa sử dụng",
+   "ma": "CSD",
+   "total": 104.49,
+   "suDung": 0.2682,
+   "quanLy": 104.21812999999995,
+   "dt": {
+    "CNV": 0.2682,
+    "CNN": 0.0,
+    "TCN": 0.0,
+    "TSN": 0.0,
+    "TXH": 0.0,
+    "TKT": 0.0,
+    "TKH": 0.0,
+    "TTG": 0.0,
+    "CDS": 0.0,
+    "TNG": 0.0,
+    "NGV": 0.0,
+    "TVN": 0.0
+   },
+   "ql": {
+    "TCQ": 104.21812999999995,
+    "TSQ": 0.0,
+    "KTQ": 0.0,
+    "CDQ": 0.0
+   }
+  },
+  {
+   "stt": "1",
+   "ten": "Đất do Nhà nước thu hồi theo quy định của pháp luật đất đai chưa giao, chưa cho thuê",
+   "ma": "CGT",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "2",
+   "ten": "Đất bằng chưa sử dụng",
+   "ma": "BCS",
+   "total": 95.55810999999994,
+   "suDung": 0.2682,
+   "quanLy": 95.28990999999995,
+   "dt": {
+    "CNV": 0.2682,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 95.28990999999995,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "3",
+   "ten": "Đất đồi núi chưa sử dụng",
+   "ma": "DCS",
+   "total": 8.92822,
+   "suDung": 0.0,
+   "quanLy": 8.92822,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": 8.92822,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "4",
+   "ten": "Núi đá không có rừng cây",
+   "ma": "NCS",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  },
+  {
+   "stt": "5",
+   "ten": "Đất có mặt nước chưa sử dụng",
+   "ma": "MCS",
+   "total": 0.0,
+   "suDung": 0.0,
+   "quanLy": 0.0,
+   "dt": {
+    "CNV": null,
+    "CNN": null,
+    "TCN": null,
+    "TSN": null,
+    "TXH": null,
+    "TKT": null,
+    "TKH": null,
+    "TTG": null,
+    "CDS": null,
+    "TNG": null,
+    "NGV": null,
+    "TVN": null
+   },
+   "ql": {
+    "TCQ": null,
+    "TSQ": null,
+    "KTQ": null,
+    "CDQ": null
+   }
+  }
+ ]
+}

@@ -28,7 +28,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Serilog + PostgreSQL
 builder.Configuration["Serilog:WriteTo:1:Args:connectionString"] = connectionString;
-builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
+builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration).Enrich.With<LogIdEnricher>());
 
 // MediatR & FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
@@ -109,6 +109,7 @@ builder.Services
     .AddCustomCors(builder.Configuration, builder.Environment)
     .AddCustomRateLimiting();
 builder.Services.AddResultLibExceptionHandler();
+builder.Services.AddProblemDetails();
 builder.Services.AddFastEndpointsConfig();
 
 var app = builder.Build();
@@ -121,19 +122,17 @@ Log.Configure(app.Services.GetRequiredService<ILoggerFactory>(), new LogOptions 
 app.UseForwardedHeaders();
 app.UseResultLibExceptionHandler();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()) app.UseSwaggerGen();
+
+try
 {
-    app.UseSwaggerGen();
-    try
-    {
-        await app.MigrateDatabaseAsync();
-        await app.SeedAdminAsync();
-    }
-    catch (Exception ex)
-    {
-        var logger = app.Services.GetRequiredService<ILogger<Program>>();
-        logger.LogWarning(ex, "Database migration failed. App will continue without database.");
-    }
+    await app.MigrateDatabaseAsync();
+    await app.SeedAdminAsync();
+}
+catch (Exception ex)
+{
+    var logger = app.Services.GetRequiredService<ILogger<Program>>();
+    logger.LogWarning(ex, "Database migration failed. App will continue without database.");
 }
 
 app.UseCors();
