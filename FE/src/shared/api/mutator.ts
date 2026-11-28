@@ -8,11 +8,12 @@ export interface OrvalRequestConfig {
   params?: object;
   headers?: Record<string, string>;
   signal?: AbortSignal;
+  responseType?: 'blob';
 }
 
 export const apiOrvalClient = <T>(config: OrvalRequestConfig, options?: HttpRequestConfig): Promise<T> => {
-  const { url, data, params, headers, signal } = config;
-  const request: HttpRequestConfig = { params, headers, signal, ...options };
+  const { url, data, params, headers, signal, responseType } = config;
+  const request: HttpRequestConfig = { params, headers, signal, responseType, ...options };
 
   switch (config.method.toUpperCase()) {
     case 'POST':

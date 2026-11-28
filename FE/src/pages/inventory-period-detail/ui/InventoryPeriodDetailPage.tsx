@@ -1,4 +1,17 @@
-import { Alert, Badge, Button, Group, List, Paper, ScrollArea, SimpleGrid, Stack, Tabs, Text } from '@mantine/core';
+import {
+  Alert,
+  Badge,
+  Button,
+  Group,
+  List,
+  Paper,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Switch,
+  Tabs,
+  Text,
+} from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from '@tanstack/react-router';
@@ -126,6 +139,8 @@ export function InventoryPeriodDetailPage() {
       },
     });
   };
+
+  const [editing, setEditing] = useState(false);
 
   const handleExport = async () => {
     try {
@@ -493,26 +508,44 @@ export function InventoryPeriodDetailPage() {
           </Tabs.Panel>
 
           <Tabs.Panel value="b01">
+            {canWrite && !isLocked && (
+              <Switch
+                mb="sm"
+                label="Chế độ sửa số liệu"
+                checked={editing}
+                disabled={b01Dirty || b02Dirty}
+                onChange={(e) => setEditing(e.currentTarget.checked)}
+              />
+            )}
             <EntriesGrid
               periodId={periodId}
               mode="B01"
               serverCells={entries?.areas ?? []}
               landTypes={landTypes}
               holderTypes={holderTypes}
-              readOnly={!canWrite || isLocked}
+              readOnly={!canWrite || isLocked || !editing}
               isLoading={entriesLoading}
               onDirtyChange={setB01Dirty}
             />
           </Tabs.Panel>
 
           <Tabs.Panel value="b02">
+            {canWrite && !isLocked && (
+              <Switch
+                mb="sm"
+                label="Chế độ sửa số liệu"
+                checked={editing}
+                disabled={b01Dirty || b02Dirty}
+                onChange={(e) => setEditing(e.currentTarget.checked)}
+              />
+            )}
             <EntriesGrid
               periodId={periodId}
               mode="B02"
               serverCells={entries?.counts ?? []}
               landTypes={landTypes}
               holderTypes={holderTypes}
-              readOnly={!canWrite || isLocked}
+              readOnly={!canWrite || isLocked || !editing}
               isLoading={entriesLoading}
               onDirtyChange={setB02Dirty}
             />
