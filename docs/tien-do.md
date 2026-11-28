@@ -34,6 +34,7 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 
 ### Phase 4 – Dashboard
 - [x] Tổng diện tích, cơ cấu đất, % nông nghiệp / phi nông nghiệp (trang Tổng quan, theo kỳ)
+- [x] Khối cảnh báo (thửa thiếu thông tin, hồ sơ quá hạn, lệch số liệu), 5 thẻ hồ sơ GCN, biểu đồ diện tích qua các kỳ
 - [~] Biến động giữa hai kỳ: hiện chỉ hiện biến động ròng trong kỳ và chênh tổng diện tích so với kỳ trước
 
 ## Mở rộng (cần xin thêm file mẫu)
@@ -45,7 +46,8 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 ### Phase 6 – Hồ sơ GCN và biến động
 - [x] Lý do cho tăng khác / giảm khác (đo đạc lại, sửa sai, lấn biển, sạt lở, địa giới, khác có nhập chữ); bắt buộc khi nhập tay, dòng nhập từ Excel B05 chưa có lý do. Sai thì sửa hoặc xóa khi kỳ chưa khóa (xóa mềm, giữ vết trong DB)
 - [ ] Nhật ký sửa ô lưới B01 (ai sửa, giá trị cũ và mới); địa giới (sáp nhập, chia tách xã) chưa có
-- [ ] Trạng thái hồ sơ, lịch sử biến động thửa, tìm kiếm và lọc
+- [x] Hồ sơ cấp GCN: trạng thái (đang xử lý, tồn, đã cấp, từ chối, cần bổ sung), hạn xử lý và cảnh báo quá hạn, gắn với thửa, tìm và lọc theo trạng thái, xã, quá hạn
+- [ ] Lịch sử biến động theo thửa (tách, hợp, chuyển nhượng, trước và sau); nhập Excel hồ sơ (chờ file mẫu)
 
 ### Phase 7 – Báo cáo định kỳ và mở rộng
 - [ ] Báo cáo tháng / quý / năm
@@ -58,3 +60,6 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 
 ## Phân quyền theo xã
 - [x] Một tài khoản gán được nhiều xã/phường (bảng `user_wards`); Admin thấy tất cả. Tạo kỳ / thửa: nhiều xã thì phải chọn xã, một xã thì tự lấy.
+
+## Quyền theo vai trò
+- Admin: toàn quyền, qua mọi kiểm tra vai trò. LandOfficer: xem và ghi dữ liệu của xã được phân công. Leader: chỉ xem. Citizen: chưa có chức năng nghiệp vụ, chỉ thấy Tổng quan (FE ẩn các mục và chặn route; BE trả 403).

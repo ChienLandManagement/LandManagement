@@ -1,5 +1,6 @@
 import {
   ClipboardList,
+  FileCheck2,
   FolderTree,
   Home,
   Layers,
@@ -19,6 +20,9 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
+// Người dân chưa có chức năng nghiệp vụ nên chỉ thấy Tổng quan.
+const BUSINESS_ROLES = ['Admin', 'LandOfficer', 'Leader'];
+
 export const MENU_CONFIG: MenuItem[] = [
   {
     path: '/home',
@@ -29,17 +33,25 @@ export const MENU_CONFIG: MenuItem[] = [
     path: '/parcels',
     label: 'Thửa đất',
     icon: MapIcon,
+    roles: BUSINESS_ROLES,
+  },
+  {
+    path: '/dossiers',
+    label: 'Hồ sơ GCN',
+    icon: FileCheck2,
+    roles: BUSINESS_ROLES,
   },
   {
     path: '/inventory-periods',
     label: 'Kiểm kê',
     icon: ClipboardList,
-    roles: ['Admin', 'LandOfficer', 'Leader'],
+    roles: BUSINESS_ROLES,
   },
   {
     path: '#catalogs',
     label: 'Danh mục',
     icon: FolderTree,
+    roles: BUSINESS_ROLES,
     children: [
       {
         path: '/land-types',
