@@ -3,10 +3,13 @@ using LandManagement.Entities;
 using LandManagement.Groups;
 using LandManagement.UseCases.InventoryEntries.ExportPeriod;
 using MediatR;
+using ResultLib.Core;
+using ResultLib.Extensions;
+using ResultLib.Extensions.FastEndpoints;
 
 namespace LandManagement.Endpoints.InventoryEntries;
 
-public class ExportPeriodEndpoint(ISender sender) : Endpoint<ExportPeriodQuery>
+public class ExportPeriodEndpoint(ISender sender) : Endpoint<ExportPeriodQuery, Result>
 {
     private const string ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -24,8 +27,7 @@ public class ExportPeriodEndpoint(ISender sender) : Endpoint<ExportPeriodQuery>
         var result = await sender.Send(req, ct);
         if (result.IsError)
         {
-            AddError(result.Errors[0].Description);
-            await Send.ErrorsAsync(400, ct);
+            await this.SendResultAsync(result.ToResult(), ct);
             return;
         }
 

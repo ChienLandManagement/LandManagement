@@ -33,13 +33,14 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [ ] Biểu 03, 06 (chờ file mẫu)
 
 ### Phase 4 – Dashboard
-- [ ] Tổng diện tích, cơ cấu đất, % nông nghiệp / phi nông nghiệp
-- [ ] Biến động giữa hai kỳ
+- [x] Tổng diện tích, cơ cấu đất, % nông nghiệp / phi nông nghiệp (trang Tổng quan, theo kỳ)
+- [~] Biến động giữa hai kỳ: hiện chỉ hiện biến động ròng trong kỳ và chênh tổng diện tích so với kỳ trước
 
 ## Mở rộng (cần xin thêm file mẫu)
 
 ### Phase 5 – Thửa đất
-- [ ] Danh mục thửa, import Excel, cảnh báo thiếu dữ liệu
+- [x] Danh mục thửa (thêm, sửa, xóa, tìm, lọc), cảnh báo thiếu người sử dụng / đối tượng / địa chỉ
+- [ ] Import Excel thửa (chờ file mẫu)
 
 ### Phase 6 – Hồ sơ GCN và biến động
 - [ ] Trạng thái hồ sơ, lịch sử biến động thửa, tìm kiếm và lọc

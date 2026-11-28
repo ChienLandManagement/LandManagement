@@ -1,4 +1,5 @@
 using LandManagement.Entities;
+using ResultLib.Extensions;
 
 namespace LandManagement.UseCases.Parcels;
 
@@ -10,9 +11,9 @@ public record ParcelItem(Guid Id, Guid WardId, string WardName, string MapSheet,
     public static ParcelItem From(Parcel p)
     {
         var warnings = new List<string>();
-        if (string.IsNullOrWhiteSpace(p.HolderName)) warnings.Add("Chưa có tên người sử dụng");
+        if (p.HolderName.IsEmpty()) warnings.Add("Chưa có tên người sử dụng");
         if (p.HolderTypeId is null) warnings.Add("Chưa chọn đối tượng sử dụng");
-        if (string.IsNullOrWhiteSpace(p.Address)) warnings.Add("Chưa có địa chỉ");
+        if (p.Address.IsEmpty()) warnings.Add("Chưa có địa chỉ");
         return new ParcelItem(p.Id, p.WardId, p.Ward.Name, p.MapSheet, p.ParcelNumber, p.Area, p.LandTypeId, p.LandType.Code, p.LandType.Name,
             p.HolderTypeId, p.HolderType?.Name, p.HolderName, p.Address, p.Note, warnings);
     }

@@ -4,6 +4,7 @@ import {
   Home,
   Layers,
   type LucideIcon,
+  Map as MapIcon,
   MapPin,
   Settings,
   Users,
@@ -23,6 +24,11 @@ export const MENU_CONFIG: MenuItem[] = [
     path: '/home',
     label: 'Tổng quan',
     icon: Home,
+  },
+  {
+    path: '/parcels',
+    label: 'Thửa đất',
+    icon: MapIcon,
   },
   {
     path: '#catalogs',

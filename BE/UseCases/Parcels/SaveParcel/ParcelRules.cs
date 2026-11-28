@@ -4,6 +4,7 @@ using LandManagement.Data;
 using LandManagement.Entities;
 using LandManagement.Security;
 using Microsoft.EntityFrameworkCore;
+using ResultLib.Extensions;
 using ResultLib.Logging;
 
 namespace LandManagement.UseCases.Parcels.SaveParcel;
@@ -44,9 +45,9 @@ public static class ParcelRules
         p.Area = f.Area;
         p.LandTypeId = f.LandTypeId;
         p.HolderTypeId = f.HolderTypeId;
-        p.HolderName = string.IsNullOrWhiteSpace(f.HolderName) ? null : f.HolderName.Trim();
-        p.Address = string.IsNullOrWhiteSpace(f.Address) ? null : f.Address.Trim();
-        p.Note = string.IsNullOrWhiteSpace(f.Note) ? null : f.Note.Trim();
+        p.HolderName = f.HolderName.IsEmpty() ? null : f.HolderName.Trim();
+        p.Address = f.Address.IsEmpty() ? null : f.Address.Trim();
+        p.Note = f.Note.IsEmpty() ? null : f.Note.Trim();
     }
 
     public static Task<bool> DuplicateAsync(AppDbContext db, Guid wardId, ParcelFields f, Guid? exceptId, CancellationToken ct) =>
