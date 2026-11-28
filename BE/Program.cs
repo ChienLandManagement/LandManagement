@@ -109,6 +109,7 @@ builder.Services
     .AddCustomCors(builder.Configuration, builder.Environment)
     .AddCustomRateLimiting();
 builder.Services.AddResultLibExceptionHandler();
+builder.Services.AddProblemDetails();
 builder.Services.AddFastEndpointsConfig();
 
 var app = builder.Build();
