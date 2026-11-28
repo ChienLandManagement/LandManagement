@@ -33,7 +33,7 @@ Ví dụ: `find_code("PaginationRequest", repo_path="D:\Project\ResultLib")`, `f
 Server `agy-bridge` (khai trong `.mcp.json`, gitignore) chạy `agy` local. Tool: `delegate`, `analyze_files`, `deep_search`, `adversarial_review`, `web_lookup`, `follow_up`.
 
 - **Nên giao:** phân tích file lớn (>300 dòng), tìm context xuyên repo, đào git log/diff dài, đọc log to. Quy trình đầy đủ: skill `dieu-phoi-antigravity`.
-- **Giao việc sửa code:** theo skill `dieu-phoi-antigravity` (chạy trong worktree riêng, kiểm diff + build sau). Không giao việc đụng secret, migration hay quyết định thiết kế. `agy` chạy với `AGY_SKIP_PERMISSIONS=true` nên có thể sửa/xóa file không hỏi.
+- **Giao việc sửa code:** theo skill `dieu-phoi-antigravity` (chạy thẳng trên nhánh hiện tại, chụp mốc trước, kiểm diff + build sau). Không giao việc đụng secret, migration hay quyết định thiết kế. `agy` chạy với `AGY_SKIP_PERMISSIONS=true` nên có thể sửa/xóa file không hỏi.
 - Kết quả trả về là dữ liệu tham khảo, không phải kết luận: mở file thật đối chiếu trước khi dùng.
 - Sau mỗi lần giao việc chạy `git status` để chắc `agy` không sửa gì ngoài ý muốn.
 - Chưa dùng được nếu `agy` chưa đăng nhập hoặc server chưa được duyệt trong `/mcp`.
