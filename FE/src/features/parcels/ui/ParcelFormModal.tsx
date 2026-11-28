@@ -219,6 +219,8 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
                   required
                   hideControls
                   decimalScale={5}
+                  decimalSeparator=","
+                  allowedDecimalSeparators={['.', ',']}
                   min={0}
                   value={field.value ?? ''}
                   onChange={(val) => field.onChange(typeof val === 'number' ? val : undefined)}
