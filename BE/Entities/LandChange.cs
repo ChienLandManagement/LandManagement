@@ -4,6 +4,8 @@ namespace LandManagement.Entities;
 
 // Một biến động đất đai trong kỳ: Area (ha) chuyển từ loại đất From sang To.
 // From = null: tăng khác (đất vào từ ngoài danh sách). To = null: giảm khác (đất ra ngoài danh sách).
+public enum LandChangeSource { Manual = 1, Import = 2 }
+
 public class LandChange : AuditableEntity<Guid>
 {
     public LandChange() => Id = Guid.CreateVersion7();
@@ -19,4 +21,7 @@ public class LandChange : AuditableEntity<Guid>
     public Guid? HolderTypeId { get; set; }
     public LandHolderType? HolderType { get; set; }
     public string? Note { get; set; }
+
+    /// <summary>Import: sinh ra từ Biểu 05 trong file Excel; nhập lại file thì thay các dòng này.</summary>
+    public LandChangeSource Source { get; set; } = LandChangeSource.Manual;
 }
