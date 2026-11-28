@@ -78,11 +78,11 @@ export function UserTable({
       },
     },
     {
-      key: 'wardName',
+      key: 'wards',
       title: 'Xã/Phường',
       render: (item) => (
         <Text size="sm" c="dimmed">
-          {item.wardName || '—'}
+          {item.wards?.map((w) => w.name).join(', ') || '—'}
         </Text>
       ),
     },

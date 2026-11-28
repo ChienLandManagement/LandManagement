@@ -18,15 +18,13 @@ public class CreateUserHandler(AppDbContext db, IPasswordHasher hasher) : IReque
         if (await db.Users.AnyAsync(u => u.UserName.ToLower() == userName.ToLower(), ct))
             return Error.Conflict("Tên đăng nhập đã tồn tại".ToMessageForUser());
 
-        Ward? ward = null;
+        var wards = new List<Ward>();
         if (cmd.Role != UserRole.Admin)
         {
-            if (cmd.WardId is not { } wardId)
-                return Error.Validation("Chọn xã/phường".ToMessageForUser());
-
-            ward = await db.Wards.FirstOrDefaultAsync(x => x.Id == wardId, ct);
-            if (ward is null)
-                return Error.Validation("Xã/phường không tồn tại".ToMessageForUser());
+            var wardIds = cmd.WardIds?.Distinct().ToList() ?? [];
+            wards = await db.Wards.Where(x => wardIds.Contains(x.Id)).ToListAsync(ct);
+            if (wards.Count != wardIds.Count)
+                return Error.Validation("Có xã/phường không tồn tại".ToMessageForUser());
         }
 
         var user = new User
@@ -36,8 +34,7 @@ public class CreateUserHandler(AppDbContext db, IPasswordHasher hasher) : IReque
             FullName = cmd.FullName.Trim(),
             Email = cmd.Email.NormalizeEmail(),
             Role = cmd.Role,
-            WardId = cmd.Role == UserRole.Admin ? null : cmd.WardId,
-            Ward = ward
+            Wards = wards
         };
         db.Users.Add(user);
         await db.SaveChangesAsync(ct);

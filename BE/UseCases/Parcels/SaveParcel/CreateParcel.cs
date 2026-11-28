@@ -19,8 +19,8 @@ public class CreateParcelHandler(AppDbContext db, ICurrentUser currentUser) : IR
 {
     public async Task<ErrorOr<ParcelItem>> Handle(CreateParcelCommand cmd, CancellationToken ct)
     {
-        var wardId = currentUser.IsAdmin ? cmd.WardId : currentUser.WardId;
-        if (wardId is null) return Error.Validation("Chọn xã/phường".ToMessageForUser());
+        var wardId = currentUser.Resolve(cmd.WardId);
+        if (wardId is null) return Error.Validation("Chọn xã/phường bạn được phân công".ToMessageForUser());
         if (!await db.Wards.AnyAsync(x => x.Id == wardId, ct)) return Error.NotFound("Không tìm thấy xã/phường".ToMessageForUser());
 
         var check = await ParcelRules.CheckAsync(db, cmd, ct);

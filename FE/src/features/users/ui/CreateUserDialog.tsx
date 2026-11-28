@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Group, Modal, PasswordInput, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Group, Modal, MultiSelect, PasswordInput, Select, Stack, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { getListUsersQueryKey, useCreateUser, useListProvinces, useListWards } from '@/shared/api/generated/api';
+import { getListUsersQueryKey, useCreateUser, useListWards } from '@/shared/api/generated/api';
 import { HttpError } from '@/shared/api/http';
 import {
   type CreateUserFormValues,
@@ -23,7 +23,6 @@ interface CreateUserDialogProps {
 export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) {
   const queryClient = useQueryClient();
   const createUser = useCreateUser();
-  const [provinceId, setProvinceId] = useState<string | null>(null);
 
   const {
     control,
@@ -39,7 +38,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
       fullName: '',
       email: '',
       role: 'LandOfficer',
-      wardId: '',
+      wardIds: [],
       password: '',
       confirmPassword: '',
     },
@@ -48,24 +47,16 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
   const watchedRole = watch('role');
   const isAdminRole = watchedRole === 'Admin';
 
-  const { data: provincesData } = useListProvinces({ PageSize: 100 }, { query: { enabled: open && !isAdminRole } });
-  const provinces = provincesData?.data?.items ?? [];
-
-  const { data: wardsData } = useListWards(
-    { ProvinceId: provinceId ?? undefined, PageSize: 100 },
-    { query: { enabled: open && !isAdminRole && Boolean(provinceId) } },
-  );
+  const { data: wardsData } = useListWards({ PageSize: 100 }, { query: { enabled: open && !isAdminRole } });
   const wards = wardsData?.data?.items ?? [];
 
   useEffect(() => {
     if (isAdminRole) {
-      setProvinceId(null);
-      setValue('wardId', '', { shouldValidate: true });
+      setValue('wardIds', [], { shouldValidate: true });
     }
   }, [isAdminRole, setValue]);
 
   const handleClose = () => {
-    setProvinceId(null);
     reset();
     onOpenChange(false);
   };
@@ -78,7 +69,7 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
           fullName: values.fullName,
           email: values.email ?? null,
           role: toUserRoleValue(values.role),
-          wardId: values.role === 'Admin' ? null : (values.wardId ?? null),
+          wardIds: values.role === 'Admin' ? [] : values.wardIds,
           password: values.password,
         },
       },
@@ -101,18 +92,11 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
     label: USER_ROLE_LABELS[roleKey],
   }));
 
-  const provinceOptions = provinces
-    .filter((province): province is typeof province & { id: string } => Boolean(province.id))
-    .map((province) => ({
-      value: province.id,
-      label: province.name ?? province.id,
-    }));
-
   const wardOptions = wards
     .filter((ward): ward is typeof ward & { id: string } => Boolean(ward.id))
     .map((ward) => ({
       value: ward.id,
-      label: ward.name ?? ward.id,
+      label: ward.provinceName ? `${ward.name} (${ward.provinceName})` : (ward.name ?? ward.id),
     }));
 
   return (
@@ -176,38 +160,22 @@ export function CreateUserDialog({ open, onOpenChange }: CreateUserDialogProps) 
           />
 
           {!isAdminRole && (
-            <>
-              <Select
-                label="Tỉnh/Thành phố"
-                placeholder="Chọn tỉnh/thành phố"
-                data={provinceOptions}
-                value={provinceId}
-                onChange={(val) => {
-                  setProvinceId(val);
-                  setValue('wardId', '', { shouldValidate: true });
-                }}
-                clearable
-                searchable
-              />
-
-              <Controller
-                control={control}
-                name="wardId"
-                render={({ field }) => (
-                  <Select
-                    label="Xã/Phường"
-                    placeholder={provinceId ? 'Chọn xã/phường' : 'Vui lòng chọn tỉnh/thành phố trước'}
-                    data={wardOptions}
-                    value={field.value || null}
-                    onChange={(val) => field.onChange(val ?? '')}
-                    disabled={!provinceId}
-                    clearable
-                    searchable
-                    error={errors.wardId?.message}
-                  />
-                )}
-              />
-            </>
+            <Controller
+              control={control}
+              name="wardIds"
+              render={({ field }) => (
+                <MultiSelect
+                  label="Xã/Phường được phân công"
+                  placeholder="Chọn một hoặc nhiều xã/phường"
+                  data={wardOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  searchable
+                  clearable
+                  error={errors.wardIds?.message}
+                />
+              )}
+            />
           )}
 
           <Controller

@@ -14,7 +14,7 @@ public class DeleteWardHandler(AppDbContext db) : IRequestHandler<DeleteWardComm
         if (ward is null)
             return Error.NotFound("Không tìm thấy xã/phường".ToMessageForUser());
 
-        if (await db.Users.AnyAsync(x => x.WardId == cmd.Id, ct))
+        if (await db.Users.AnyAsync(x => x.Wards.Any(w => w.Id == cmd.Id), ct))
             return Error.Conflict("Không thể xóa xã/phường đang có người dùng".ToMessageForUser());
 
         db.Wards.Remove(ward);

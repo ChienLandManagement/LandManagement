@@ -4,7 +4,7 @@ import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { getUser } from '@/entities/session';
+import { getUser, getWardScope } from '@/entities/session';
 import { formatArea } from '@/features/inventory';
 import {
   getListParcelsQueryKey,
@@ -23,7 +23,7 @@ import { ParcelFormModal } from './ParcelFormModal';
 export function ParcelsList() {
   const queryClient = useQueryClient();
   const user = getUser();
-  const isAdmin = user?.role === 'Admin';
+  const { isAdmin, wardIds, canPickWard } = getWardScope();
   const canWrite = user?.role === 'Admin' || user?.role === 'LandOfficer';
 
   const [page, setPage] = useState(1);
@@ -42,12 +42,12 @@ export function ParcelsList() {
     PageSize: pageSize,
     Query: debouncedQuery.trim() || null,
     LandTypeId: landTypeId || null,
-    WardId: isAdmin ? wardId || null : null,
+    WardId: canPickWard ? wardId || null : null,
     MissingInfo: missingInfo ? true : null,
   });
 
   const { data: landTypesData } = useListLandTypes({});
-  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: isAdmin } });
+  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: canPickWard } });
   const deleteParcel = useDeleteParcel();
 
   const landTypeOptions = useMemo(() => getLeafLandTypeOptions(landTypesData?.data ?? []), [landTypesData?.data]);
@@ -55,9 +55,9 @@ export function ParcelsList() {
   const wardOptions = useMemo(
     () =>
       (wardsData?.data?.items ?? [])
-        .filter((w) => w.id && w.name)
+        .filter((w) => w.id && w.name && (isAdmin || wardIds.includes(w.id)))
         .map((w) => ({ value: w.id ?? '', label: w.name ?? '' })),
-    [wardsData?.data?.items],
+    [wardsData?.data?.items, isAdmin, wardIds],
   );
 
   const handleOpenCreate = () => {
@@ -135,7 +135,7 @@ export function ParcelsList() {
               w={{ base: '100%', sm: 240 }}
             />
 
-            {isAdmin && (
+            {canPickWard && (
               <Select
                 placeholder="Xã/Phường"
                 data={wardOptions}

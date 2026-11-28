@@ -10,14 +10,14 @@ public interface ICurrentUser
     string? IpAddress { get; }
     bool IsAdmin { get; }
     UserRole? Role { get; }
-    Guid? WardId { get; }
+    IReadOnlyList<Guid> WardIds { get; }
 }
 
 public class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUser
 {
     private HttpContext? Context => httpContextAccessor.HttpContext;
 
-    // Token đặt claim "sub", "name", "role" và "ward_id" (MapInboundClaims = false nên giữ nguyên tên claim).
+    // Token đặt claim "sub", "name", "role" và các "ward_id" (MapInboundClaims = false nên giữ nguyên tên claim).
     public Guid Id => Guid.TryParse(Context?.User.FindFirst("sub")?.Value, out var id) ? id : Guid.Empty;
 
     public string? Name => Context?.User.FindFirst("name")?.Value;
@@ -28,5 +28,7 @@ public class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUse
 
     public UserRole? Role => Enum.TryParse<UserRole>(Context?.User.FindFirst("role")?.Value ?? Context?.User.FindFirst(ClaimTypes.Role)?.Value, out var role) ? role : null;
 
-    public Guid? WardId => Guid.TryParse(Context?.User.FindFirst("ward_id")?.Value, out var wardId) ? wardId : null;
+    // Mỗi xã được phân công là một claim "ward_id".
+    public IReadOnlyList<Guid> WardIds => Context?.User.FindAll("ward_id").Select(c => Guid.TryParse(c.Value, out var id) ? id : Guid.Empty)
+        .Where(id => id != Guid.Empty).ToList() ?? [];
 }

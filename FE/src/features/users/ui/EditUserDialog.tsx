@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Group, Modal, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Group, Modal, MultiSelect, Select, Stack, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { getListUsersQueryKey, useListProvinces, useListWards, useUpdateUser } from '@/shared/api/generated/api';
+import { getListUsersQueryKey, useListWards, useUpdateUser } from '@/shared/api/generated/api';
 import { HttpError } from '@/shared/api/http';
 import type { UserItem } from '@/shared/api/model/userItem';
 import {
@@ -27,7 +27,6 @@ interface EditUserDialogProps {
 export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false }: EditUserDialogProps) {
   const queryClient = useQueryClient();
   const updateUser = useUpdateUser();
-  const [provinceId, setProvinceId] = useState<string | null>(null);
 
   const {
     control,
@@ -42,37 +41,29 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
       fullName: '',
       email: '',
       role: 'LandOfficer',
-      wardId: '',
+      wardIds: [],
     },
   });
 
   const watchedRole = watch('role');
   const isAdminRole = watchedRole === 'Admin';
 
-  const { data: provincesData } = useListProvinces({ PageSize: 100 }, { query: { enabled: open && !isAdminRole } });
-  const provinces = provincesData?.data?.items ?? [];
-
-  const { data: wardsData } = useListWards(
-    { ProvinceId: provinceId ?? undefined, PageSize: 100 },
-    { query: { enabled: open && !isAdminRole } },
-  );
+  const { data: wardsData } = useListWards({ PageSize: 100 }, { query: { enabled: open && !isAdminRole } });
   const wards = wardsData?.data?.items ?? [];
 
   useEffect(() => {
     if (isAdminRole) {
-      setProvinceId(null);
-      setValue('wardId', '', { shouldValidate: true });
+      setValue('wardIds', [], { shouldValidate: true });
     }
   }, [isAdminRole, setValue]);
 
   useEffect(() => {
     if (user && open) {
-      setProvinceId(user.provinceId ?? null);
       reset({
         fullName: user.fullName ?? '',
         email: user.email ?? '',
         role: isUserRoleKey(user.role) ? user.role : 'LandOfficer',
-        wardId: user.wardId ?? '',
+        wardIds: (user.wards ?? []).map((w) => w.id ?? ''),
       });
     }
   }, [user, open, reset]);
@@ -89,7 +80,7 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
           fullName: values.fullName,
           email: values.email ?? null,
           role: toUserRoleValue(values.role),
-          wardId: values.role === 'Admin' ? null : (values.wardId ?? null),
+          wardIds: values.role === 'Admin' ? [] : values.wardIds,
         },
       },
       {
@@ -111,18 +102,11 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
     label: USER_ROLE_LABELS[roleKey],
   }));
 
-  const provinceOptions = provinces
-    .filter((province): province is typeof province & { id: string } => Boolean(province.id))
-    .map((province) => ({
-      value: province.id,
-      label: province.name ?? province.id,
-    }));
-
   const wardOptions = wards
     .filter((ward): ward is typeof ward & { id: string } => Boolean(ward.id))
     .map((ward) => ({
       value: ward.id,
-      label: ward.name ?? ward.id,
+      label: ward.provinceName ? `${ward.name} (${ward.provinceName})` : (ward.name ?? ward.id),
     }));
 
   return (
@@ -179,37 +163,22 @@ export function EditUserDialog({ user, open, onOpenChange, isCurrentUser = false
           />
 
           {!isAdminRole && (
-            <>
-              <Select
-                label="Tỉnh/Thành phố"
-                placeholder="Chọn tỉnh/thành phố"
-                data={provinceOptions}
-                value={provinceId}
-                onChange={(val) => {
-                  setProvinceId(val);
-                  setValue('wardId', '', { shouldValidate: true });
-                }}
-                clearable
-                searchable
-              />
-
-              <Controller
-                control={control}
-                name="wardId"
-                render={({ field }) => (
-                  <Select
-                    label="Xã/Phường"
-                    placeholder="Chọn xã/phường"
-                    data={wardOptions}
-                    value={field.value || null}
-                    onChange={(val) => field.onChange(val ?? '')}
-                    clearable
-                    searchable
-                    error={errors.wardId?.message}
-                  />
-                )}
-              />
-            </>
+            <Controller
+              control={control}
+              name="wardIds"
+              render={({ field }) => (
+                <MultiSelect
+                  label="Xã/Phường được phân công"
+                  placeholder="Chọn một hoặc nhiều xã/phường"
+                  data={wardOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  searchable
+                  clearable
+                  error={errors.wardIds?.message}
+                />
+              )}
+            />
           )}
 
           <Group justify="flex-end" mt="xs">

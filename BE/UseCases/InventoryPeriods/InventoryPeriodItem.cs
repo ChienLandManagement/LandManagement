@@ -15,7 +15,7 @@ public static class InventoryPeriodAccess
     public static IQueryable<InventoryPeriod> InScope(this IQueryable<InventoryPeriod> periods, ICurrentUser user)
     {
         if (user.IsAdmin) return periods;
-        var wardId = user.WardId;
-        return periods.Where(x => x.WardId == wardId);
+        var wardIds = user.WardIds;
+        return periods.Where(x => wardIds.Contains(x.WardId));
     }
 }

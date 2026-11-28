@@ -53,3 +53,6 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [ ] Mẫu Biểu 03/TKKK và 06/TKKKQPAN
 - [ ] Nội dung chú thích (1), (2) trong tiêu đề các biểu
 - [ ] File Excel mẫu: thửa đất, hồ sơ GCN, biến động
+
+## Phân quyền theo xã
+- [x] Một tài khoản gán được nhiều xã/phường (bảng `user_wards`); Admin thấy tất cả. Tạo kỳ / thửa: nhiều xã thì phải chọn xã, một xã thì tự lấy.

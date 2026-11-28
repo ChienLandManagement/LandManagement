@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { getUser } from '@/entities/session';
+import { getWardScope } from '@/entities/session';
 import { getListPeriodsQueryKey, useCreatePeriod, useListWards, useUpdatePeriod } from '@/shared/api/generated/api';
 import { type InventoryPeriodItem, InventoryPeriodType } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
@@ -16,9 +16,9 @@ interface PeriodFormModalProps {
   editingItem?: InventoryPeriodItem | null;
 }
 
-const createSchema = (isAdmin: boolean, isEditing: boolean) =>
+const createSchema = (canPickWard: boolean, isEditing: boolean) =>
   z.object({
-    wardId: isAdmin && !isEditing ? z.string().min(1, 'Vui lòng chọn xã/phường') : z.string().optional().nullable(),
+    wardId: canPickWard && !isEditing ? z.string().min(1, 'Vui lòng chọn xã/phường') : z.string().optional().nullable(),
     cutoffDate: z.string().min(1, 'Vui lòng chọn ngày chốt số liệu'),
     type: z.enum([InventoryPeriodType.Annual, InventoryPeriodType.FiveYear], {
       message: 'Vui lòng chọn loại kỳ kiểm kê',
@@ -30,23 +30,26 @@ type PeriodFormValues = z.infer<ReturnType<typeof createSchema>>;
 
 export function PeriodFormModal({ opened, onClose, editingItem }: PeriodFormModalProps) {
   const queryClient = useQueryClient();
-  const isAdmin = getUser()?.role === 'Admin';
+  const { isAdmin, wardIds, canPickWard } = getWardScope();
   const isEditing = Boolean(editingItem?.id);
 
   const createPeriod = useCreatePeriod();
   const updatePeriod = useUpdatePeriod();
 
-  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: opened && isAdmin && !isEditing } });
+  const { data: wardsData } = useListWards(
+    { PageSize: 200 },
+    { query: { enabled: opened && canPickWard && !isEditing } },
+  );
 
   const wardOptions = useMemo(
     () =>
       (wardsData?.data?.items ?? [])
-        .filter((w) => w.id && w.name)
+        .filter((w) => w.id && w.name && (isAdmin || wardIds.includes(w.id)))
         .map((w) => ({ value: w.id ?? '', label: w.name ?? '' })),
-    [wardsData?.data?.items],
+    [wardsData?.data?.items, isAdmin, wardIds],
   );
 
-  const schema = useMemo(() => createSchema(isAdmin, isEditing), [isAdmin, isEditing]);
+  const schema = useMemo(() => createSchema(canPickWard, isEditing), [canPickWard, isEditing]);
 
   const {
     control,
@@ -97,7 +100,7 @@ export function PeriodFormModal({ opened, onClose, editingItem }: PeriodFormModa
       } else {
         await createPeriod.mutateAsync({
           data: {
-            wardId: isAdmin ? values.wardId : undefined,
+            wardId: canPickWard ? values.wardId : undefined,
             cutoffDate,
             type: values.type,
             note,
@@ -117,7 +120,7 @@ export function PeriodFormModal({ opened, onClose, editingItem }: PeriodFormModa
     <Modal opened={opened} onClose={onClose} title={isEditing ? 'Cập nhật kỳ kiểm kê' : 'Thêm kỳ kiểm kê'} centered>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="sm">
-          {isAdmin && !isEditing && (
+          {canPickWard && !isEditing && (
             <Controller
               name="wardId"
               control={control}

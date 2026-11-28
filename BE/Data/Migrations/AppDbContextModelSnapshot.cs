@@ -728,10 +728,6 @@ namespace LandManagement.Data.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("user_name");
 
-                    b.Property<Guid?>("WardId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("ward_id");
-
                     b.HasKey("Id")
                         .HasName("pk_users");
 
@@ -739,9 +735,6 @@ namespace LandManagement.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_users_user_name")
                         .HasFilter("is_deleted = false");
-
-                    b.HasIndex("WardId")
-                        .HasDatabaseName("ix_users_ward_id");
 
                     b.ToTable("users", (string)null);
                 });
@@ -801,6 +794,25 @@ namespace LandManagement.Data.Migrations
                         .HasFilter("is_deleted = false");
 
                     b.ToTable("wards", (string)null);
+                });
+
+            modelBuilder.Entity("user_wards", b =>
+                {
+                    b.Property<Guid>("UsersId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("users_id");
+
+                    b.Property<Guid>("WardsId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("wards_id");
+
+                    b.HasKey("UsersId", "WardsId")
+                        .HasName("pk_user_wards");
+
+                    b.HasIndex("WardsId")
+                        .HasDatabaseName("ix_user_wards_wards_id");
+
+                    b.ToTable("user_wards", (string)null);
                 });
 
             modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
@@ -950,17 +962,6 @@ namespace LandManagement.Data.Migrations
                     b.Navigation("Ward");
                 });
 
-            modelBuilder.Entity("LandManagement.Entities.User", b =>
-                {
-                    b.HasOne("LandManagement.Entities.Ward", "Ward")
-                        .WithMany("Users")
-                        .HasForeignKey("WardId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("fk_users_wards_ward_id");
-
-                    b.Navigation("Ward");
-                });
-
             modelBuilder.Entity("LandManagement.Entities.Ward", b =>
                 {
                     b.HasOne("LandManagement.Entities.Province", "Province")
@@ -971,6 +972,23 @@ namespace LandManagement.Data.Migrations
                         .HasConstraintName("fk_wards_provinces_province_id");
 
                     b.Navigation("Province");
+                });
+
+            modelBuilder.Entity("user_wards", b =>
+                {
+                    b.HasOne("LandManagement.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_wards_users_users_id");
+
+                    b.HasOne("LandManagement.Entities.Ward", null)
+                        .WithMany()
+                        .HasForeignKey("WardsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_wards_wards_wards_id");
                 });
 
             modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
@@ -991,11 +1009,6 @@ namespace LandManagement.Data.Migrations
             modelBuilder.Entity("LandManagement.Entities.Province", b =>
                 {
                     b.Navigation("Wards");
-                });
-
-            modelBuilder.Entity("LandManagement.Entities.Ward", b =>
-                {
-                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

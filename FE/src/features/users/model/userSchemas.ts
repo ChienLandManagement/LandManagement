@@ -25,12 +25,7 @@ const optionalEmailSchema = z
   .transform((val) => (val === '' ? undefined : val))
   .pipe(z.string().email('Email không hợp lệ').optional());
 
-const optionalWardIdSchema = z
-  .string()
-  .trim()
-  .optional()
-  .nullable()
-  .transform((val) => (val === '' || val == null ? null : val));
+const wardIdsSchema = z.array(z.string()).default([]);
 
 export const createUserSchema = z
   .object({
@@ -43,7 +38,7 @@ export const createUserSchema = z
     fullName: z.string().trim().min(1, 'Họ và tên không được để trống'),
     email: optionalEmailSchema,
     role: z.enum(USER_ROLES, { error: 'Vui lòng chọn vai trò' }),
-    wardId: optionalWardIdSchema,
+    wardIds: wardIdsSchema,
     password: z.string().min(8, 'Mật khẩu phải có ít nhất 8 ký tự').max(128, 'Mật khẩu tối đa 128 ký tự'),
     confirmPassword: z.string().min(1, 'Vui lòng xác nhận mật khẩu'),
   })
@@ -52,11 +47,11 @@ export const createUserSchema = z
     path: ['confirmPassword'],
   })
   .superRefine((data, ctx) => {
-    if (data.role !== 'Admin' && !data.wardId) {
+    if (data.role !== 'Admin' && data.wardIds.length === 0) {
       ctx.addIssue({
         code: 'custom',
-        message: 'Vui lòng chọn xã/phường',
-        path: ['wardId'],
+        message: 'Vui lòng chọn ít nhất một xã/phường',
+        path: ['wardIds'],
       });
     }
   });
@@ -69,14 +64,14 @@ export const editUserSchema = z
     fullName: z.string().trim().min(1, 'Họ và tên không được để trống'),
     email: optionalEmailSchema,
     role: z.enum(USER_ROLES, { error: 'Vui lòng chọn vai trò' }),
-    wardId: optionalWardIdSchema,
+    wardIds: wardIdsSchema,
   })
   .superRefine((data, ctx) => {
-    if (data.role !== 'Admin' && !data.wardId) {
+    if (data.role !== 'Admin' && data.wardIds.length === 0) {
       ctx.addIssue({
         code: 'custom',
-        message: 'Vui lòng chọn xã/phường',
-        path: ['wardId'],
+        message: 'Vui lòng chọn ít nhất một xã/phường',
+        path: ['wardIds'],
       });
     }
   });

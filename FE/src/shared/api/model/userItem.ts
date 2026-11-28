@@ -4,6 +4,7 @@
  * Api
  * OpenAPI spec version: v1
  */
+import type { UserWardItem } from './userWardItem';
 
 export interface UserItem {
   id?: string;
@@ -14,10 +15,5 @@ export interface UserItem {
   role?: string;
   isActive?: boolean;
   createdAt?: string;
-  /** @nullable */
-  wardId?: string | null;
-  /** @nullable */
-  wardName?: string | null;
-  /** @nullable */
-  provinceId?: string | null;
+  wards?: UserWardItem[];
 }

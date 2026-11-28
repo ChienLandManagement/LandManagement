@@ -11,7 +11,7 @@ public class ListUsersHandler(AppDbContext db) : IRequestHandler<ListUsersQuery,
 {
     public async Task<ErrorOr<PagedResponse<UserItem>>> Handle(ListUsersQuery query, CancellationToken ct)
     {
-        var users = db.Users.AsNoTracking().Include(u => u.Ward).AsQueryable();
+        var users = db.Users.AsNoTracking().Include(u => u.Wards).AsQueryable();
         if (query.Query.IsNotEmpty())
         {
             var pattern = $"%{query.Query}%";

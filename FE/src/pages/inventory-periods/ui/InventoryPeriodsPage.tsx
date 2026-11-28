@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { Eye, Lock, Pencil, Plus, RefreshCw, Trash2, Unlock } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { getUser } from '@/entities/session';
+import { getUser, getWardScope } from '@/entities/session';
 import { PERIOD_STATUS_COLORS, PERIOD_STATUS_LABELS, PERIOD_TYPE_LABELS, PeriodFormModal } from '@/features/inventory';
 import {
   getListPeriodsQueryKey,
@@ -23,7 +23,7 @@ export function InventoryPeriodsPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const user = getUser();
-  const isAdmin = user?.role === 'Admin';
+  const { isAdmin, wardIds, canPickWard } = getWardScope();
   const canWrite = user?.role === 'Admin' || user?.role === 'LandOfficer';
 
   const [page, setPage] = useState(1);
@@ -35,17 +35,17 @@ export function InventoryPeriodsPage() {
   const deletePeriod = useDeletePeriod();
   const setPeriodStatus = useSetPeriodStatus();
 
-  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: isAdmin } });
+  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: canPickWard } });
   const wardOptions = useMemo(
     () =>
       (wardsData?.data?.items ?? [])
-        .filter((w) => w.id && w.name)
+        .filter((w) => w.id && w.name && (isAdmin || wardIds.includes(w.id)))
         .map((w) => ({ value: w.id ?? '', label: w.name ?? '' })),
-    [wardsData?.data?.items],
+    [wardsData?.data?.items, isAdmin, wardIds],
   );
 
   const { data, isLoading, isFetching, isError, refetch } = useListPeriods({
-    WardId: isAdmin && wardFilter ? wardFilter : undefined,
+    WardId: canPickWard && wardFilter ? wardFilter : undefined,
     CurrentPage: page,
     PageSize: pageSize,
     IsDescending: true,
@@ -109,7 +109,7 @@ export function InventoryPeriodsPage() {
   };
 
   const columns: DataTableColumn<InventoryPeriodItem>[] = [
-    ...(isAdmin
+    ...(canPickWard
       ? [
           {
             key: 'wardName',
@@ -229,7 +229,7 @@ export function InventoryPeriodsPage() {
         </Group>
       }
       filters={
-        isAdmin ? (
+        canPickWard ? (
           <Select
             placeholder="Lọc theo xã/phường"
             data={wardOptions}

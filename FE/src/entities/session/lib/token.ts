@@ -5,6 +5,7 @@ interface JwtClaims {
   email: string;
   name: string;
   role?: string | string[];
+  ward_id?: string | string[];
   exp: number;
 }
 
