@@ -1,6 +1,7 @@
 import { clearAuth, getAccessToken, setAuth } from '@/entities/session';
 import { refreshTokenApi } from '@/features/auth';
 import { configureHttpAuth } from '@/shared/api/http';
+import { ROUTES } from '@/shared/config/constants';
 
 // Nối lớp HTTP (shared) với phiên đăng nhập: shared không biết store hay endpoint refresh.
 configureHttpAuth({
@@ -12,7 +13,7 @@ configureHttpAuth({
       return accessToken;
     } catch (error) {
       clearAuth();
-      window.location.assign('/login');
+      window.location.assign(ROUTES.LOGIN);
       throw error;
     }
   },
