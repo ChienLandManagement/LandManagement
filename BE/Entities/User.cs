@@ -12,6 +12,7 @@ public class User : AuditableEntity<Guid>
     public string? Email { get; set; }
     public UserRole Role { get; set; }
     public bool IsActive { get; set; } = true;
-    public Guid? WardId { get; set; }
-    public Ward? Ward { get; set; }
+
+    /// <summary>Các xã/phường được phân công. Admin để trống (thấy tất cả); vai trò khác phải có ít nhất một xã.</summary>
+    public ICollection<Ward> Wards { get; set; } = [];
 }

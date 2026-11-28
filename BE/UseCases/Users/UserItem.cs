@@ -4,10 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LandManagement.UseCases.Users;
 
-public record UserItem(Guid Id, string UserName, string FullName, string? Email, string Role, bool IsActive, DateTime CreatedAt, Guid? WardId = null, string? WardName = null, Guid? ProvinceId = null)
+public record UserWardItem(Guid Id, string Name, Guid ProvinceId);
+
+public record UserItem(Guid Id, string UserName, string FullName, string? Email, string Role, bool IsActive, DateTime CreatedAt, List<UserWardItem> Wards)
 {
     public static UserItem From(User user) =>
-        new(user.Id, user.UserName, user.FullName, user.Email, user.Role.ToString(), user.IsActive, user.CreatedAt, user.WardId, user.Ward?.Name, user.Ward?.ProvinceId);
+        new(user.Id, user.UserName, user.FullName, user.Email, user.Role.ToString(), user.IsActive, user.CreatedAt,
+            user.Wards.OrderBy(w => w.Name).Select(w => new UserWardItem(w.Id, w.Name, w.ProvinceId)).ToList());
 }
 
 public static class UserTokenExtensions

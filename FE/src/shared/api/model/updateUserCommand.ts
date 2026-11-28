@@ -12,5 +12,5 @@ export interface UpdateUserCommand {
   email?: string | null;
   role?: UserRole;
   /** @nullable */
-  wardId?: string | null;
+  wardIds?: string[] | null;
 }

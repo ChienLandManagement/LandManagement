@@ -30,7 +30,7 @@ public class RefreshHandler(AppDbContext db, ITokenService tokens) : IRequestHan
             return Invalid;
         }
 
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Id == stored.UserId, ct);
+        var user = await db.Users.Include(u => u.Wards).FirstOrDefaultAsync(u => u.Id == stored.UserId, ct);
         if (user is null || !user.IsActive) return Invalid;
 
         var (result, next) = tokens.CreateSession(user, cmd.Ip, cmd.UserAgent);

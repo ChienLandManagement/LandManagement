@@ -12,9 +12,9 @@ public class CreatePeriodHandler(AppDbContext db, ICurrentUser currentUser) : IR
 {
     public async Task<ErrorOr<InventoryPeriodItem>> Handle(CreatePeriodCommand cmd, CancellationToken ct)
     {
-        var wardId = currentUser.IsAdmin ? cmd.WardId : currentUser.WardId;
+        var wardId = currentUser.Resolve(cmd.WardId);
         if (wardId is null)
-            return Error.Validation("Chọn xã/phường".ToMessageForUser());
+            return Error.Validation("Chọn xã/phường bạn được phân công".ToMessageForUser());
 
         var ward = await db.Wards.FirstOrDefaultAsync(x => x.Id == wardId, ct);
         if (ward is null)

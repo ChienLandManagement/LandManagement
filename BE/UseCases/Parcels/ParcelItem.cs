@@ -22,5 +22,5 @@ public record ParcelItem(Guid Id, Guid WardId, string WardName, string MapSheet,
 public static class ParcelAccess
 {
     public static IQueryable<Parcel> InScope(this IQueryable<Parcel> parcels, Security.ICurrentUser user) =>
-        user.IsAdmin ? parcels : parcels.Where(x => x.WardId == user.WardId);
+        user.IsAdmin ? parcels : parcels.Where(x => user.WardIds.Contains(x.WardId));
 }

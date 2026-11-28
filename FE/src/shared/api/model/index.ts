@@ -111,4 +111,5 @@ export * from './updateWardCommand';
 export * from './userItem';
 export * from './userProfile';
 export * from './userRole';
+export * from './userWardItem';
 export * from './wardItem';

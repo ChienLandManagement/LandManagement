@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { getUser } from '@/entities/session';
+import { getWardScope } from '@/entities/session';
 import {
   getListParcelsQueryKey,
   useCreateParcel,
@@ -23,9 +23,9 @@ interface ParcelFormModalProps {
   editingItem?: ParcelItem | null;
 }
 
-const createSchema = (isAdmin: boolean, isEditing: boolean) =>
+const createSchema = (canPickWard: boolean, isEditing: boolean) =>
   z.object({
-    wardId: isAdmin && !isEditing ? z.string().min(1, 'Vui lòng chọn xã/phường') : z.string().optional().nullable(),
+    wardId: canPickWard && !isEditing ? z.string().min(1, 'Vui lòng chọn xã/phường') : z.string().optional().nullable(),
     mapSheet: z.string().trim().min(1, 'Vui lòng nhập số tờ'),
     parcelNumber: z.string().trim().min(1, 'Vui lòng nhập số thửa'),
     area: z.number({ message: 'Vui lòng nhập diện tích' }).positive('Diện tích phải lớn hơn 0'),
@@ -40,22 +40,25 @@ type ParcelFormValues = z.infer<ReturnType<typeof createSchema>>;
 
 export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModalProps) {
   const queryClient = useQueryClient();
-  const isAdmin = getUser()?.role === 'Admin';
+  const { isAdmin, wardIds, canPickWard } = getWardScope();
   const isEditing = Boolean(editingItem?.id);
 
   const createParcel = useCreateParcel();
   const updateParcel = useUpdateParcel();
 
-  const { data: wardsData } = useListWards({ PageSize: 200 }, { query: { enabled: opened && isAdmin && !isEditing } });
+  const { data: wardsData } = useListWards(
+    { PageSize: 200 },
+    { query: { enabled: opened && canPickWard && !isEditing } },
+  );
   const { data: landTypesData } = useListLandTypes();
   const { data: holderTypesData } = useListLandHolderTypes();
 
   const wardOptions = useMemo(
     () =>
       (wardsData?.data?.items ?? [])
-        .filter((w) => w.id && w.name)
+        .filter((w) => w.id && w.name && (isAdmin || wardIds.includes(w.id)))
         .map((w) => ({ value: w.id ?? '', label: w.name ?? '' })),
-    [wardsData?.data?.items],
+    [wardsData?.data?.items, isAdmin, wardIds],
   );
 
   const landTypeOptions = useMemo(() => getLeafLandTypeOptions(landTypesData?.data ?? []), [landTypesData?.data]);
@@ -65,7 +68,7 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
     [holderTypesData?.data],
   );
 
-  const schema = useMemo(() => createSchema(isAdmin, isEditing), [isAdmin, isEditing]);
+  const schema = useMemo(() => createSchema(canPickWard, isEditing), [canPickWard, isEditing]);
 
   const {
     control,
@@ -139,7 +142,7 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
         await createParcel.mutateAsync({
           data: {
             ...commonFields,
-            wardId: isAdmin ? values.wardId || null : null,
+            wardId: canPickWard ? values.wardId || null : null,
           },
         });
         showSuccess('Thêm thửa đất thành công');
@@ -156,7 +159,7 @@ export function ParcelFormModal({ opened, onClose, editingItem }: ParcelFormModa
     <Modal opened={opened} onClose={onClose} title={isEditing ? 'Cập nhật thửa đất' : 'Thêm thửa đất'} size="lg">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack gap="sm">
-          {isAdmin && !isEditing && (
+          {canPickWard && !isEditing && (
             <Controller
               name="wardId"
               control={control}

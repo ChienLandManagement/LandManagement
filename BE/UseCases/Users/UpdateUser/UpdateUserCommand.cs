@@ -3,4 +3,4 @@ using LandManagement.Entities;
 
 namespace LandManagement.UseCases.Users.UpdateUser;
 
-public record UpdateUserCommand(Guid Id, string FullName, string? Email, UserRole Role, Guid? WardId = null) : ICommand<UserItem>;
+public record UpdateUserCommand(Guid Id, string FullName, string? Email, UserRole Role, List<Guid>? WardIds = null) : ICommand<UserItem>;

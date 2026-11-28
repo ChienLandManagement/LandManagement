@@ -14,7 +14,7 @@ public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService
 {
     public async Task<ErrorOr<AuthResult>> Handle(LoginCommand cmd, CancellationToken ct)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.UserName == cmd.UserName, ct);
+        var user = await db.Users.Include(u => u.Wards).FirstOrDefaultAsync(u => u.UserName == cmd.UserName, ct);
         var failReason = user is null ? LoginFailReason.UserNotFound
             : !user.IsActive ? LoginFailReason.Inactive
             : !hasher.Verify(cmd.Password, user.PasswordHash) ? LoginFailReason.WrongPassword

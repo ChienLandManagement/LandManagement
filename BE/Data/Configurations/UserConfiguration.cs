@@ -16,9 +16,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Role).HasConversion<string>().HasMaxLength(30);
         builder.HasIndex(x => x.UserName).IsUnique().HasFilter("is_deleted = false");
 
-        builder.HasOne(x => x.Ward)
+        builder.HasMany(x => x.Wards)
             .WithMany(x => x.Users)
-            .HasForeignKey(x => x.WardId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .UsingEntity("user_wards");
     }
 }
