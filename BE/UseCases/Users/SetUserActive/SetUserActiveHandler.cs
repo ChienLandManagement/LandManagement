@@ -11,7 +11,7 @@ public class SetUserActiveHandler(AppDbContext db, ICurrentUser currentUser) : I
 {
     public async Task<ErrorOr<UserItem>> Handle(SetUserActiveCommand cmd, CancellationToken ct)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Id == cmd.Id, ct);
+        var user = await db.Users.Include(u => u.Ward).FirstOrDefaultAsync(u => u.Id == cmd.Id, ct);
         if (user is null) return UserRules.NotFound;
         if (!cmd.IsActive && user.Id == currentUser.Id)
             return Error.Forbidden("Không thể tự khóa tài khoản của chính mình".ToMessageForUser());

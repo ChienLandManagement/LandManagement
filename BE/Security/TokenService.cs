@@ -32,6 +32,7 @@ public class TokenService(IOptions<JwtOptions> options) : ITokenService
             o.User.Claims.Add(("sub", user.Id.ToString()));
             o.User.Claims.Add(("name", user.FullName));
             if (user.Email is not null) o.User.Claims.Add(("email", user.Email));
+            if (user.WardId is { } wardId) o.User.Claims.Add(("ward_id", wardId.ToString()));
         });
 
         var refreshToken = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(64));

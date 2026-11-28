@@ -15,5 +15,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email).HasMaxLength(200);
         builder.Property(x => x.Role).HasConversion<string>().HasMaxLength(30);
         builder.HasIndex(x => x.UserName).IsUnique().HasFilter("is_deleted = false");
+
+        builder.HasOne(x => x.Ward)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.WardId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

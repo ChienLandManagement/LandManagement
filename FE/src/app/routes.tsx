@@ -1,20 +1,30 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Outlet, createRootRoute, createRoute, redirect } from '@tanstack/react-router';
+import { Center, Loader } from '@mantine/core';
 import { getUser } from '@/entities/session';
-import { lazy } from 'react';
 import { NotFoundPage } from '@/pages/not-found';
+import { LayoutAdmin } from '@/widgets/layout-admin';
 
 const LandingPage = lazy(() => import('@/pages/landing').then((m) => ({ default: m.LandingPage })));
-
 const LoginPage = lazy(() => import('@/pages/login').then((m) => ({ default: m.LoginPage })));
-
 const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.HomePage })));
-
 const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.UsersPage })));
+const LocationsPage = lazy(() =>
+  import('@/pages/locations').then((m) => ({ default: m.LocationsPage })),
+);
+const ForbiddenPage = lazy(() =>
+  import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })),
+);
 
 const rootRoute = createRootRoute({
   component: () => (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Đang tải...</div>}>
+    <Suspense
+      fallback={
+        <Center mih="100vh">
+          <Loader />
+        </Center>
+      }
+    >
       <Outlet />
     </Suspense>
   ),
@@ -33,24 +43,43 @@ const loginRoute = createRoute({
   component: LoginPage,
 });
 
-const homeRoute = createRoute({
+const adminLayoutRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/home',
+  id: 'admin-layout',
   beforeLoad: () => {
     if (!getUser()) throw redirect({ to: '/login' });
   },
+  component: LayoutAdmin,
+});
+
+const homeRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/home',
   component: HomePage,
 });
 
 const usersRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => adminLayoutRoute,
   path: '/users',
-  beforeLoad: () => {
+  component: () => {
     const user = getUser();
-    if (!user) throw redirect({ to: '/login' });
-    if (user.role !== 'Admin') throw redirect({ to: '/home' });
+    if (user?.role !== 'Admin') return <ForbiddenPage />;
+    return <UsersPage />;
   },
-  component: UsersPage,
 });
 
-export const routeTree = rootRoute.addChildren([landingRoute, loginRoute, homeRoute, usersRoute]);
+const locationsRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/locations',
+  component: () => {
+    const user = getUser();
+    if (user?.role !== 'Admin') return <ForbiddenPage />;
+    return <LocationsPage />;
+  },
+});
+
+export const routeTree = rootRoute.addChildren([
+  landingRoute,
+  loginRoute,
+  adminLayoutRoute.addChildren([homeRoute, usersRoute, locationsRoute]),
+]);

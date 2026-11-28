@@ -1,52 +1,61 @@
+import { Box, Button, Center, Group, Stack, Text, ThemeIcon, Title, Transition } from '@mantine/core';
+import { useReducedMotion } from '@mantine/hooks';
 import { useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, FileQuestion, Home } from 'lucide-react';
-import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { APP_NAME, ROUTES } from '@/shared/config/constants';
-import { Button } from '@/shared/ui/button';
 
 export default function NotFoundPage() {
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
       <Helmet>
         <title>404 - {APP_NAME}</title>
       </Helmet>
-      <div className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35, ease: 'easeOut' }}
-          className="w-full max-w-md text-center"
-        >
-          <motion.div
-            initial={{ scale: 0.85, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.1, duration: 0.3 }}
-            className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-muted/60 text-primary shadow-sm"
-          >
-            <FileQuestion className="h-10 w-10" />
-          </motion.div>
+      <Center mih="100vh" px="md">
+        <Transition mounted={mounted} transition="fade-up" duration={reduceMotion ? 0 : 300} timingFunction="ease">
+          {(styles) => (
+            <Box style={styles} maw={420} w="100%" ta="center">
+              <Stack align="center" gap="md">
+                <ThemeIcon size={72} radius="xl" variant="light" color="gray">
+                  <FileQuestion size={36} />
+                </ThemeIcon>
 
-          <p className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">Lỗi 404</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight">Trang không tồn tại</h1>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Đường dẫn bạn truy cập không tồn tại hoặc đã bị di chuyển. Vui lòng kiểm tra lại địa chỉ.
-          </p>
+                <Text size="sm" fw={700} tt="uppercase" c="dimmed" lts={1.5}>
+                  Lỗi 404
+                </Text>
+                <Title order={1} size="h2">
+                  Trang không tồn tại
+                </Title>
+                <Text size="sm" c="dimmed" lh={1.6}>
+                  Đường dẫn bạn truy cập không tồn tại hoặc đã bị di chuyển. Vui lòng kiểm tra lại địa chỉ.
+                </Text>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button variant="outline" onClick={() => window.history.back()}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Quay lại
-            </Button>
-            <Button onClick={() => navigate({ to: ROUTES.HOME })}>
-              <Home className="mr-2 h-4 w-4" />
-              Về trang chủ
-            </Button>
-          </div>
-        </motion.div>
-      </div>
+                <Group justify="center" gap="sm" mt="md">
+                  <Button
+                    variant="default"
+                    leftSection={<ArrowLeft size={16} />}
+                    onClick={() => window.history.back()}
+                  >
+                    Quay lại
+                  </Button>
+                  <Button leftSection={<Home size={16} />} onClick={() => navigate({ to: ROUTES.HOME })}>
+                    Về trang chủ
+                  </Button>
+                </Group>
+              </Stack>
+            </Box>
+          )}
+        </Transition>
+      </Center>
     </>
   );
 }

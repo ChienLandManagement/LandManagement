@@ -14,4 +14,8 @@ export interface UserItem {
   role?: string;
   isActive?: boolean;
   createdAt?: string;
+  /** @nullable */
+  wardId?: string | null;
+  /** @nullable */
+  wardName?: string | null;
 }

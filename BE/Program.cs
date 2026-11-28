@@ -13,9 +13,9 @@ using LandManagement.Data.Interceptors;
 using LandManagement.Options;
 using LandManagement.Security;
 using LandManagement.Services;
-using LandManagement.Services.FileStorage;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using ResultLib.Core;
 using ResultLib.Extensions;
 using ResultLib.Logging;
 using RazorLight;
@@ -25,6 +25,9 @@ using ZiggyCreatures.Caching.Fusion;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Giới hạn PageSize tối đa của phân trang: ResultLib mặc định 100, đổi bằng cấu hình "Pagination:MaxPageSize".
+ResultLibOptions.Pagination.MaxPageSize = builder.Configuration.GetValue("Pagination:MaxPageSize", ResultLibOptions.Pagination.MaxPageSize);
 
 // Serilog + PostgreSQL
 builder.Configuration["Serilog:WriteTo:1:Args:connectionString"] = connectionString;
@@ -68,7 +71,7 @@ builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection(AuthOpt
 builder.Configuration["SeaweedS3:AccessKey"] = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID") ?? builder.Configuration["SeaweedS3:AccessKey"];
 builder.Configuration["SeaweedS3:SecretKey"] = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY") ?? builder.Configuration["SeaweedS3:SecretKey"];
 builder.Services.Configure<SeaweedS3Options>(builder.Configuration.GetSection(SeaweedS3Options.SectionName));
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<ResultLib.Interfaces.IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
 builder.Services.AddSingleton<IRazorLightEngine>(_ => new RazorLightEngineBuilder()
     .UseFileSystemProject(Path.Combine(AppContext.BaseDirectory, "Resources", "Templates"))
@@ -80,7 +83,6 @@ builder.Services.AddSingleton<IMailQueue>(sp => sp.GetRequiredService<MailQueue>
 builder.Services.AddHostedService<SendMailWorker>();
 builder.Services.AddHostedService<TokenCleanupWorker>();
 builder.Services.AddHostedService<LoginLogCleanupWorker>();
-builder.Services.AddSingleton<IFileStorageService, S3FileStorageService>();
 
 // JWT
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>() ?? new JwtOptions();
