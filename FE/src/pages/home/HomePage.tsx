@@ -4,17 +4,11 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
+import { USER_ROLE_LABELS } from '@/features/users';
 import { APP_NAME } from '@/shared/config/constants';
 import { Badge } from '@/shared/ui/badge';
 import { Button } from '@/shared/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card';
-
-const ROLE_LABELS: Record<string, string> = {
-  Admin: 'Quản trị viên',
-  LandOfficer: 'Cán bộ địa chính',
-  Leader: 'Lãnh đạo UBND',
-  Citizen: 'Người dân',
-};
 
 export default function HomePage() {
   const user = useAuthStore((s) => s.user);
@@ -22,7 +16,10 @@ export default function HomePage() {
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
 
   const isAdmin = user?.role === 'Admin';
-  const roleLabel = ROLE_LABELS[user?.role ?? ''] ?? user?.role ?? '—';
+  const roleLabel =
+    (user?.role && user.role in USER_ROLE_LABELS
+      ? USER_ROLE_LABELS[user.role as keyof typeof USER_ROLE_LABELS]
+      : user?.role) ?? '—';
 
   return (
     <>

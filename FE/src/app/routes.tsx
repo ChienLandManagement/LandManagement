@@ -12,6 +12,8 @@ const HomePage = lazy(() => import('@/pages/home').then((m) => ({ default: m.Hom
 
 const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.UsersPage })));
 
+const ForbiddenPage = lazy(() => import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })));
+
 const rootRoute = createRootRoute({
   component: () => (
     <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Đang tải...</div>}>
@@ -48,9 +50,12 @@ const usersRoute = createRoute({
   beforeLoad: () => {
     const user = getUser();
     if (!user) throw redirect({ to: '/login' });
-    if (user.role !== 'Admin') throw redirect({ to: '/home' });
   },
-  component: UsersPage,
+  component: () => {
+    const user = getUser();
+    if (user?.role !== 'Admin') return <ForbiddenPage />;
+    return <UsersPage />;
+  },
 });
 
 export const routeTree = rootRoute.addChildren([landingRoute, loginRoute, homeRoute, usersRoute]);
