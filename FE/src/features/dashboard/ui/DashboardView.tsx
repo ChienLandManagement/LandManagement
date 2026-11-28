@@ -1,10 +1,8 @@
 import '@mantine/charts/styles.css';
-import { DonutChart } from '@mantine/charts';
 import {
   Alert,
   Box,
   Button,
-  Center,
   Group,
   Paper,
   Select,
@@ -22,6 +20,7 @@ import { formatArea } from '@/features/inventory';
 import { useGetPeriodDashboard, useListPeriods } from '@/shared/api/generated/api';
 import type { DashboardLandTypeItem } from '@/shared/api/model';
 import { formatDate } from '@/shared/lib/date';
+import { LandPieCard } from './LandPieCard';
 import { AreaTrendChart, OverviewAlerts } from './OverviewPanel';
 
 const LEVEL1_COLORS: Record<string, string> = {
@@ -29,6 +28,21 @@ const LEVEL1_COLORS: Record<string, string> = {
   PNN: 'blue.6',
   CSD: 'gray.6',
 };
+
+const SLICE_COLORS = [
+  'green.6',
+  'blue.6',
+  'orange.6',
+  'grape.6',
+  'teal.6',
+  'red.6',
+  'yellow.6',
+  'cyan.6',
+  'pink.6',
+  'indigo.6',
+  'lime.6',
+  'violet.6',
+];
 
 const FALLBACK_COLORS = ['teal.6', 'indigo.6', 'orange.6', 'cyan.6', 'violet.6'];
 
@@ -93,15 +107,34 @@ export function DashboardView() {
   const dashboard = dashboardData?.data;
   const selectedWardId = sortedPeriods.find((p) => p.id === selectedPeriodId)?.wardId;
 
-  const donutData = useMemo(() => {
+  // Biểu đồ nhóm đất (cấp 1) rồi mỗi nhóm một biểu đồ cơ cấu các loại đất cấp 2 của nó. Tách riêng để nông nghiệp (rất lớn) không che các phần còn lại.
+  const pies = useMemo(() => {
     const landTypes = dashboard?.landTypes ?? [];
-    return landTypes
-      .filter((lt) => lt.level === 1 && (lt.area ?? 0) > 0)
+    const groups = landTypes.filter((lt) => lt.level === 1);
+    const groupSlices = groups
+      .filter((lt) => (lt.area ?? 0) > 0)
       .map((lt, idx) => ({
         name: lt.name ?? lt.code ?? 'Khác',
         value: lt.area ?? 0,
         color: getLandTypeColor(lt.code, idx),
       }));
+    // Loại đất cấp 2 đứng ngay sau nhóm cấp 1 của nó trong danh sách.
+    const children = groups.map((group) => {
+      const start = landTypes.indexOf(group) + 1;
+      const rest = landTypes.slice(start);
+      const end = rest.findIndex((lt) => lt.level === 1);
+      return {
+        title: `Cơ cấu ${(group.name ?? group.code ?? '').toLowerCase()}`,
+        slices: (end < 0 ? rest : rest.slice(0, end))
+          .filter((lt) => (lt.area ?? 0) > 0)
+          .map((lt, idx) => ({
+            name: `${lt.code} - ${lt.name}`,
+            value: lt.area ?? 0,
+            color: SLICE_COLORS[idx % SLICE_COLORS.length] ?? 'gray.6',
+          })),
+      };
+    });
+    return { groupSlices, children };
   }, [dashboard?.landTypes]);
 
   const totalDiff =
@@ -225,33 +258,15 @@ export function DashboardView() {
             </Paper>
           </SimpleGrid>
 
-          <SimpleGrid cols={{ base: 1, lg: 12 }} spacing="md">
-            <Paper withBorder p="md" radius="md" style={{ gridColumn: 'span 4' }}>
-              <Title order={4} size="h5" mb="md">
-                Biểu đồ cơ cấu nhóm đất
-              </Title>
-              {donutData.length > 0 ? (
-                <Center py="md">
-                  <DonutChart
-                    data={donutData}
-                    size={220}
-                    thickness={28}
-                    withLabelsLine
-                    withLabels
-                    tooltipDataSource="segment"
-                    valueFormatter={(v) => `${formatArea(v)} ha`}
-                  />
-                </Center>
-              ) : (
-                <Center py="xl">
-                  <Text size="sm" c="dimmed">
-                    Chưa có dữ liệu biểu đồ
-                  </Text>
-                </Center>
-              )}
-            </Paper>
+          <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="md">
+            <LandPieCard title="Cơ cấu nhóm đất" data={pies.groupSlices} />
+            {pies.children.map((c) => (
+              <LandPieCard key={c.title} title={c.title} data={c.slices} />
+            ))}
+          </SimpleGrid>
 
-            <Paper withBorder p="md" radius="md" style={{ gridColumn: 'span 8' }}>
+          <SimpleGrid cols={1} spacing="md">
+            <Paper withBorder p="md" radius="md">
               <Title order={4} size="h5" mb="md">
                 Bảng cơ cấu loại đất
               </Title>
