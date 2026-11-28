@@ -1,0 +1,1 @@
+export { LandTypesPage } from './LandTypesPage';

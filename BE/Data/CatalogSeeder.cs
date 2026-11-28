@@ -16,7 +16,7 @@ public static class CatalogSeeder
         if (!await db.LandTypes.IgnoreQueryFilters().AnyAsync())
         {
             var rows = Read<LandTypeSeed>("danh-muc-loai-dat.json");
-            var entities = rows.Select((r, i) => new LandType { Code = r.Ma, Name = r.Ten, SortOrder = i + 1, InB02 = r.CoTrongB02, InB05 = r.CoTrongB05 }).ToList();
+            var entities = rows.Select((r, i) => new LandType { Code = r.Ma, Name = r.Ten, SortOrder = i + 1, InB02 = r.CoTrongB02, InB05 = r.CoTrongB05, IsMemo = string.IsNullOrWhiteSpace(r.Stt) }).ToList();
             var byCode = entities.ToDictionary(e => e.Code);
             for (var i = 0; i < rows.Count; i++)
                 if (rows[i].Cha is { } parent) entities[i].ParentId = byCode[parent].Id;
@@ -44,7 +44,7 @@ public static class CatalogSeeder
         return JsonSerializer.Deserialize<List<T>>(stream, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
     }
 
-    private record LandTypeSeed(string Ma, string Ten, string? Cha, bool CoTrongB02, bool CoTrongB05);
+    private record LandTypeSeed(string? Stt, string Ma, string Ten, string? Cha, bool CoTrongB02, bool CoTrongB05);
 
     private record LandHolderSeed(string Ma, string Ten, string Nhom, string? Cha);
 }

@@ -77,11 +77,24 @@ export function LayoutAdmin() {
     (item) => !item.roles || (user?.role && item.roles.includes(user.role)),
   );
 
-  const currentItem = MENU_CONFIG.find((item) => pathname.startsWith(item.path));
+  const currentMatch = (() => {
+    for (const item of MENU_CONFIG) {
+      if (item.children) {
+        const child = item.children.find(
+          (c) => pathname === c.path || pathname.startsWith(`${c.path}/`),
+        );
+        if (child) return { parent: item.label, current: child.label };
+      } else if (pathname === item.path || pathname.startsWith(`${item.path}/`)) {
+        return { parent: 'Hệ thống', current: item.label };
+      }
+    }
+    return null;
+  })();
 
   return (
     <>
       <AppShell
+        layout="alt"
         header={{ height: 60 }}
         navbar={{
           width: collapsed ? 72 : 250,
@@ -96,11 +109,11 @@ export function LayoutAdmin() {
               <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
               <Breadcrumbs>
                 <Text size="sm" c="dimmed">
-                  Hệ thống
+                  {currentMatch?.parent ?? 'Hệ thống'}
                 </Text>
-                {currentItem && (
+                {currentMatch && (
                   <Text size="sm" fw={500}>
-                    {currentItem.label}
+                    {currentMatch.current}
                   </Text>
                 )}
               </Breadcrumbs>

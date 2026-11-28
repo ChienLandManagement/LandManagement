@@ -53,6 +53,36 @@ export function buildTreeList<T extends HasParentId>(items: T[]): TreeNode<T>[] 
 }
 
 /**
+ * Lọc các node đang hiển thị dựa trên tập ID đang thu gọn (collapsedIds).
+ */
+export function filterVisibleTreeNodes<T extends HasParentId>(
+  nodes: TreeNode<T>[],
+  collapsedIds: Set<string>,
+): TreeNode<T>[] {
+  if (collapsedIds.size === 0) return nodes;
+
+  const visible: TreeNode<T>[] = [];
+  let hiddenUntilDepth: number | null = null;
+
+  for (const node of nodes) {
+    if (hiddenUntilDepth !== null) {
+      if (node.depth > hiddenUntilDepth) {
+        continue;
+      }
+      hiddenUntilDepth = null;
+    }
+
+    visible.push(node);
+
+    if (node.hasChildren && node.id && collapsedIds.has(node.id)) {
+      hiddenUntilDepth = node.depth;
+    }
+  }
+
+  return visible;
+}
+
+/**
  * Lấy tập ID của chính node đó và toàn bộ con cháu để loại khỏi danh sách chọn mục cha.
  */
 export function getDescendantIds<T extends HasParentId>(items: T[], rootId: string): Set<string> {

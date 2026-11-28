@@ -1,5 +1,6 @@
 using FastEndpoints;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using FastEndpoints.Swagger;
 
 namespace LandManagement.Configurations;
@@ -12,7 +13,11 @@ public static class FastEndpointsConfig
                 .SwaggerDocument(o =>
                 {
                     o.ShortSchemaNames = true;
-                    o.SerializerSettings = s => s.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    o.SerializerSettings = s =>
+                    {
+                        s.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                        s.Converters.Add(new JsonStringEnumConverter());
+                    };
                     o.DocumentSettings = s =>
                     {
                         s.Title = "Api";
@@ -29,6 +34,8 @@ public static class FastEndpointsConfig
         {
             c.Endpoints.RoutePrefix = "api";
             c.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            // Enum vào/ra bằng tên chữ ("Admin", "User"), không dùng số.
+            c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
         });
 
         return app;

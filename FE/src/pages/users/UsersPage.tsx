@@ -1,6 +1,6 @@
 import { Button, Stack } from '@mantine/core';
-import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Plus, RefreshCw } from 'lucide-react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
 import {
@@ -21,8 +21,7 @@ import { ListPageLayout } from '@/shared/ui/templates';
 export function UsersPage() {
   const currentUser = useAuthStore((s) => s.user);
 
-  const [searchInput, setSearchInput] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [roleFilter, setRoleFilter] = useState<UserRole | undefined>(undefined);
   const [isActiveFilter, setIsActiveFilter] = useState<boolean | undefined>(undefined);
   const [sortBy, setSortBy] = useState<UserSortField>('createdAt');
@@ -38,16 +37,8 @@ export function UsersPage() {
     action: UserConfirmActionType;
   } | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchInput.trim());
-      setCurrentPage(1);
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [searchInput]);
-
   const { data, isLoading, isError, refetch, isFetching } = useListUsers({
-    Query: debouncedQuery || undefined,
+    Query: keyword || undefined,
     Role: roleFilter ?? undefined,
     IsActive: isActiveFilter ?? undefined,
     CurrentPage: currentPage,
@@ -78,28 +69,40 @@ export function UsersPage() {
 
       <ListPageLayout
         title="Quản lý người dùng"
-        description="Quản lý tài khoản, phân quyền và trạng thái hoạt động"
         actions={
-          <Button leftSection={<Plus size={16} />} onClick={() => setCreateOpen(true)}>
-            Thêm người dùng
-          </Button>
+          <>
+            <UserFilters
+              keyword={keyword}
+              onSearch={(val) => {
+                setKeyword(val);
+                setCurrentPage(1);
+              }}
+              roleFilter={roleFilter}
+              onRoleFilterChange={(role) => {
+                setRoleFilter(role);
+                setCurrentPage(1);
+              }}
+              isActiveFilter={isActiveFilter}
+              onIsActiveFilterChange={(isActive) => {
+                setIsActiveFilter(isActive);
+                setCurrentPage(1);
+              }}
+            />
+            <Button
+              variant="default"
+              leftSection={<RefreshCw size={16} />}
+              onClick={() => void refetch()}
+              loading={isFetching && !isLoading}
+            >
+              Làm mới
+            </Button>
+            <Button leftSection={<Plus size={16} />} onClick={() => setCreateOpen(true)}>
+              Thêm người dùng
+            </Button>
+          </>
         }
       >
         <Stack gap="md">
-          <UserFilters
-            searchInput={searchInput}
-            onSearchChange={setSearchInput}
-            roleFilter={roleFilter}
-            onRoleFilterChange={(role) => {
-              setRoleFilter(role);
-              setCurrentPage(1);
-            }}
-            isActiveFilter={isActiveFilter}
-            onIsActiveFilterChange={(isActive) => {
-              setIsActiveFilter(isActive);
-              setCurrentPage(1);
-            }}
-          />
 
           <UserTable
             items={items}

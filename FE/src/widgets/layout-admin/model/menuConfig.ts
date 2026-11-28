@@ -1,4 +1,13 @@
-import { Home, MapPin, Settings, Users, type LucideIcon } from 'lucide-react';
+import {
+  FolderTree,
+  Home,
+  Layers,
+  MapPin,
+  Settings,
+  Users,
+  UsersRound,
+  type LucideIcon,
+} from 'lucide-react';
 
 export interface MenuItem {
   path: string;
@@ -13,6 +22,23 @@ export const MENU_CONFIG: MenuItem[] = [
     path: '/home',
     label: 'Tổng quan',
     icon: Home,
+  },
+  {
+    path: '#catalogs',
+    label: 'Danh mục',
+    icon: FolderTree,
+    children: [
+      {
+        path: '/land-types',
+        label: 'Loại đất',
+        icon: Layers,
+      },
+      {
+        path: '/land-holder-types',
+        label: 'Đối tượng đất',
+        icon: UsersRound,
+      },
+    ],
   },
   {
     path: '#system',

@@ -15,4 +15,7 @@ public class LandType : AuditableEntity<Guid>
     public int SortOrder { get; set; }
     public bool InB02 { get; set; }
     public bool InB05 { get; set; }
+
+    /// <summary>Dòng "Trong đó" (vd RSN của RSX): chỉ để theo dõi, không cộng vào tổng của mục cha.</summary>
+    public bool IsMemo { get; set; }
 }

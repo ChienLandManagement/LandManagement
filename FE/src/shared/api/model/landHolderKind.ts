@@ -9,6 +9,6 @@ export type LandHolderKind = typeof LandHolderKind[keyof typeof LandHolderKind];
 
 
 export const LandHolderKind = {
-  User: 1,
-  Manager: 2,
+  User: 'User',
+  Manager: 'Manager',
 } as const;

@@ -34,6 +34,9 @@ public class UpdateLandHolderTypeHandler(AppDbContext db) : IRequestHandler<Upda
         if (parent is not null && parent.Kind != cmd.Kind)
             return Error.Validation("Đối tượng con phải cùng nhóm với đối tượng cha".ToMessageForUser());
 
+        if (entity.Kind != cmd.Kind && await db.LandHolderTypes.AnyAsync(x => x.ParentId == cmd.Id && x.Kind != cmd.Kind, ct))
+            return Error.Validation("Không thể đổi nhóm khi còn đối tượng con thuộc nhóm khác".ToMessageForUser());
+
         entity.Code = code;
         entity.Name = cmd.Name.Trim();
         entity.ParentId = cmd.ParentId;

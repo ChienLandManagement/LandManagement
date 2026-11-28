@@ -1,10 +1,10 @@
-import { Card, Grid, Select, Text, TextInput } from '@mantine/core';
-import { Search } from 'lucide-react';
+import { Group, Select } from '@mantine/core';
 import { UserRole } from '@/shared/api/model';
+import { AdminSearch } from '@/shared/ui/templates';
 
 interface UserFiltersProps {
-  searchInput: string;
-  onSearchChange: (value: string) => void;
+  keyword: string;
+  onSearch: (value: string) => void;
   roleFilter: UserRole | undefined;
   onRoleFilterChange: (role: UserRole | undefined) => void;
   isActiveFilter: boolean | undefined;
@@ -13,10 +13,10 @@ interface UserFiltersProps {
 
 const ROLE_OPTIONS = [
   { value: '', label: 'Tất cả vai trò' },
-  { value: String(UserRole.Admin), label: 'Quản trị viên' },
-  { value: String(UserRole.LandOfficer), label: 'Cán bộ địa chính' },
-  { value: String(UserRole.Leader), label: 'Lãnh đạo' },
-  { value: String(UserRole.Citizen), label: 'Người dân' },
+  { value: UserRole.Admin, label: 'Quản trị viên' },
+  { value: UserRole.LandOfficer, label: 'Cán bộ địa chính' },
+  { value: UserRole.Leader, label: 'Lãnh đạo' },
+  { value: UserRole.Citizen, label: 'Người dân' },
 ];
 
 const STATUS_OPTIONS = [
@@ -26,48 +26,39 @@ const STATUS_OPTIONS = [
 ];
 
 export function UserFilters({
-  searchInput,
-  onSearchChange,
+  keyword,
+  onSearch,
   roleFilter,
   onRoleFilterChange,
   isActiveFilter,
   onIsActiveFilterChange,
 }: UserFiltersProps) {
   return (
-    <Card withBorder radius="md" padding="md">
-      <Text fw={600} size="sm" mb="sm">
-        Bộ lọc &amp; Tìm kiếm
-      </Text>
-      <Grid>
-        <Grid.Col span={{ base: 12, lg: 6 }}>
-          <TextInput
-            placeholder="Tìm theo tên đăng nhập, họ tên, email..."
-            leftSection={<Search size={16} />}
-            value={searchInput}
-            onChange={(e) => onSearchChange(e.currentTarget.value)}
-          />
-        </Grid.Col>
+    <Group gap="xs" wrap="wrap">
+      <AdminSearch
+        testId="users"
+        placeholder="Tìm theo tên đăng nhập, họ tên, email..."
+        value={keyword}
+        onSearch={onSearch}
+      />
 
-        <Grid.Col span={{ base: 12, sm: 6, lg: 3 }}>
-          <Select
-            aria-label="Lọc theo vai trò"
-            data={ROLE_OPTIONS}
-            value={roleFilter !== undefined ? String(roleFilter) : ''}
-            onChange={(val) => onRoleFilterChange(val ? (Number(val) as UserRole) : undefined)}
-            allowDeselect={false}
-          />
-        </Grid.Col>
+      <Select
+        aria-label="Lọc theo vai trò"
+        data={ROLE_OPTIONS}
+        value={roleFilter ?? ''}
+        onChange={(val) => onRoleFilterChange(val ? (val as UserRole) : undefined)}
+        allowDeselect={false}
+        w={160}
+      />
 
-        <Grid.Col span={{ base: 12, sm: 6, lg: 3 }}>
-          <Select
-            aria-label="Lọc theo trạng thái"
-            data={STATUS_OPTIONS}
-            value={isActiveFilter === undefined ? '' : String(isActiveFilter)}
-            onChange={(val) => onIsActiveFilterChange(val === '' || val === null ? undefined : val === 'true')}
-            allowDeselect={false}
-          />
-        </Grid.Col>
-      </Grid>
-    </Card>
+      <Select
+        aria-label="Lọc theo trạng thái"
+        data={STATUS_OPTIONS}
+        value={isActiveFilter === undefined ? '' : String(isActiveFilter)}
+        onChange={(val) => onIsActiveFilterChange(val === '' || val === null ? undefined : val === 'true')}
+        allowDeselect={false}
+        w={150}
+      />
+    </Group>
   );
 }

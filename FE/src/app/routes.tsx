@@ -11,6 +11,12 @@ const UsersPage = lazy(() => import('@/pages/users').then((m) => ({ default: m.U
 const LocationsPage = lazy(() =>
   import('@/pages/locations').then((m) => ({ default: m.LocationsPage })),
 );
+const LandTypesPage = lazy(() =>
+  import('@/pages/land-types').then((m) => ({ default: m.LandTypesPage })),
+);
+const LandHolderTypesPage = lazy(() =>
+  import('@/pages/land-holder-types').then((m) => ({ default: m.LandHolderTypesPage })),
+);
 const ForbiddenPage = lazy(() =>
   import('@/pages/forbidden').then((m) => ({ default: m.ForbiddenPage })),
 );
@@ -71,7 +77,25 @@ const locationsRoute = createRoute({
   },
 });
 
+const landTypesRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/land-types',
+  component: LandTypesPage,
+});
+
+const landHolderTypesRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: '/land-holder-types',
+  component: LandHolderTypesPage,
+});
+
 export const routeTree = rootRoute.addChildren([
   landingRoute,
-  adminLayoutRoute.addChildren([homeRoute, usersRoute, locationsRoute]),
+  adminLayoutRoute.addChildren([
+    homeRoute,
+    landTypesRoute,
+    landHolderTypesRoute,
+    usersRoute,
+    locationsRoute,
+  ]),
 ]);

@@ -160,7 +160,7 @@ export function DataTable<T>({
           <Table.Thead>
             <Table.Tr>
               {columns.map((column) => (
-                <Table.Th key={column.key} style={{ width: column.width, textAlign: column.align ?? 'left' }}>
+                <Table.Th key={column.key} style={{ width: column.width, textAlign: column.align ?? 'left', whiteSpace: 'nowrap' }}>
                   {column.sortable && onSortChange ? (
                     <UnstyledButton
                       onClick={() => handleSort(column.key)}
@@ -176,7 +176,7 @@ export function DataTable<T>({
                 </Table.Th>
               ))}
               {hasActions && (
-                <Table.Th style={{ width: 1, whiteSpace: 'nowrap', textAlign: 'right' }}>
+                <Table.Th style={{ width: 1, whiteSpace: 'nowrap' }}>
                   <Text size="sm" fw={600}>
                     Thao tác
                   </Text>

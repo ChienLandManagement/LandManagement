@@ -14,4 +14,5 @@ export interface LandTypeItem {
   sortOrder?: number;
   inB02?: boolean;
   inB05?: boolean;
+  isMemo?: boolean;
 }

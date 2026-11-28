@@ -13,7 +13,7 @@ export const landTypeSchema = z.object({
     .min(1, 'Vui lòng nhập tên loại đất')
     .max(255, 'Tên loại đất tối đa 255 ký tự'),
   parentId: z.string().nullable().optional(),
-  sortOrder: z.coerce
+  sortOrder: z
     .number({ message: 'Thứ tự phải là số nguyên' })
     .int('Thứ tự phải là số nguyên')
     .min(0, 'Thứ tự không được âm')
@@ -36,7 +36,7 @@ export const landHolderTypeSchema = z.object({
     .min(1, 'Vui lòng nhập tên đối tượng')
     .max(255, 'Tên đối tượng tối đa 255 ký tự'),
   parentId: z.string().nullable().optional(),
-  sortOrder: z.coerce
+  sortOrder: z
     .number({ message: 'Thứ tự phải là số nguyên' })
     .int('Thứ tự phải là số nguyên')
     .min(0, 'Thứ tự không được âm')

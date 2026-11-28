@@ -122,6 +122,10 @@ namespace LandManagement.Data.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_deleted");
 
+                    b.Property<bool>("IsMemo")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_memo");
+
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("last_updated_at");

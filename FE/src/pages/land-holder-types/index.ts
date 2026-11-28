@@ -1,0 +1,1 @@
+export { LandHolderTypesPage } from './LandHolderTypesPage';

@@ -1,8 +1,8 @@
-import { Button, Group, Paper, Select, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Select, Text } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
-import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import {
   getListWardsQueryKey,
   useDeleteWard,
@@ -12,14 +12,14 @@ import {
 import type { WardItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { DataTable, type DataTableAction, type DataTableColumn } from '@/shared/ui/data-table';
+import { AdminSearch, ListPageLayout } from '@/shared/ui/templates';
 import { WardFormDialog } from './WardFormDialog';
 
 export function WardsTab() {
   const queryClient = useQueryClient();
   const deleteWard = useDeleteWard();
 
-  const [searchInput, setSearchInput] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [provinceFilter, setProvinceFilter] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
@@ -29,14 +29,6 @@ export function WardsTab() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingWard, setEditingWard] = useState<WardItem | null>(null);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedQuery(searchInput.trim());
-      setPage(1);
-    }, 350);
-    return () => clearTimeout(timer);
-  }, [searchInput]);
-
   const { data: provincesData } = useListProvinces({ PageSize: 100 });
   const provinceOptions = (provincesData?.data?.items ?? []).map((p) => ({
     value: p.id ?? '',
@@ -44,7 +36,7 @@ export function WardsTab() {
   }));
 
   const { data, isLoading, isError, refetch } = useListWards({
-    Query: debouncedQuery || undefined,
+    Query: keyword || undefined,
     ProvinceId: provinceFilter || undefined,
     CurrentPage: page,
     PageSize: pageSize,
@@ -131,35 +123,39 @@ export function WardsTab() {
   ];
 
   return (
-    <Stack gap="md">
-      <Paper withBorder p="md" radius="md">
-        <Group justify="space-between" wrap="wrap" gap="sm">
-          <Group gap="sm" wrap="wrap" style={{ flex: 1 }}>
-            <TextInput
-              placeholder="Tìm theo mã hoặc tên xã/phường..."
-              leftSection={<Search size={16} />}
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.currentTarget.value)}
-              style={{ flex: 1, minWidth: 220, maxWidth: 340 }}
-            />
-            <Select
-              placeholder="Lọc theo tỉnh/thành phố"
-              data={provinceOptions}
-              value={provinceFilter}
-              onChange={(val) => {
-                setProvinceFilter(val);
-                setPage(1);
-              }}
-              clearable
-              searchable
-              style={{ minWidth: 220, maxWidth: 300 }}
-            />
-          </Group>
-          <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate}>
-            Thêm xã/phường
-          </Button>
-        </Group>
-      </Paper>
+    <ListPageLayout
+      title="Xã/Phường"
+      filters={
+        <>
+          <AdminSearch
+            testId="wards"
+            placeholder="Tìm theo mã hoặc tên xã/phường..."
+            value={keyword}
+            onSearch={(val) => {
+              setKeyword(val);
+              setPage(1);
+            }}
+          />
+          <Select
+            placeholder="Lọc theo tỉnh/thành phố"
+            data={provinceOptions}
+            value={provinceFilter}
+            onChange={(val) => {
+              setProvinceFilter(val);
+              setPage(1);
+            }}
+            clearable
+            searchable
+            w={220}
+          />
+        </>
+      }
+      actions={
+        <Button leftSection={<Plus size={16} />} onClick={handleOpenCreate}>
+          Thêm xã/phường
+        </Button>
+      }
+    >
 
       <DataTable
         columns={columns}
@@ -192,6 +188,6 @@ export function WardsTab() {
         onClose={() => setDialogOpen(false)}
         ward={editingWard}
       />
-    </Stack>
+    </ListPageLayout>
   );
 }

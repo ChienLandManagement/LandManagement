@@ -16,8 +16,8 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [~] Địa giới hành chính 2 cấp Tỉnh → Xã/Phường (BE xong, FE đang chuyển theo mẫu VBDT; không seed, Admin tự nhập)
 
 ### Phase 1 – Danh mục
-- [~] Loại đất `LandType` (BE xong, seed 67 mục từ JSON khi bảng trống; FE chờ)
-- [~] Đối tượng sử dụng / được giao quản lý `LandHolderType` (BE xong, 18 mã: 14 SD + 4 QL, seed từ JSON; FE chờ)
+- [x] Loại đất `LandType` (cây 67 mục, seed từ JSON; cờ B02/B05 và dòng "Trong đó" `IsMemo` cho `RSN`; Admin quản lý, vai trò khác chỉ xem)
+- [x] Đối tượng sử dụng / được giao quản lý `LandHolderType` (18 mã: 14 người sử dụng + 4 người được giao quản lý, seed từ JSON)
 
 ### Phase 2 – Kỳ kiểm kê và nhập số liệu
 - [ ] Kỳ kiểm kê (ngày chốt, loại, trạng thái)

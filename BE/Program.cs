@@ -112,6 +112,7 @@ builder.Services
     .AddCustomRateLimiting();
 builder.Services.AddResultLibExceptionHandler();
 builder.Services.AddProblemDetails();
+builder.Services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, AdminBypassHandler>();
 builder.Services.AddFastEndpointsConfig();
 
 var app = builder.Build();
