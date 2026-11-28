@@ -22,6 +22,91 @@ namespace LandManagement.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("LandManagement.Entities.GcnDossier", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("ApplicantName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("applicant_name");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("code");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
+
+                    b.Property<DateOnly?>("DueDate")
+                        .HasColumnType("date")
+                        .HasColumnName("due_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
+                    b.Property<DateTime>("LastUpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_updated_at");
+
+                    b.Property<Guid?>("LastUpdatedBy")
+                        .HasColumnType("uuid")
+                        .HasColumnName("last_updated_by");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
+                        .HasColumnName("note");
+
+                    b.Property<Guid?>("ParcelId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("parcel_id");
+
+                    b.Property<DateOnly>("ReceivedDate")
+                        .HasColumnType("date")
+                        .HasColumnName("received_date");
+
+                    b.Property<DateOnly?>("ResolvedDate")
+                        .HasColumnType("date")
+                        .HasColumnName("resolved_date");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("status");
+
+                    b.Property<Guid>("WardId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ward_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_gcn_dossiers");
+
+                    b.HasIndex("ParcelId")
+                        .HasDatabaseName("ix_gcn_dossiers_parcel_id");
+
+                    b.HasIndex("WardId", "Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_gcn_dossiers_ward_id_code")
+                        .HasFilter("is_deleted = false");
+
+                    b.HasIndex("WardId", "Status")
+                        .HasDatabaseName("ix_gcn_dossiers_ward_id_status");
+
+                    b.ToTable("gcn_dossiers", (string)null);
+                });
+
             modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>
                 {
                     b.Property<Guid>("Id")
@@ -822,6 +907,26 @@ namespace LandManagement.Data.Migrations
                         .HasDatabaseName("ix_user_wards_wards_id");
 
                     b.ToTable("user_wards", (string)null);
+                });
+
+            modelBuilder.Entity("LandManagement.Entities.GcnDossier", b =>
+                {
+                    b.HasOne("LandManagement.Entities.Parcel", "Parcel")
+                        .WithMany()
+                        .HasForeignKey("ParcelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasConstraintName("fk_gcn_dossiers_parcels_parcel_id");
+
+                    b.HasOne("LandManagement.Entities.Ward", "Ward")
+                        .WithMany()
+                        .HasForeignKey("WardId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("fk_gcn_dossiers_wards_ward_id");
+
+                    b.Navigation("Parcel");
+
+                    b.Navigation("Ward");
                 });
 
             modelBuilder.Entity("LandManagement.Entities.InventoryPeriod", b =>

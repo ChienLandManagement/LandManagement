@@ -16,3 +16,13 @@ public sealed class ParcelsGroup : Group
 {
     public ParcelsGroup() => Configure("parcels", ep => ep.Description(d => d.WithTags("Parcels")));
 }
+
+public sealed class DossiersGroup : Group
+{
+    public DossiersGroup() => Configure("gcn-dossiers", ep => ep.Description(d => d.WithTags("GcnDossiers")));
+}
+
+public sealed class DashboardGroup : Group
+{
+    public DashboardGroup() => Configure("dashboard", ep => ep.Description(d => d.WithTags("Dashboard")));
+}

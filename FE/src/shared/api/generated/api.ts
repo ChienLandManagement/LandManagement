@@ -25,6 +25,7 @@ import type {
 
 import type {
   ApiResultOfDashboardItem,
+  ApiResultOfDossierItem,
   ApiResultOfImportResultItem,
   ApiResultOfInventoryPeriodItem,
   ApiResultOfLandChangeItem,
@@ -33,6 +34,8 @@ import type {
   ApiResultOfListOfLandHolderTypeItem,
   ApiResultOfListOfLandTypeItem,
   ApiResultOfLoginResponse,
+  ApiResultOfOverviewItem,
+  ApiResultOfPagedResponseOfDossierItem,
   ApiResultOfPagedResponseOfInventoryPeriodItem,
   ApiResultOfPagedResponseOfLandChangeItem,
   ApiResultOfPagedResponseOfParcelItem,
@@ -48,6 +51,7 @@ import type {
   ApiResultOfUserProfile,
   ApiResultOfWardItem,
   ChangeMyPasswordCommand,
+  CreateDossierCommand,
   CreateLandChangeCommand,
   CreateLandHolderTypeCommand,
   CreateLandTypeCommand,
@@ -56,7 +60,9 @@ import type {
   CreateProvinceCommand,
   CreateUserCommand,
   CreateWardCommand,
+  GetDashboardOverviewParams,
   ImportWorkbookCommand,
+  ListDossiersParams,
   ListLandChangesParams,
   ListLandHolderTypesParams,
   ListParcelsParams,
@@ -70,6 +76,7 @@ import type {
   SaveEntriesCommand,
   SetPeriodStatusCommand,
   SetUserActiveCommand,
+  UpdateDossierCommand,
   UpdateLandChangeCommand,
   UpdateLandHolderTypeCommand,
   UpdateLandTypeCommand,
@@ -3454,6 +3461,391 @@ export const usePrefillPeriod = <TError = void,
       > => {
       return useMutation(getPrefillPeriodMutationOptions(options), queryClient);
     }
+
+/**
+ * @summary Thêm hồ sơ cấp GCN
+ */
+export const createDossier = (
+    createDossierCommand: CreateDossierCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfDossierItem>(
+      {url: `/api/gcn-dossiers`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createDossierCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateDossierMutationKey = () => ['createDossier'] as const;
+
+export const getCreateDossierMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDossier>>, TError,CreateDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createDossier>>, TError,CreateDossierMutationVariables, TContext> => {
+
+const mutationKey = getCreateDossierMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createDossier>>, CreateDossierMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createDossier(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateDossierMutationResult = NonNullable<Awaited<ReturnType<typeof createDossier>>>
+    export type CreateDossierMutationBody = CreateDossierCommand
+    export type CreateDossierMutationError = void
+    export type CreateDossierMutationVariables = {data: CreateDossierCommand}
+
+    /** @summary Thêm hồ sơ cấp GCN */
+export const useCreateDossier = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDossier>>, TError,CreateDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createDossier>>,
+        TError,
+        CreateDossierMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateDossierMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách hồ sơ cấp GCN
+ */
+export const listDossiers = (
+    params?: ListDossiersParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfDossierItem>(
+      {url: `/api/gcn-dossiers`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListDossiersQueryKey = (params?: ListDossiersParams,) => {
+    return [
+    `/api/gcn-dossiers`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListDossiersQueryOptions = <TData = Awaited<ReturnType<typeof listDossiers>>, TError = void>(params?: ListDossiersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListDossiersQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listDossiers>>> = ({ signal }) => listDossiers(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListDossiersQueryResult = NonNullable<Awaited<ReturnType<typeof listDossiers>>>
+export type ListDossiersQueryError = void
+
+
+/** @summary Danh sách hồ sơ cấp GCN */
+export function useListDossiers<TData = Awaited<ReturnType<typeof listDossiers>>, TError = void>(
+ params: undefined |  ListDossiersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listDossiers>>,
+          TError,
+          Awaited<ReturnType<typeof listDossiers>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách hồ sơ cấp GCN */
+export function useListDossiers<TData = Awaited<ReturnType<typeof listDossiers>>, TError = void>(
+ params?: ListDossiersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listDossiers>>,
+          TError,
+          Awaited<ReturnType<typeof listDossiers>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách hồ sơ cấp GCN */
+export function useListDossiers<TData = Awaited<ReturnType<typeof listDossiers>>, TError = void>(
+ params?: ListDossiersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách hồ sơ cấp GCN */
+export function useListDossiers<TData = Awaited<ReturnType<typeof listDossiers>>, TError = void>(
+ params?: ListDossiersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listDossiers>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListDossiersQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) hồ sơ cấp GCN
+ */
+export const deleteDossier = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/gcn-dossiers/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteDossierMutationKey = () => ['deleteDossier'] as const;
+
+export const getDeleteDossierMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteDossier>>, TError,DeleteDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteDossier>>, TError,DeleteDossierMutationVariables, TContext> => {
+
+const mutationKey = getDeleteDossierMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteDossier>>, DeleteDossierMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteDossier(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteDossierMutationResult = NonNullable<Awaited<ReturnType<typeof deleteDossier>>>
+
+    export type DeleteDossierMutationError = void
+    export type DeleteDossierMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) hồ sơ cấp GCN */
+export const useDeleteDossier = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteDossier>>, TError,DeleteDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteDossier>>,
+        TError,
+        DeleteDossierMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteDossierMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Sửa hồ sơ cấp GCN
+ */
+export const updateDossier = (
+    id: string,
+    updateDossierCommand: UpdateDossierCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfDossierItem>(
+      {url: `/api/gcn-dossiers/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateDossierCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateDossierMutationKey = () => ['updateDossier'] as const;
+
+export const getUpdateDossierMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDossier>>, TError,UpdateDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateDossier>>, TError,UpdateDossierMutationVariables, TContext> => {
+
+const mutationKey = getUpdateDossierMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateDossier>>, UpdateDossierMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateDossier(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateDossierMutationResult = NonNullable<Awaited<ReturnType<typeof updateDossier>>>
+    export type UpdateDossierMutationBody = UpdateDossierCommand
+    export type UpdateDossierMutationError = void
+    export type UpdateDossierMutationVariables = {id: string;data: UpdateDossierCommand}
+
+    /** @summary Sửa hồ sơ cấp GCN */
+export const useUpdateDossier = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDossier>>, TError,UpdateDossierMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateDossier>>,
+        TError,
+        UpdateDossierMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateDossierMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Tổng quan: hồ sơ GCN, thửa thiếu thông tin, diện tích qua các kỳ
+ */
+export const getDashboardOverview = (
+    params?: GetDashboardOverviewParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfOverviewItem>(
+      {url: `/api/dashboard/overview`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetDashboardOverviewQueryKey = (params?: GetDashboardOverviewParams,) => {
+    return [
+    `/api/dashboard/overview`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getGetDashboardOverviewQueryOptions = <TData = Awaited<ReturnType<typeof getDashboardOverview>>, TError = void>(params?: GetDashboardOverviewParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetDashboardOverviewQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDashboardOverview>>> = ({ signal }) => getDashboardOverview(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetDashboardOverviewQueryResult = NonNullable<Awaited<ReturnType<typeof getDashboardOverview>>>
+export type GetDashboardOverviewQueryError = void
+
+
+/** @summary Tổng quan: hồ sơ GCN, thửa thiếu thông tin, diện tích qua các kỳ */
+export function useGetDashboardOverview<TData = Awaited<ReturnType<typeof getDashboardOverview>>, TError = void>(
+ params: undefined |  GetDashboardOverviewParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDashboardOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getDashboardOverview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan: hồ sơ GCN, thửa thiếu thông tin, diện tích qua các kỳ */
+export function useGetDashboardOverview<TData = Awaited<ReturnType<typeof getDashboardOverview>>, TError = void>(
+ params?: GetDashboardOverviewParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getDashboardOverview>>,
+          TError,
+          Awaited<ReturnType<typeof getDashboardOverview>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan: hồ sơ GCN, thửa thiếu thông tin, diện tích qua các kỳ */
+export function useGetDashboardOverview<TData = Awaited<ReturnType<typeof getDashboardOverview>>, TError = void>(
+ params?: GetDashboardOverviewParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Tổng quan: hồ sơ GCN, thửa thiếu thông tin, diện tích qua các kỳ */
+export function useGetDashboardOverview<TData = Awaited<ReturnType<typeof getDashboardOverview>>, TError = void>(
+ params?: GetDashboardOverviewParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getDashboardOverview>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetDashboardOverviewQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
 
 /**
  * @summary Đăng nhập bằng tên đăng nhập và mật khẩu

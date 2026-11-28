@@ -4,6 +4,7 @@ export {
   PERIOD_STATUS_LABELS,
   PERIOD_TYPE_LABELS,
   PERIOD_TYPE_OPTIONS,
+  toDateOnlyString,
 } from './model/constants';
 export { LAND_CHANGE_REASON_LABELS } from './model/landChangeReasons';
 export { EntriesGrid } from './ui/EntriesGrid';

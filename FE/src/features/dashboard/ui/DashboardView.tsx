@@ -22,6 +22,7 @@ import { formatArea } from '@/features/inventory';
 import { useGetPeriodDashboard, useListPeriods } from '@/shared/api/generated/api';
 import type { DashboardLandTypeItem } from '@/shared/api/model';
 import { formatDate } from '@/shared/lib/date';
+import { AreaTrendChart, OverviewAlerts } from './OverviewPanel';
 
 const LEVEL1_COLORS: Record<string, string> = {
   NNP: 'green.6',
@@ -90,6 +91,7 @@ export function DashboardView() {
   });
 
   const dashboard = dashboardData?.data;
+  const selectedWardId = sortedPeriods.find((p) => p.id === selectedPeriodId)?.wardId;
 
   const donutData = useMemo(() => {
     const landTypes = dashboard?.landTypes ?? [];
@@ -157,6 +159,8 @@ export function DashboardView() {
           allowDeselect={false}
         />
       </Group>
+
+      <OverviewAlerts wardId={selectedWardId} periodId={selectedPeriodId} />
 
       {isLoadingDashboard ? (
         <Stack gap="md">
@@ -297,6 +301,8 @@ export function DashboardView() {
               </Table.ScrollContainer>
             </Paper>
           </SimpleGrid>
+
+          <AreaTrendChart wardId={selectedWardId} />
         </>
       )}
     </Stack>

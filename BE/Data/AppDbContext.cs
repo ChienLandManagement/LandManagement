@@ -22,6 +22,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<InventoryPeriod> InventoryPeriods => Set<InventoryPeriod>();
     public DbSet<LandChange> LandChanges => Set<LandChange>();
     public DbSet<Parcel> Parcels => Set<Parcel>();
+    public DbSet<GcnDossier> GcnDossiers => Set<GcnDossier>();
     public DbSet<LandAreaEntry> LandAreaEntries => Set<LandAreaEntry>();
     public DbSet<LandHolderCountEntry> LandHolderCountEntries => Set<LandHolderCountEntry>();
 
