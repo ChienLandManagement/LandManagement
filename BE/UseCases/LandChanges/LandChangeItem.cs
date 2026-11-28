@@ -10,13 +10,13 @@ public record LandChangeItem(
     Guid Id, Guid PeriodId, DateOnly ChangeDate,
     Guid? FromLandTypeId, string? FromLandTypeCode, string? FromLandTypeName,
     Guid? ToLandTypeId, string? ToLandTypeCode, string? ToLandTypeName,
-    decimal Area, Guid? HolderTypeId, string? HolderTypeName, string? Note, DateTime CreatedAt)
+    decimal Area, Guid? HolderTypeId, string? HolderTypeName, string? Note, string Source, DateTime CreatedAt)
 {
     public static LandChangeItem From(LandChange c) => new(
         c.Id, c.PeriodId, c.ChangeDate,
         c.FromLandTypeId, c.FromLandType?.Code, c.FromLandType?.Name,
         c.ToLandTypeId, c.ToLandType?.Code, c.ToLandType?.Name,
-        c.Area, c.HolderTypeId, c.HolderType?.Name, c.Note, c.CreatedAt);
+        c.Area, c.HolderTypeId, c.HolderType?.Name, c.Note, c.Source.ToString(), c.CreatedAt);
 }
 
 public static class LandChangeRules
