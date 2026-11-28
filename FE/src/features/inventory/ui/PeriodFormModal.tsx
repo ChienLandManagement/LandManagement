@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Group, Modal, Select, Stack, Textarea, TextInput } from '@mantine/core';
+import { Button, Group, Modal, Select, Stack, Textarea } from '@mantine/core';
+import { DateInput } from '@mantine/dates';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
@@ -143,12 +144,13 @@ export function PeriodFormModal({ opened, onClose, editingItem }: PeriodFormModa
             name="cutoffDate"
             control={control}
             render={({ field }) => (
-              <TextInput
-                type="date"
+              <DateInput
                 label="Ngày chốt số liệu"
+                placeholder="dd/mm/yyyy"
+                valueFormat="DD/MM/YYYY"
                 required
-                value={field.value}
-                onChange={field.onChange}
+                value={field.value || null}
+                onChange={(value) => field.onChange(value ?? '')}
                 error={errors.cutoffDate?.message}
               />
             )}

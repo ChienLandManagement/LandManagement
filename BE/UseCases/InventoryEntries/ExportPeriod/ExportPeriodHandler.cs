@@ -38,7 +38,7 @@ public class ExportPeriodHandler(AppDbContext db, ICurrentUser currentUser) : IR
 
         using var stream = new MemoryStream();
         workbook.SaveAs(stream);
-        return new ExportFileItem(stream.ToArray(), $"kiem-ke-{period.CutoffDate:yyyy-MM-dd}.xlsx");
+        return new ExportFileItem(stream.ToArray(), $"kiem-ke-{period.CutoffDate:dd-MM-yyyy}.xlsx");
     }
 
     private static string Label(LandType t) => (t.IsMemo ? "  (trong đó) " : "") + t.Name;
