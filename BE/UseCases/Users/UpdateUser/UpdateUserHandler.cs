@@ -19,6 +19,9 @@ public class UpdateUserHandler(AppDbContext db, ICurrentUser currentUser) : IReq
         if (roleChanged && user.Id == currentUser.Id)
             return Error.Forbidden("Không thể tự đổi vai trò của chính mình".ToMessageForUser());
 
+        if (roleChanged && cmd.Role == UserRole.Admin)
+            return Error.Forbidden("Không thể nâng tài khoản lên Admin".ToMessageForUser());
+
         var wards = new List<Ward>();
         if (cmd.Role != UserRole.Admin)
         {
