@@ -1,5 +1,4 @@
 using ErrorOr;
-using LandManagement.Common.Interfaces;
 using LandManagement.Data;
 using LandManagement.Security;
 using MediatR;
@@ -7,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using ResultLib.Extensions;
 
 namespace LandManagement.UseCases.Auth;
-
-public record LogoutCommand(string? RefreshToken) : ICommand;
 
 public class LogoutHandler(AppDbContext db, ITokenService tokens) : IRequestHandler<LogoutCommand, ErrorOr<Unit>>
 {

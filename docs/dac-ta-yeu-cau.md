@@ -146,7 +146,7 @@ Cột lá (có số liệu) của B01/B02/B04: `CNV, CNN, TCN, TSN, TXH, TKT, TK
 - Cột: (4) = (5) + …, 16 cột lá như Biểu 01. Đây là số **đối tượng**, một người dùng nhiều loại đất được đếm ở mỗi loại nên **không** cộng dọc để ra số người duy nhất.
 
 **Biểu 04/TKKK – Cơ cấu**
-- Cùng 68 dòng như Biểu 01. Mỗi nhóm cột có 2 giá trị: **Diện tích (ha)** và **Cơ cấu (%)**; 17 nhóm: tổng + 12 cột sử dụng + 4 cột quản lý (cột tổng + `CNV` … `CDQ`).
+- Cùng các dòng như Biểu 01 (1 dòng tổng + 67 loại đất). Mỗi nhóm cột có 2 giá trị: **Diện tích (ha)** và **Cơ cấu (%)**; 17 nhóm: tổng + 12 cột sử dụng + 4 cột quản lý (cột tổng + `CNV` … `CDQ`).
 - Diện tích lấy nguyên từ Biểu 01 (đã đối chiếu khớp 100%).
 - Cơ cấu cột **Tổng**: diện tích loại đất / tổng diện tích xã × 100.
 - Cơ cấu cột **đối tượng**: diện tích của đối tượng đó trong loại đất / tổng diện tích loại đất đó × 100 (ví dụ `LUA`: `CNV` 99,844%, `CDQ` 0%). Tức mỗi dòng cộng các đối tượng ra 100%.
@@ -158,7 +158,7 @@ Cột lá (có số liệu) của B01/B02/B04: `CNV, CNN, TCN, TSN, TXH, TKT, TK
 - Cột thêm: **Năm 2019** (tổng hàng = diện tích kỳ trước) và **Giảm khác (2)**; hàng thêm: **Tăng khác (2)** và **Diện tích năm 2024**.
 - Hàng: `Năm 2019` = Σ chuyển sang các loại + `Giảm khác`.
 - Cột: `Diện tích 2024` của loại = Σ cột (từ các loại 2019, gồm đường chéo giữ nguyên) + `Tăng khác`.
-- Đường chéo = diện tích giữ nguyên loại. Ô khác 0 ngoài đường chéo = có chuyển mục đích. File mẫu có 190 ô khác trống.
+- Đường chéo = diện tích giữ nguyên loại. Ô có số ngoài đường chéo = có chuyển mục đích. File mẫu có 190 ô không trống trong ma trận (gồm cả các ô `0` trên đường chéo).
 - `Giảm khác` / `Tăng khác`: phần diện tích ra/vào ngoài danh sách loại (do đo đạc lại, điều chỉnh ranh giới hành chính, kỳ trước thiếu số liệu…).
 - Số liệu thật: Σ 2019 = **17.129,23 ha**; 2024 = **17.159,33 ha**; chênh +30,10 ha = Tăng khác 34,1054 − Giảm khác 3,99204. Tăng khác: `LUA` 0,70646; `HNK` 0,76859; `CLN` 0,59017; `RDD` 25,00797; `NTS` 0,22506; `TSC` 0,00405; `CAN` 0,00091; `SKS` 0,00487; `SON` 6,79732. Giảm khác: `RSX` 1,38713; `ONT` 1,02141; `DGT` 1,29018; `DTL` 0,17429; `BCS` 0,0907; `NTD` 0,0158; còn lại ≤ 0,01 (toàn bộ nằm trong `b05-chu-chuyen.json`).
 - Đây chính là **dữ liệu biến động đất đai theo kỳ kiểm kê** của phân hệ 2, tính từ hai kỳ kiểm kê chứ không nhập tay.

@@ -1,13 +1,10 @@
 using ErrorOr;
-using LandManagement.Common.Interfaces;
 using LandManagement.Data;
 using MediatR;
-using ResultLib.Logging;
 using Microsoft.EntityFrameworkCore;
+using ResultLib.Logging;
 
 namespace LandManagement.UseCases.Auth;
-
-public record MeQuery(Guid UserId) : IQuery<UserProfile>;
 
 public class MeHandler(AppDbContext db) : IRequestHandler<MeQuery, ErrorOr<UserProfile>>
 {

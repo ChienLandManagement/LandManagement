@@ -1,15 +1,12 @@
 using ErrorOr;
-using LandManagement.Common.Interfaces;
 using LandManagement.Data;
 using LandManagement.Security;
 using MediatR;
-using ResultLib.Logging;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Extensions;
+using ResultLib.Logging;
 
 namespace LandManagement.UseCases.Auth;
-
-public record RefreshCommand(string? RefreshToken, string? Ip, string? UserAgent) : ICommand<AuthResult>;
 
 public class RefreshHandler(AppDbContext db, ITokenService tokens) : IRequestHandler<RefreshCommand, ErrorOr<AuthResult>>
 {

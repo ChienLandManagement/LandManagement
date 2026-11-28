@@ -1,6 +1,5 @@
 using ErrorOr;
 using LandManagement.Common;
-using LandManagement.Common.Interfaces;
 using LandManagement.Data;
 using LandManagement.Entities;
 using LandManagement.Security;
@@ -9,8 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using ResultLib.Logging;
 
 namespace LandManagement.UseCases.Auth;
-
-public record LoginCommand(string UserName, string Password, string? Ip, string? UserAgent) : ICommand<AuthResult>;
 
 public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens) : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>
 {
