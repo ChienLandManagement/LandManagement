@@ -14,7 +14,7 @@ import {
   Transition,
 } from '@mantine/core';
 import { useReducedMotion } from '@mantine/hooks';
-import { Link } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import {
   ArrowRight,
   BarChart3,
@@ -27,8 +27,8 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useAuthStore } from '@/entities/session';
-import { LoginDialog } from '@/features/auth';
+import { setAuth, useAuthStore } from '@/entities/session';
+import { LoginDialog, refreshTokenApi } from '@/features/auth';
 import { APP_NAME, ROUTES } from '@/shared/config/constants';
 
 const FEATURES = [
@@ -65,6 +65,18 @@ export default function LandingPage() {
   const reduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Còn phiên đăng nhập (cookie refresh còn hạn) thì vào thẳng, hết phiên mới hiện ô nhập mật khẩu.
+  const handleLogin = async () => {
+    try {
+      const { user, accessToken } = await refreshTokenApi();
+      setAuth(user, accessToken);
+      await navigate({ to: ROUTES.HOME });
+    } catch {
+      setLoginOpen(true);
+    }
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -103,7 +115,7 @@ export default function LandingPage() {
                   Vào hệ thống
                 </Button>
               ) : (
-                <Button size="sm" rightSection={<ArrowRight size={16} />} onClick={() => setLoginOpen(true)}>
+                <Button size="sm" rightSection={<ArrowRight size={16} />} onClick={handleLogin}>
                   Đăng nhập
                 </Button>
               )}
@@ -146,7 +158,7 @@ export default function LandingPage() {
                             Vào bảng điều khiển
                           </Button>
                         ) : (
-                          <Button size="lg" rightSection={<ArrowRight size={18} />} onClick={() => setLoginOpen(true)}>
+                          <Button size="lg" rightSection={<ArrowRight size={18} />} onClick={handleLogin}>
                             Đăng nhập ngay
                           </Button>
                         )}
