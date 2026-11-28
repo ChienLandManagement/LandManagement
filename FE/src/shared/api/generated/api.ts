@@ -24,11 +24,15 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ApiResultOfInventoryPeriodItem,
+  ApiResultOfLandChangeItem,
   ApiResultOfLandHolderTypeItem,
   ApiResultOfLandTypeItem,
   ApiResultOfListOfLandHolderTypeItem,
   ApiResultOfListOfLandTypeItem,
   ApiResultOfLoginResponse,
+  ApiResultOfPagedResponseOfInventoryPeriodItem,
+  ApiResultOfPagedResponseOfLandChangeItem,
   ApiResultOfPagedResponseOfProvinceItem,
   ApiResultOfPagedResponseOfUserItem,
   ApiResultOfPagedResponseOfWardItem,
@@ -37,21 +41,28 @@ import type {
   ApiResultOfUserProfile,
   ApiResultOfWardItem,
   ChangeMyPasswordCommand,
+  CreateLandChangeCommand,
   CreateLandHolderTypeCommand,
   CreateLandTypeCommand,
+  CreatePeriodCommand,
   CreateProvinceCommand,
   CreateUserCommand,
   CreateWardCommand,
+  ListLandChangesParams,
   ListLandHolderTypesParams,
+  ListPeriodsParams,
   ListProvincesParams,
   ListUsersParams,
   ListWardsParams,
   LoginRequest,
   ResetUserPasswordCommand,
   Result,
+  SetPeriodStatusCommand,
   SetUserActiveCommand,
+  UpdateLandChangeCommand,
   UpdateLandHolderTypeCommand,
   UpdateLandTypeCommand,
+  UpdatePeriodCommand,
   UpdateProvinceCommand,
   UpdateUserCommand,
   UpdateWardCommand
@@ -1915,6 +1926,655 @@ export const useUpdateLandHolderType = <TError = void,
         TContext
       > => {
       return useMutation(getUpdateLandHolderTypeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Ghi biến động đất đai
+ */
+export const createLandChange = (
+    createLandChangeCommand: CreateLandChangeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandChangeItem>(
+      {url: `/api/land-changes`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createLandChangeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreateLandChangeMutationKey = () => ['createLandChange'] as const;
+
+export const getCreateLandChangeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandChange>>, TError,CreateLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createLandChange>>, TError,CreateLandChangeMutationVariables, TContext> => {
+
+const mutationKey = getCreateLandChangeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createLandChange>>, CreateLandChangeMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createLandChange(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateLandChangeMutationResult = NonNullable<Awaited<ReturnType<typeof createLandChange>>>
+    export type CreateLandChangeMutationBody = CreateLandChangeCommand
+    export type CreateLandChangeMutationError = void
+    export type CreateLandChangeMutationVariables = {data: CreateLandChangeCommand}
+
+    /** @summary Ghi biến động đất đai */
+export const useCreateLandChange = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createLandChange>>, TError,CreateLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createLandChange>>,
+        TError,
+        CreateLandChangeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateLandChangeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách biến động của một kỳ
+ */
+export const listLandChanges = (
+    params: ListLandChangesParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfLandChangeItem>(
+      {url: `/api/land-changes`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListLandChangesQueryKey = (params?: ListLandChangesParams,) => {
+    return [
+    `/api/land-changes`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListLandChangesQueryOptions = <TData = Awaited<ReturnType<typeof listLandChanges>>, TError = void>(params: ListLandChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListLandChangesQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listLandChanges>>> = ({ signal }) => listLandChanges(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListLandChangesQueryResult = NonNullable<Awaited<ReturnType<typeof listLandChanges>>>
+export type ListLandChangesQueryError = void
+
+
+/** @summary Danh sách biến động của một kỳ */
+export function useListLandChanges<TData = Awaited<ReturnType<typeof listLandChanges>>, TError = void>(
+ params: ListLandChangesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandChanges>>,
+          TError,
+          Awaited<ReturnType<typeof listLandChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách biến động của một kỳ */
+export function useListLandChanges<TData = Awaited<ReturnType<typeof listLandChanges>>, TError = void>(
+ params: ListLandChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listLandChanges>>,
+          TError,
+          Awaited<ReturnType<typeof listLandChanges>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách biến động của một kỳ */
+export function useListLandChanges<TData = Awaited<ReturnType<typeof listLandChanges>>, TError = void>(
+ params: ListLandChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách biến động của một kỳ */
+export function useListLandChanges<TData = Awaited<ReturnType<typeof listLandChanges>>, TError = void>(
+ params: ListLandChangesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listLandChanges>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListLandChangesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa biến động
+ */
+export const deleteLandChange = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/land-changes/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeleteLandChangeMutationKey = () => ['deleteLandChange'] as const;
+
+export const getDeleteLandChangeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandChange>>, TError,DeleteLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteLandChange>>, TError,DeleteLandChangeMutationVariables, TContext> => {
+
+const mutationKey = getDeleteLandChangeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteLandChange>>, DeleteLandChangeMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteLandChange(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteLandChangeMutationResult = NonNullable<Awaited<ReturnType<typeof deleteLandChange>>>
+
+    export type DeleteLandChangeMutationError = void
+    export type DeleteLandChangeMutationVariables = {id: string}
+
+    /** @summary Xóa biến động */
+export const useDeleteLandChange = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteLandChange>>, TError,DeleteLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteLandChange>>,
+        TError,
+        DeleteLandChangeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteLandChangeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Sửa biến động
+ */
+export const updateLandChange = (
+    id: string,
+    updateLandChangeCommand: UpdateLandChangeCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfLandChangeItem>(
+      {url: `/api/land-changes/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateLandChangeCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdateLandChangeMutationKey = () => ['updateLandChange'] as const;
+
+export const getUpdateLandChangeMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandChange>>, TError,UpdateLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateLandChange>>, TError,UpdateLandChangeMutationVariables, TContext> => {
+
+const mutationKey = getUpdateLandChangeMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateLandChange>>, UpdateLandChangeMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateLandChange(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateLandChangeMutationResult = NonNullable<Awaited<ReturnType<typeof updateLandChange>>>
+    export type UpdateLandChangeMutationBody = UpdateLandChangeCommand
+    export type UpdateLandChangeMutationError = void
+    export type UpdateLandChangeMutationVariables = {id: string;data: UpdateLandChangeCommand}
+
+    /** @summary Sửa biến động */
+export const useUpdateLandChange = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateLandChange>>, TError,UpdateLandChangeMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateLandChange>>,
+        TError,
+        UpdateLandChangeMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdateLandChangeMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Tạo kỳ kiểm kê
+ */
+export const createPeriod = (
+    createPeriodCommand: CreatePeriodCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfInventoryPeriodItem>(
+      {url: `/api/inventory-periods`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: createPeriodCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getCreatePeriodMutationKey = () => ['createPeriod'] as const;
+
+export const getCreatePeriodMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPeriod>>, TError,CreatePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof createPeriod>>, TError,CreatePeriodMutationVariables, TContext> => {
+
+const mutationKey = getCreatePeriodMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createPeriod>>, CreatePeriodMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createPeriod(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreatePeriodMutationResult = NonNullable<Awaited<ReturnType<typeof createPeriod>>>
+    export type CreatePeriodMutationBody = CreatePeriodCommand
+    export type CreatePeriodMutationError = void
+    export type CreatePeriodMutationVariables = {data: CreatePeriodCommand}
+
+    /** @summary Tạo kỳ kiểm kê */
+export const useCreatePeriod = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createPeriod>>, TError,CreatePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createPeriod>>,
+        TError,
+        CreatePeriodMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreatePeriodMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Danh sách kỳ kiểm kê (cán bộ xã chỉ thấy xã mình)
+ */
+export const listPeriods = (
+    params?: ListPeriodsParams,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPagedResponseOfInventoryPeriodItem>(
+      {url: `/api/inventory-periods`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+
+
+
+
+export const getListPeriodsQueryKey = (params?: ListPeriodsParams,) => {
+    return [
+    `/api/inventory-periods`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getListPeriodsQueryOptions = <TData = Awaited<ReturnType<typeof listPeriods>>, TError = void>(params?: ListPeriodsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListPeriodsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listPeriods>>> = ({ signal }) => listPeriods(params, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListPeriodsQueryResult = NonNullable<Awaited<ReturnType<typeof listPeriods>>>
+export type ListPeriodsQueryError = void
+
+
+/** @summary Danh sách kỳ kiểm kê (cán bộ xã chỉ thấy xã mình) */
+export function useListPeriods<TData = Awaited<ReturnType<typeof listPeriods>>, TError = void>(
+ params: undefined |  ListPeriodsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listPeriods>>,
+          TError,
+          Awaited<ReturnType<typeof listPeriods>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách kỳ kiểm kê (cán bộ xã chỉ thấy xã mình) */
+export function useListPeriods<TData = Awaited<ReturnType<typeof listPeriods>>, TError = void>(
+ params?: ListPeriodsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof listPeriods>>,
+          TError,
+          Awaited<ReturnType<typeof listPeriods>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách kỳ kiểm kê (cán bộ xã chỉ thấy xã mình) */
+export function useListPeriods<TData = Awaited<ReturnType<typeof listPeriods>>, TError = void>(
+ params?: ListPeriodsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Danh sách kỳ kiểm kê (cán bộ xã chỉ thấy xã mình) */
+export function useListPeriods<TData = Awaited<ReturnType<typeof listPeriods>>, TError = void>(
+ params?: ListPeriodsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof listPeriods>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getListPeriodsQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Xóa (mềm) kỳ kiểm kê chưa có biến động
+ */
+export const deletePeriod = (
+    id: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<Result>(
+      {url: `/api/inventory-periods/${id}`, method: 'DELETE', signal
+    },
+      options);
+    }
+
+
+
+
+export const getDeletePeriodMutationKey = () => ['deletePeriod'] as const;
+
+export const getDeletePeriodMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePeriod>>, TError,DeletePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof deletePeriod>>, TError,DeletePeriodMutationVariables, TContext> => {
+
+const mutationKey = getDeletePeriodMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePeriod>>, DeletePeriodMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deletePeriod(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeletePeriodMutationResult = NonNullable<Awaited<ReturnType<typeof deletePeriod>>>
+
+    export type DeletePeriodMutationError = void
+    export type DeletePeriodMutationVariables = {id: string}
+
+    /** @summary Xóa (mềm) kỳ kiểm kê chưa có biến động */
+export const useDeletePeriod = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deletePeriod>>, TError,DeletePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deletePeriod>>,
+        TError,
+        DeletePeriodMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeletePeriodMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Sửa kỳ kiểm kê
+ */
+export const updatePeriod = (
+    id: string,
+    updatePeriodCommand: UpdatePeriodCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfInventoryPeriodItem>(
+      {url: `/api/inventory-periods/${id}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updatePeriodCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getUpdatePeriodMutationKey = () => ['updatePeriod'] as const;
+
+export const getUpdatePeriodMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePeriod>>, TError,UpdatePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePeriod>>, TError,UpdatePeriodMutationVariables, TContext> => {
+
+const mutationKey = getUpdatePeriodMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePeriod>>, UpdatePeriodMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updatePeriod(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePeriodMutationResult = NonNullable<Awaited<ReturnType<typeof updatePeriod>>>
+    export type UpdatePeriodMutationBody = UpdatePeriodCommand
+    export type UpdatePeriodMutationError = void
+    export type UpdatePeriodMutationVariables = {id: string;data: UpdatePeriodCommand}
+
+    /** @summary Sửa kỳ kiểm kê */
+export const useUpdatePeriod = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePeriod>>, TError,UpdatePeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updatePeriod>>,
+        TError,
+        UpdatePeriodMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpdatePeriodMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Khóa / mở khóa kỳ kiểm kê
+ */
+export const setPeriodStatus = (
+    id: string,
+    setPeriodStatusCommand: SetPeriodStatusCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfInventoryPeriodItem>(
+      {url: `/api/inventory-periods/${id}/status`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: setPeriodStatusCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getSetPeriodStatusMutationKey = () => ['setPeriodStatus'] as const;
+
+export const getSetPeriodStatusMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setPeriodStatus>>, TError,SetPeriodStatusMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof setPeriodStatus>>, TError,SetPeriodStatusMutationVariables, TContext> => {
+
+const mutationKey = getSetPeriodStatusMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof setPeriodStatus>>, SetPeriodStatusMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  setPeriodStatus(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SetPeriodStatusMutationResult = NonNullable<Awaited<ReturnType<typeof setPeriodStatus>>>
+    export type SetPeriodStatusMutationBody = SetPeriodStatusCommand
+    export type SetPeriodStatusMutationError = void
+    export type SetPeriodStatusMutationVariables = {id: string;data: SetPeriodStatusCommand}
+
+    /** @summary Khóa / mở khóa kỳ kiểm kê */
+export const useSetPeriodStatus = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof setPeriodStatus>>, TError,SetPeriodStatusMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof setPeriodStatus>>,
+        TError,
+        SetPeriodStatusMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSetPeriodStatusMutationOptions(options), queryClient);
     }
 
 /**
