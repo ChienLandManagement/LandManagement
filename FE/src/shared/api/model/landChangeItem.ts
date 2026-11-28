@@ -28,5 +28,6 @@ export interface LandChangeItem {
   holderTypeName?: string | null;
   /** @nullable */
   note?: string | null;
+  source?: string;
   createdAt?: string;
 }

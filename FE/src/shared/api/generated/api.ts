@@ -24,6 +24,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ApiResultOfImportResultItem,
   ApiResultOfInventoryPeriodItem,
   ApiResultOfLandChangeItem,
   ApiResultOfLandHolderTypeItem,
@@ -36,6 +37,9 @@ import type {
   ApiResultOfPagedResponseOfProvinceItem,
   ApiResultOfPagedResponseOfUserItem,
   ApiResultOfPagedResponseOfWardItem,
+  ApiResultOfPeriodCheckItem,
+  ApiResultOfPeriodEntriesItem,
+  ApiResultOfPrefillResultItem,
   ApiResultOfProvinceItem,
   ApiResultOfUserItem,
   ApiResultOfUserProfile,
@@ -48,6 +52,7 @@ import type {
   CreateProvinceCommand,
   CreateUserCommand,
   CreateWardCommand,
+  ImportWorkbookCommand,
   ListLandChangesParams,
   ListLandHolderTypesParams,
   ListPeriodsParams,
@@ -57,6 +62,7 @@ import type {
   LoginRequest,
   ResetUserPasswordCommand,
   Result,
+  SaveEntriesCommand,
   SetPeriodStatusCommand,
   SetUserActiveCommand,
   UpdateLandChangeCommand,
@@ -2575,6 +2581,394 @@ export const useSetPeriodStatus = <TError = void,
         TContext
       > => {
       return useMutation(getSetPeriodStatusMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Kiểm tra số liệu kỳ: so kỳ trước cộng biến động, diện tích và số lượng
+ */
+export const checkPeriod = (
+    periodId: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPeriodCheckItem>(
+      {url: `/api/inventory-periods/${periodId}/checks`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getCheckPeriodQueryKey = (periodId: string,) => {
+    return [
+    `/api/inventory-periods/${periodId}/checks`
+    ] as const;
+    }
+
+
+export const getCheckPeriodQueryOptions = <TData = Awaited<ReturnType<typeof checkPeriod>>, TError = void>(periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCheckPeriodQueryKey(periodId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkPeriod>>> = ({ signal }) => checkPeriod(periodId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: periodId !== null && periodId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CheckPeriodQueryResult = NonNullable<Awaited<ReturnType<typeof checkPeriod>>>
+export type CheckPeriodQueryError = void
+
+
+/** @summary Kiểm tra số liệu kỳ: so kỳ trước cộng biến động, diện tích và số lượng */
+export function useCheckPeriod<TData = Awaited<ReturnType<typeof checkPeriod>>, TError = void>(
+ periodId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof checkPeriod>>,
+          TError,
+          Awaited<ReturnType<typeof checkPeriod>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Kiểm tra số liệu kỳ: so kỳ trước cộng biến động, diện tích và số lượng */
+export function useCheckPeriod<TData = Awaited<ReturnType<typeof checkPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof checkPeriod>>,
+          TError,
+          Awaited<ReturnType<typeof checkPeriod>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Kiểm tra số liệu kỳ: so kỳ trước cộng biến động, diện tích và số lượng */
+export function useCheckPeriod<TData = Awaited<ReturnType<typeof checkPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Kiểm tra số liệu kỳ: so kỳ trước cộng biến động, diện tích và số lượng */
+export function useCheckPeriod<TData = Awaited<ReturnType<typeof checkPeriod>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof checkPeriod>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getCheckPeriodQueryOptions(periodId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Số liệu B01 (diện tích) và B02 (số lượng) của kỳ, theo ô lá
+ */
+export const getEntries = (
+    periodId: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPeriodEntriesItem>(
+      {url: `/api/inventory-periods/${periodId}/entries`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetEntriesQueryKey = (periodId: string,) => {
+    return [
+    `/api/inventory-periods/${periodId}/entries`
+    ] as const;
+    }
+
+
+export const getGetEntriesQueryOptions = <TData = Awaited<ReturnType<typeof getEntries>>, TError = void>(periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetEntriesQueryKey(periodId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getEntries>>> = ({ signal }) => getEntries(periodId, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: periodId !== null && periodId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetEntriesQueryResult = NonNullable<Awaited<ReturnType<typeof getEntries>>>
+export type GetEntriesQueryError = void
+
+
+/** @summary Số liệu B01 (diện tích) và B02 (số lượng) của kỳ, theo ô lá */
+export function useGetEntries<TData = Awaited<ReturnType<typeof getEntries>>, TError = void>(
+ periodId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEntries>>,
+          TError,
+          Awaited<ReturnType<typeof getEntries>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Số liệu B01 (diện tích) và B02 (số lượng) của kỳ, theo ô lá */
+export function useGetEntries<TData = Awaited<ReturnType<typeof getEntries>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEntries>>,
+          TError,
+          Awaited<ReturnType<typeof getEntries>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Số liệu B01 (diện tích) và B02 (số lượng) của kỳ, theo ô lá */
+export function useGetEntries<TData = Awaited<ReturnType<typeof getEntries>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/** @summary Số liệu B01 (diện tích) và B02 (số lượng) của kỳ, theo ô lá */
+export function useGetEntries<TData = Awaited<ReturnType<typeof getEntries>>, TError = void>(
+ periodId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getEntries>>, TError, TData>>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetEntriesQueryOptions(periodId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+/**
+ * @summary Lưu các ô thay đổi của lưới B01/B02 (giá trị rỗng hoặc 0 là xóa ô)
+ */
+export const saveEntries = (
+    periodId: string,
+    saveEntriesCommand: SaveEntriesCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPeriodEntriesItem>(
+      {url: `/api/inventory-periods/${periodId}/entries`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: saveEntriesCommand, signal
+    },
+      options);
+    }
+
+
+
+
+export const getSaveEntriesMutationKey = () => ['saveEntries'] as const;
+
+export const getSaveEntriesMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveEntries>>, TError,SaveEntriesMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof saveEntries>>, TError,SaveEntriesMutationVariables, TContext> => {
+
+const mutationKey = getSaveEntriesMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof saveEntries>>, SaveEntriesMutationVariables> = (props) => {
+          const {periodId,data} = props ?? {};
+
+          return  saveEntries(periodId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SaveEntriesMutationResult = NonNullable<Awaited<ReturnType<typeof saveEntries>>>
+    export type SaveEntriesMutationBody = SaveEntriesCommand
+    export type SaveEntriesMutationError = void
+    export type SaveEntriesMutationVariables = {periodId: string;data: SaveEntriesCommand}
+
+    /** @summary Lưu các ô thay đổi của lưới B01/B02 (giá trị rỗng hoặc 0 là xóa ô) */
+export const useSaveEntries = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof saveEntries>>, TError,SaveEntriesMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof saveEntries>>,
+        TError,
+        SaveEntriesMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSaveEntriesMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Nhập số liệu kỳ từ file Excel (sheet B01, B02, B05)
+ */
+export const importWorkbook = (
+    periodId: string,
+    importWorkbookCommand: ImportWorkbookCommand,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+      const formData = new FormData();
+if(importWorkbookCommand.file !== undefined) {
+ formData.append(`file`, importWorkbookCommand.file);
+ }
+
+      return apiOrvalClient<ApiResultOfImportResultItem>(
+      {url: `/api/inventory-periods/${periodId}/import`, method: 'POST',
+      headers: {'Content-Type': 'multipart/form-data', },
+       data: formData, signal
+    },
+      options);
+    }
+
+
+
+
+export const getImportWorkbookMutationKey = () => ['importWorkbook'] as const;
+
+export const getImportWorkbookMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importWorkbook>>, TError,ImportWorkbookMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof importWorkbook>>, TError,ImportWorkbookMutationVariables, TContext> => {
+
+const mutationKey = getImportWorkbookMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof importWorkbook>>, ImportWorkbookMutationVariables> = (props) => {
+          const {periodId,data} = props ?? {};
+
+          return  importWorkbook(periodId,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ImportWorkbookMutationResult = NonNullable<Awaited<ReturnType<typeof importWorkbook>>>
+    export type ImportWorkbookMutationBody = ImportWorkbookCommand
+    export type ImportWorkbookMutationError = void
+    export type ImportWorkbookMutationVariables = {periodId: string;data: ImportWorkbookCommand}
+
+    /** @summary Nhập số liệu kỳ từ file Excel (sheet B01, B02, B05) */
+export const useImportWorkbook = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof importWorkbook>>, TError,ImportWorkbookMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof importWorkbook>>,
+        TError,
+        ImportWorkbookMutationVariables,
+        TContext
+      > => {
+      return useMutation(getImportWorkbookMutationOptions(options), queryClient);
+    }
+
+/**
+ * @summary Khởi tạo số liệu kỳ từ kỳ trước và áp biến động
+ */
+export const prefillPeriod = (
+    periodId: string,
+ options?: SecondParameter<typeof apiOrvalClient>,signal?: AbortSignal
+) => {
+
+
+      return apiOrvalClient<ApiResultOfPrefillResultItem>(
+      {url: `/api/inventory-periods/${periodId}/prefill`, method: 'POST', signal
+    },
+      options);
+    }
+
+
+
+
+export const getPrefillPeriodMutationKey = () => ['prefillPeriod'] as const;
+
+export const getPrefillPeriodMutationOptions = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof prefillPeriod>>, TError,PrefillPeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+): UseMutationOptions<Awaited<ReturnType<typeof prefillPeriod>>, TError,PrefillPeriodMutationVariables, TContext> => {
+
+const mutationKey = getPrefillPeriodMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof prefillPeriod>>, PrefillPeriodMutationVariables> = (props) => {
+          const {periodId} = props ?? {};
+
+          return  prefillPeriod(periodId,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PrefillPeriodMutationResult = NonNullable<Awaited<ReturnType<typeof prefillPeriod>>>
+
+    export type PrefillPeriodMutationError = void
+    export type PrefillPeriodMutationVariables = {periodId: string}
+
+    /** @summary Khởi tạo số liệu kỳ từ kỳ trước và áp biến động */
+export const usePrefillPeriod = <TError = void,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof prefillPeriod>>, TError,PrefillPeriodMutationVariables, TContext>, request?: SecondParameter<typeof apiOrvalClient>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof prefillPeriod>>,
+        TError,
+        PrefillPeriodMutationVariables,
+        TContext
+      > => {
+      return useMutation(getPrefillPeriodMutationOptions(options), queryClient);
     }
 
 /**
