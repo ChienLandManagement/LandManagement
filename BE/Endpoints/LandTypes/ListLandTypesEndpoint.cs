@@ -11,7 +11,7 @@ using ResultLib.Extensions.FastEndpoints;
 
 namespace LandManagement.Endpoints.LandTypes;
 
-public class ListLandTypesEndpoint(ISender sender) : Endpoint<ListLandTypesQuery, Result>
+public class ListLandTypesEndpoint(ISender sender) : EndpointWithoutRequest<Result>
 {
     public override void Configure()
     {
@@ -21,6 +21,6 @@ public class ListLandTypesEndpoint(ISender sender) : Endpoint<ListLandTypesQuery
         Summary(s => s.Summary = "Danh sách loại đất (phẳng, theo thứ tự hiển thị)");
     }
 
-    public override async Task HandleAsync(ListLandTypesQuery req, CancellationToken ct) =>
-        await this.SendResultAsync((await sender.Send(req, ct)).ToResult(), ct);
+    public override async Task HandleAsync(CancellationToken ct) =>
+        await this.SendResultAsync((await sender.Send(new ListLandTypesQuery(), ct)).ToResult(), ct);
 }

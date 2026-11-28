@@ -1,6 +1,5 @@
-import { Button, Container, Group, Stack, Text, Title } from '@mantine/core';
-import { Link } from '@tanstack/react-router';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { Button, Stack } from '@mantine/core';
+import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useAuthStore } from '@/entities/session';
@@ -17,6 +16,7 @@ import {
 import { useListUsers } from '@/shared/api/generated/api';
 import type { UserItem, UserRole } from '@/shared/api/model';
 import { APP_NAME } from '@/shared/config/constants';
+import { ListPageLayout } from '@/shared/ui/templates';
 
 export function UsersPage() {
   const currentUser = useAuthStore((s) => s.user);
@@ -76,28 +76,16 @@ export function UsersPage() {
         <title>Quản lý người dùng - {APP_NAME}</title>
       </Helmet>
 
-      <Container size="xl" py="lg">
-        <Stack gap="lg">
-          <Group justify="space-between" align="center" wrap="wrap">
-            <Group gap="md">
-              <Button component={Link} to="/home" variant="default" size="sm" leftSection={<ArrowLeft size={16} />}>
-                Trang chủ
-              </Button>
-              <div>
-                <Title order={1} size="h2">
-                  Quản lý người dùng
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Quản lý tài khoản, phân quyền và trạng thái hoạt động
-                </Text>
-              </div>
-            </Group>
-
-            <Button leftSection={<Plus size={16} />} onClick={() => setCreateOpen(true)}>
-              Thêm người dùng
-            </Button>
-          </Group>
-
+      <ListPageLayout
+        title="Quản lý người dùng"
+        description="Quản lý tài khoản, phân quyền và trạng thái hoạt động"
+        actions={
+          <Button leftSection={<Plus size={16} />} onClick={() => setCreateOpen(true)}>
+            Thêm người dùng
+          </Button>
+        }
+      >
+        <Stack gap="md">
           <UserFilters
             searchInput={searchInput}
             onSearchChange={setSearchInput}
@@ -132,7 +120,7 @@ export function UsersPage() {
             onConfirmAction={(user, action) => setConfirmAction({ user, action })}
           />
         </Stack>
-      </Container>
+      </ListPageLayout>
 
       <CreateUserDialog open={createOpen} onOpenChange={setCreateOpen} />
       <EditUserDialog

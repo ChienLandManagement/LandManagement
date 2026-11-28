@@ -10,6 +10,6 @@ export function useLogout() {
     // Lỗi mạng không được chặn người dùng đăng xuất khỏi phiên trên máy.
     await logoutApi().catch(() => undefined);
     clearAuth();
-    navigate({ to: '/login' });
+    navigate({ to: '/' });
   }, [navigate]);
 }

@@ -28,6 +28,7 @@ import {
 import { Link, Outlet, useRouterState } from '@tanstack/react-router';
 import { getUser } from '@/entities/session';
 import { ChangePasswordDialog, useLogout } from '@/features/auth';
+import { type UiMainBg, useUiSettingsStore } from '@/shared/model/uiSettingsStore';
 import { MENU_CONFIG } from '../model/menuConfig';
 import { UiSettingsDrawer } from './UiSettingsDrawer';
 
@@ -51,6 +52,14 @@ export function LayoutAdmin() {
 
   const user = getUser();
   const logout = useLogout();
+  const mainBg = useUiSettingsStore((s) => s.mainBg);
+
+  const MAIN_BG_MAP: Record<UiMainBg, string> = {
+    default: '#ffffff',
+    gray: '#f8f9fa',
+    cool: '#f1f5f9',
+    warm: '#fafaf9',
+  };
 
   const toggleCollapsed = () => {
     setCollapsed((prev) => {
@@ -85,15 +94,6 @@ export function LayoutAdmin() {
           <Group h="100%" px="md" justify="space-between">
             <Group gap="sm">
               <Burger opened={mobileOpened} onClick={toggleMobile} hiddenFrom="sm" size="sm" />
-              <ActionIcon
-                variant="subtle"
-                color="gray"
-                onClick={toggleCollapsed}
-                visibleFrom="sm"
-                aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
-              >
-                {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
-              </ActionIcon>
               <Breadcrumbs>
                 <Text size="sm" c="dimmed">
                   Hệ thống
@@ -253,9 +253,34 @@ export function LayoutAdmin() {
               );
             })}
           </Stack>
+
+          <Group
+            mt="auto"
+            pt="sm"
+            justify={collapsed ? 'center' : 'space-between'}
+            align="center"
+            style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}
+          >
+            {!collapsed && (
+              <Text size="xs" c="dimmed">
+                © 2026 Quản lý đất đai
+              </Text>
+            )}
+            <Tooltip label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'} position="right" withArrow>
+              <ActionIcon
+                variant="subtle"
+                color="gray"
+                onClick={toggleCollapsed}
+                visibleFrom="sm"
+                aria-label={collapsed ? 'Mở rộng thanh bên' : 'Thu gọn thanh bên'}
+              >
+                {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}
+              </ActionIcon>
+            </Tooltip>
+          </Group>
         </AppShell.Navbar>
 
-        <AppShell.Main>
+        <AppShell.Main bg={computedColorScheme === 'dark' ? undefined : MAIN_BG_MAP[mainBg]}>
           <Outlet />
         </AppShell.Main>
       </AppShell>

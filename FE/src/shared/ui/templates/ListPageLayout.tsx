@@ -14,7 +14,9 @@ export function ListPageLayout({ title, description, actions, filters, children 
     <Stack gap="md">
       <Group justify="space-between" align="flex-start" wrap="wrap" gap="sm">
         <Stack gap={4}>
-          <Title order={2}>{title}</Title>
+          <Title order={2} style={{ color: 'var(--mantine-primary-color-filled)' }}>
+            {title}
+          </Title>
           {description && (
             <Text size="sm" c="dimmed">
               {description}
