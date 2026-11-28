@@ -19,13 +19,14 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [x] Loại đất `LandType` (cây 67 mục, seed từ JSON; cờ B02/B05 và dòng "Trong đó" `IsMemo` cho `RSN`; Admin quản lý, vai trò khác chỉ xem)
 - [x] Đối tượng sử dụng / được giao quản lý `LandHolderType` (18 mã: 14 người sử dụng + 4 người được giao quản lý, seed từ JSON)
 
-### Phase 2 – Kỳ kiểm kê và biến động (cách A: ghi biến động theo tổng, chưa có thửa đất)
-- [x] BE: kỳ kiểm kê (xã, ngày chốt, loại 5 năm/hằng năm, khóa/mở khóa), cán bộ chỉ thấy xã mình
-- [x] BE: ghi biến động (loại đất cũ → mới, diện tích ha, đối tượng; tăng khác/giảm khác)
-- [ ] FE: trang kỳ kiểm kê và ghi biến động (giao Antigravity)
-- [ ] Import số liệu kỳ gốc B01, B02 (từ Phuluc.xls)
-- [ ] Số liệu kỳ sau = kỳ gốc + biến động; B05 tính từ biến động
-- [ ] Kiểm tra: tổng, cha–con, lệch so với file (dung sai 0,005 ha)
+### Phase 2 – Kỳ kiểm kê và số liệu (cách A: ghi biến động theo tổng, chưa có thửa đất)
+- [x] Kỳ kiểm kê (xã, ngày chốt, loại 5 năm/hằng năm, khóa/mở khóa), cán bộ chỉ thấy xã mình
+- [x] Ghi biến động (loại đất cũ → mới, diện tích ha, đối tượng; tăng khác/giảm khác)
+- [x] Lưới số liệu B01 (diện tích) và B02 (số lượng) theo ô lá, dòng cha và tổng tự tính
+- [x] Import Excel B01, B02, B05 (B05 thành biến động nguồn Import)
+- [x] Khởi tạo số liệu kỳ từ kỳ trước và áp biến động
+- [x] Kiểm tra: lệch so với kỳ trước cộng biến động (dung sai 0,005 ha), diện tích và số lượng chưa khớp
+- [ ] Chưa làm: biến động theo loại đất tổng hợp ở B01 (vd LUA) chưa tự phân bổ xuống LUC/LUK
 
 ### Phase 3 – Báo cáo biểu kiểm kê
 - [ ] Xem và xuất Excel B01
