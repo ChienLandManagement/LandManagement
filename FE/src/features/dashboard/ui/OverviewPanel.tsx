@@ -1,8 +1,8 @@
-import { BarChart } from '@mantine/charts';
-import { Alert, Anchor, Center, Group, Paper, SimpleGrid, Text, Title } from '@mantine/core';
+import { LineChart } from '@mantine/charts';
+import { Alert, Anchor, Center, Group, Paper, SegmentedControl, SimpleGrid, Text, Title } from '@mantine/core';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { formatArea } from '@/features/inventory';
 import { useCheckPeriod, useGetDashboardOverview } from '@/shared/api/generated/api';
 import { formatDate } from '@/shared/lib/date';
@@ -86,35 +86,49 @@ export function OverviewAlerts({ wardId, periodId }: OverviewPanelProps) {
   );
 }
 
-/** Biểu đồ diện tích nông nghiệp và phi nông nghiệp qua các kỳ của xã đang xem. */
+const TREND_SERIES = {
+  agri: { label: 'Nông nghiệp', color: 'green.6', field: 'agriculturalArea' },
+  nonAgri: { label: 'Phi nông nghiệp', color: 'blue.6', field: 'nonAgriculturalArea' },
+  total: { label: 'Tổng diện tích', color: 'gray.6', field: 'totalArea' },
+} as const;
+
+/** Biểu đồ đường diện tích qua các kỳ của xã đang xem. Mỗi loại một đường riêng vì đất nông nghiệp lớn hơn hẳn, vẽ chung sẽ phẳng. */
 export function AreaTrendChart({ wardId }: Pick<OverviewPanelProps, 'wardId'>) {
   const { data } = useGetDashboardOverview({ WardId: wardId || null });
+  const [view, setView] = useState<keyof typeof TREND_SERIES>('agri');
+  const series = TREND_SERIES[view];
 
   const chartData = useMemo(
     () =>
       (data?.data?.trend ?? []).map((point) => ({
         kỳ: formatDate(point.cutoffDate, false),
-        'Nông nghiệp': point.agriculturalArea ?? 0,
-        'Phi nông nghiệp': point.nonAgriculturalArea ?? 0,
+        [series.label]: point[series.field] ?? 0,
       })),
-    [data?.data?.trend],
+    [data?.data?.trend, series],
   );
 
   return (
     <Paper withBorder p="md" radius="md">
-      <Title order={4} size="h5" mb="md">
-        Diện tích qua các kỳ (ha)
-      </Title>
+      <Group justify="space-between" mb="md" wrap="wrap">
+        <Title order={4} size="h5">
+          Diện tích qua các kỳ (ha)
+        </Title>
+        <SegmentedControl
+          size="xs"
+          value={view}
+          onChange={(v) => setView(v as keyof typeof TREND_SERIES)}
+          data={Object.entries(TREND_SERIES).map(([value, { label }]) => ({ value, label }))}
+        />
+      </Group>
       {chartData.length >= 2 ? (
-        <BarChart
+        <LineChart
           h={260}
           data={chartData}
           dataKey="kỳ"
-          type="stacked"
-          series={[
-            { name: 'Nông nghiệp', color: 'green.6' },
-            { name: 'Phi nông nghiệp', color: 'blue.6' },
-          ]}
+          series={[{ name: series.label, color: series.color }]}
+          curveType="linear"
+          withLegend={false}
+          yAxisProps={{ domain: ['auto', 'auto'], width: 90, tickFormatter: (v: number) => formatArea(v) }}
           valueFormatter={(v) => formatArea(v)}
         />
       ) : (
