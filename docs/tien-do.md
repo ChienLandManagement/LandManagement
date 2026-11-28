@@ -29,10 +29,7 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [ ] Chưa làm: biến động theo loại đất tổng hợp ở B01 (vd LUA) chưa tự phân bổ xuống LUC/LUK
 
 ### Phase 3 – Báo cáo biểu kiểm kê
-- [ ] Xem và xuất Excel B01
-- [ ] Xem và xuất Excel B02
-- [ ] Tính và xuất Excel B04 (cơ cấu, tính từ B01)
-- [ ] Xem và xuất Excel B05
+- [x] Xuất Excel B01, B02, B04 (cơ cấu), B05 (chu chuyển) một file theo kỳ: nút "Xuất Excel" ở trang kỳ (chưa có màn xem riêng, chưa khớp định dạng mẫu chính thức)
 - [ ] Biểu 03, 06 (chờ file mẫu)
 
 ### Phase 4 – Dashboard

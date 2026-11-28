@@ -2,7 +2,18 @@ import { Alert, Badge, Button, Group, List, Paper, ScrollArea, SimpleGrid, Stack
 import { modals } from '@mantine/modals';
 import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate, useParams } from '@tanstack/react-router';
-import { AlertTriangle, ArrowLeft, Copy, FileSpreadsheet, Lock, Pencil, Plus, Trash2, Unlock } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Copy,
+  Download,
+  FileSpreadsheet,
+  Lock,
+  Pencil,
+  Plus,
+  Trash2,
+  Unlock,
+} from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { getUser } from '@/entities/session';
 import {
@@ -30,6 +41,7 @@ import {
   usePrefillPeriod,
   useSetPeriodStatus,
 } from '@/shared/api/generated/api';
+import http from '@/shared/api/http';
 import { InventoryPeriodStatus, type LandChangeItem } from '@/shared/api/model';
 import { showError, showSuccess } from '@/shared/api/utils';
 import { formatDate } from '@/shared/lib/date';
@@ -113,6 +125,24 @@ export function InventoryPeriodDetailPage() {
         setActiveTab(nextTab);
       },
     });
+  };
+
+  const handleExport = async () => {
+    try {
+      const res = await http.get<{ data: Blob; headers: Record<string, string> }>(
+        `/api/inventory-periods/${periodId}/export`,
+        {
+          responseType: 'blob',
+        },
+      );
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(res.data);
+      link.download = `kiem-ke-${period?.cutoffDate ?? periodId}.xlsx`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    } catch {
+      // lỗi đã được hiện bằng thông báo chung
+    }
   };
 
   const handlePrefill = () => {
@@ -331,6 +361,9 @@ export function InventoryPeriodDetailPage() {
             onClick={() => navigate({ to: '/inventory-periods' })}
           >
             Quay lại
+          </Button>
+          <Button variant="light" leftSection={<Download size={16} />} onClick={handleExport}>
+            Xuất Excel
           </Button>
           {canWrite && period && (
             <Button
