@@ -6,7 +6,22 @@
  */
 
 export * from './apiResultOfLoginResponse';
+export * from './apiResultOfPagedResponseOfUserItem';
+export * from './apiResultOfUserItem';
 export * from './apiResultOfUserProfile';
+export * from './changeMyPasswordCommand';
+export * from './createUserCommand';
+export * from './deleteUserCommand';
+export * from './listUsersParams';
+export * from './listUsersQuery';
 export * from './loginRequest';
 export * from './loginResponse';
+export * from './pagedResponseOfUserItem';
+export * from './paginationRequest';
+export * from './resetUserPasswordCommand';
+export * from './result';
+export * from './setUserActiveCommand';
+export * from './updateUserCommand';
+export * from './userItem';
 export * from './userProfile';
+export * from './userRole';

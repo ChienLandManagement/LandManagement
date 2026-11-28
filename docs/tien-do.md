@@ -10,7 +10,9 @@ Quy ước: `[x]` xong, `[~]` đang làm, `[ ]` chưa làm.
 - [x] Đăng nhập, refresh token, log đăng nhập
 - [x] Seed tài khoản admin đầu tiên
 - [x] Deploy BE (Heroku container), FE (Vercel)
-- [ ] Người dùng và phân quyền (CRUD user, gán vai trò, gán xã)
+- [x] Người dùng BE: danh sách/tìm kiếm, tạo, sửa, khóa/mở khóa, đặt lại mật khẩu, xóa mềm, tự đổi mật khẩu (chưa có test, chưa chạy thử trên DB)
+- [ ] Người dùng FE: màn quản lý user, đổi mật khẩu
+- [ ] Gán user với xã (làm cùng đơn vị hành chính)
 - [ ] Đơn vị hành chính (xã, huyện, tỉnh)
 
 ### Phase 1 – Danh mục

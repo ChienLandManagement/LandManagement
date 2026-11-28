@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Logging;
 
-namespace LandManagement.UseCases.Auth;
+namespace LandManagement.UseCases.Auth.Me;
 
 public class MeHandler(AppDbContext db) : IRequestHandler<MeQuery, ErrorOr<UserProfile>>
 {

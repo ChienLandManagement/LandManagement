@@ -28,7 +28,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Serilog + PostgreSQL
 builder.Configuration["Serilog:WriteTo:1:Args:connectionString"] = connectionString;
-builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration));
+builder.Host.UseSerilog((ctx, lc) => lc.ReadFrom.Configuration(ctx.Configuration).Enrich.With<LogIdEnricher>());
 
 // MediatR & FluentValidation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();

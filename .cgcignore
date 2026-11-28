@@ -1,0 +1,43 @@
+# Build, phụ thuộc
+**/bin/
+**/obj/
+**/node_modules/
+**/dist/
+**/.vite/
+**/*.tsbuildinfo
+**/.vs/
+**/.idea/
+**/.git/
+**/*.dll
+**/*.exe
+**/*.pdb
+**/packages/
+**/.nuget/
+
+# Bộ công cụ agent (APM) và bản sao
+apm_modules/
+.apm/
+.apm-local/
+.agents/
+.codex/
+.claude/skills/
+.github/
+
+# Sinh tự động: không đọc, không sửa tay
+BE/Data/Migrations/
+FE/src/shared/api/generated/
+FE/src/shared/api/model/
+
+# Dữ liệu mẫu và tài liệu lớn
+docs/data/
+docs/*.xls
+docs/*.docx
+
+# Log, bí mật
+**/logs/
+**/*.log
+**/.env
+**/.env.*
+!**/.env.example
+**/appsettings.Development.json
+.mcp.json

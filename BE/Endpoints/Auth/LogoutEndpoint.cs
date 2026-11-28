@@ -1,12 +1,14 @@
 using FastEndpoints;
 using LandManagement.Groups;
-using LandManagement.UseCases.Auth;
+using LandManagement.UseCases.Auth.Logout;
 using MediatR;
 using ResultLib.Core;
+using ResultLib.Extensions.FastEndpoints;
+using ResultLib.Extensions;
 
 namespace LandManagement.Endpoints.Auth;
 
-public class LogoutEndpoint(ISender sender) : EndpointWithoutRequest
+public class LogoutEndpoint(ISender sender) : EndpointWithoutRequest<Result>
 {
     public override void Configure()
     {
@@ -19,8 +21,8 @@ public class LogoutEndpoint(ISender sender) : EndpointWithoutRequest
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        await sender.Send(new LogoutCommand(HttpContext.GetRefreshToken()), ct);
+        var result = (await sender.Send(new LogoutCommand(HttpContext.GetRefreshToken()), ct)).ToResult();
         HttpContext.DeleteRefreshToken();
-        await Send.OkAsync(Result.ResultOk, ct);
+        await this.SendResultAsync(result, ct);
     }
 }

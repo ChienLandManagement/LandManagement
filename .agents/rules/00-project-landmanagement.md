@@ -6,7 +6,8 @@ trigger: always_on
 
 ## Tổng quan
 - Tên: LandManagement — hệ thống quản lý đất đai cấp xã.
-- Stack: BE .NET 10 + FastEndpoints + MediatR + EF Core/Postgres · FE React 19 + Vite + TS + Tailwind/shadcn + Zustand + orval, kiến trúc FSD.
+- Stack: BE .NET 10 + FastEndpoints + MediatR + EF Core/Postgres · FE React 19 + Vite + TS + Tailwind/shadcn + Zustand + orval + `motion`, kiến trúc FSD.
+- Ưu tiên dùng tối đa các thư viện đã cài (`motion/react` cho animation, `shadcn/radix` cho UI, `react-hook-form` + `zod` cho form, `date-fns` cho ngày tháng, `orval` cho API), hạn chế tối đa viết CSS/JS thủ công.
 - Lỗi BE: `ErrorOr` + `ToMessageForUser()` + `ToResult()` của `ChienDeepEyes.ResultLib`.
 - Quy ước chi tiết: `CLAUDE.md` ở gốc repo. Tài liệu: `docs/`.
 

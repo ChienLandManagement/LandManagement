@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace LandManagement.UseCases.Auth;
+namespace LandManagement.UseCases.Auth.Login;
 
 public class LoginValidator : AbstractValidator<LoginCommand>
 {

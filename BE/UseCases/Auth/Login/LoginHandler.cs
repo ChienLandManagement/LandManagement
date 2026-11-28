@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Logging;
 
-namespace LandManagement.UseCases.Auth;
+namespace LandManagement.UseCases.Auth.Login;
 
 public class LoginHandler(AppDbContext db, IPasswordHasher hasher, ITokenService tokens) : IRequestHandler<LoginCommand, ErrorOr<AuthResult>>
 {

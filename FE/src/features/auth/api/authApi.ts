@@ -18,12 +18,20 @@ function toSession(data: LoginResponse | null | undefined, fallback: string): Au
   if (!data?.accessToken || !user?.id || !user.userName || !user.fullName || !user.role) throw new Error(fallback);
   return {
     accessToken: data.accessToken,
-    user: { id: user.id, userName: user.userName, fullName: user.fullName, email: user.email ?? null, role: user.role as UserRole },
+    user: {
+      id: user.id,
+      userName: user.userName,
+      fullName: user.fullName,
+      email: user.email ?? null,
+      role: user.role as UserRole,
+    },
   };
 }
 
-export const loginApi = async (body: LoginRequest) => toSession((await login(body, publicRequest)).data, 'Đăng nhập thất bại');
+export const loginApi = async (body: LoginRequest) =>
+  toSession((await login(body, publicRequest)).data, 'Đăng nhập thất bại');
 
-export const refreshTokenApi = async () => toSession((await refreshToken(publicRequest)).data, 'Phiên đăng nhập đã hết hạn');
+export const refreshTokenApi = async () =>
+  toSession((await refreshToken(publicRequest)).data, 'Phiên đăng nhập đã hết hạn');
 
 export const logoutApi = () => logout(publicRequest);
