@@ -54,7 +54,6 @@ const GridCellInput = memo(function GridCellInput({
       min={0}
       decimalScale={mode === 'B01' ? 5 : 0}
       decimalSeparator=","
-      allowedDecimalSeparators={['.', ',']}
       size="xs"
       styles={{
         input: {
