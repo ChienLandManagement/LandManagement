@@ -70,16 +70,14 @@ export function LandChangeFormModal({ opened, onClose, periodId, cutoffDate, edi
   const { data: landTypesData } = useListLandTypes({ query: { enabled: opened } });
   const { data: holderTypesData } = useListLandHolderTypes(undefined, { query: { enabled: opened } });
 
-  const validLandTypes = useMemo(
-    () =>
-      (landTypesData?.data ?? [])
-        .filter((lt) => lt.inB05 === true && lt.isMemo === false && lt.id)
-        .map((lt) => ({
-          value: lt.id ?? '',
-          label: `${lt.code ?? ''} - ${lt.name ?? ''}`,
-        })),
-    [landTypesData?.data],
-  );
+  // Chỉ loại đất lá (không còn con ngoài dòng "trong đó") vì Biểu 01 chỉ lưu số ở ô lá.
+  const validLandTypes = useMemo(() => {
+    const all = landTypesData?.data ?? [];
+    const parentIds = new Set(all.filter((lt) => !lt.isMemo && lt.parentId).map((lt) => lt.parentId));
+    return all
+      .filter((lt) => lt.id && !lt.isMemo && !parentIds.has(lt.id))
+      .map((lt) => ({ value: lt.id ?? '', label: `${lt.code ?? ''} - ${lt.name ?? ''}` }));
+  }, [landTypesData?.data]);
 
   const holderTypeOptions = useMemo(
     () =>

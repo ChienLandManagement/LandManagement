@@ -28,7 +28,7 @@ public class CheckPeriodHandler(AppDbContext db, ICurrentUser currentUser) : IRe
         if (previous is not null && areas.Count > 0)
         {
             var previousAreas = await db.LandAreaEntries.AsNoTracking().Where(x => x.PeriodId == previous.Id).ToListAsync(ct);
-            if (previousAreas.Count > 0) CheckAgainstPrevious(tree, areas, previousAreas, await LoadDeltasAsync(period.Id, ct), issues);
+            if (previousAreas.Count > 0) CheckAgainstPrevious(tree, areas, previousAreas, await LoadDeltasAsync(tree, period.Id, ct), issues);
         }
 
         if (areas.Count > 0 && counts.Count > 0) CheckAreaVsCount(tree, areas, counts, issues);
@@ -36,13 +36,13 @@ public class CheckPeriodHandler(AppDbContext db, ICurrentUser currentUser) : IRe
     }
 
     // Biến động ròng theo loại đất của kỳ: đất vào cộng, đất ra trừ (tăng khác chỉ cộng, giảm khác chỉ trừ).
-    private async Task<Dictionary<Guid, decimal>> LoadDeltasAsync(Guid periodId, CancellationToken ct)
+    private async Task<Dictionary<Guid, decimal>> LoadDeltasAsync(CatalogTree tree, Guid periodId, CancellationToken ct)
     {
         var deltas = new Dictionary<Guid, decimal>();
         foreach (var c in await db.LandChanges.AsNoTracking().Where(x => x.PeriodId == periodId).ToListAsync(ct))
         {
-            if (c.ToLandTypeId is { } to) deltas[to] = deltas.GetValueOrDefault(to) + c.Area;
-            if (c.FromLandTypeId is { } from) deltas[from] = deltas.GetValueOrDefault(from) - c.Area;
+            if (c.ToLandTypeId is { } to && tree.B05RowOf(to) is var toRow) deltas[toRow] = deltas.GetValueOrDefault(toRow) + c.Area;
+            if (c.FromLandTypeId is { } from && tree.B05RowOf(from) is var fromRow) deltas[fromRow] = deltas.GetValueOrDefault(fromRow) - c.Area;
         }
 
         return deltas;

@@ -1,6 +1,7 @@
 using ErrorOr;
 using LandManagement.Data;
 using LandManagement.Entities;
+using LandManagement.UseCases.InventoryEntries;
 using Microsoft.EntityFrameworkCore;
 using ResultLib.Logging;
 
@@ -27,7 +28,7 @@ public static class LandChangeRules
 
     public static string? ReasonTextFor(LandChangeReason? reason, string? text) => reason == LandChangeReason.Other ? text?.Trim() : null;
 
-    // Loại đất phải là loại có dòng ở Biểu 05 (không phải nhóm tổng hợp hay dòng "trong đó"); đối tượng phải tồn tại.
+    // Loại đất phải là loại lá của Biểu 01 (không phải nhóm tổng hợp hay dòng "trong đó") để áp được vào số liệu; đối tượng phải tồn tại.
     public static async Task<ErrorOr<Success>> CheckAsync(AppDbContext db, InventoryPeriod period, DateOnly changeDate, Guid? fromId, Guid? toId, Guid? holderId, CancellationToken ct)
     {
         if (period.Status == InventoryPeriodStatus.Locked)
@@ -35,9 +36,10 @@ public static class LandChangeRules
         if (changeDate > period.CutoffDate)
             return Error.Validation("Ngày biến động không được sau ngày chốt của kỳ".ToMessageForUser());
 
+        var tree = await CatalogTree.LoadAsync(db, ct);
         foreach (var id in new[] { fromId, toId }.OfType<Guid>().Distinct())
-            if (!await db.LandTypes.AnyAsync(x => x.Id == id && x.InB05 && !x.IsMemo, ct))
-                return Error.NotFound("Loại đất không hợp lệ cho biến động (chọn loại đất có trong Biểu 05)".ToMessageForUser());
+            if (!tree.LandTypeById.TryGetValue(id, out var type) || type.IsMemo || !tree.IsAreaLeaf(type))
+                return Error.Validation("Loại đất không hợp lệ cho biến động (chọn loại đất chi tiết, không chọn dòng tổng hợp)".ToMessageForUser());
 
         if (holderId is { } hid && !await db.LandHolderTypes.AnyAsync(x => x.Id == hid, ct))
             return Error.NotFound("Không tìm thấy đối tượng sử dụng/quản lý".ToMessageForUser());
